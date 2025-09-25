@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { geometry, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 /// Helpers
 export const defaultColumns = {
@@ -12,6 +12,11 @@ export const dayhome = pgTable("dayhome", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
   address: text("address").notNull(),
+  location: geometry("location", {
+    type: "point",
+    mode: "xy",
+    srid: 4326,
+  }),
   phone: text("phone"),
   email: text("email"),
   languages: text("languages").array(),

@@ -7,7 +7,8 @@
     "start": "node .output/server/index.mjs",
     "build": "vite build",
     "serve": "vite preview",
-    "drizzle": "drizzle-kit"
+    "drizzle": "drizzle-kit",
+    "seed": "node ./data/seed.ts"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.13.5",
@@ -37,6 +38,7 @@
     "@vitejs/plugin-react": "^5.0.3",
     "dotenv": "^17.2.2",
     "drizzle-kit": "^0.31.4",
+    "drizzle-seed": "^0.3.1",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
     "wrangler": "^4.40.0"

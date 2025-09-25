@@ -6,6 +6,7 @@ export default defineConfig({
   schema: [
     "./src/lib/db/schema.ts",
   ],
+  extensionsFilters: ["postgis"],
   dialect: "postgresql",
   dbCredentials: {
     url: process.env.DATABASE_URL!,

@@ -2,6 +2,7 @@ type Props = {
   name: string;
   address: string;
   phone: string | null;
+  location: { x: number; y: number } | null;
 };
 
 export function DayhomeCard(props: Props) {
@@ -10,6 +11,7 @@ export function DayhomeCard(props: Props) {
       <div>{props.name}</div>
       <div className="text-slate-600 text-sm">{props.address}</div>
       <div className="text-slate-600 text-sm">{props.phone}</div>
+      <div>{props.location?.x}, {props.location?.y}</div>
     </div>
   );
 }

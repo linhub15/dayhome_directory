@@ -23,10 +23,10 @@ export function FilterDrawer(props: { initialValues?: FilterSearchParams }) {
   );
 
   return (
-    <div className="relative">
+    <div className="relative h-30 bg-white">
       <Drawer>
         <DrawerTrigger asChild>
-          <div className="fixed left-0 bottom-0 w-full py-6 text-auto border-t">
+          <div className="flex items-center fixed left-0 bottom-0 h-30 w-full text-auto border-t">
             <div className="max-w-lg mx-auto">
               <button className="rounded border px-4 py-2" type="button">
                 Search
