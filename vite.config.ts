@@ -15,7 +15,9 @@ const config = defineConfig({
     }),
     tailwindcss(),
     tanstackStart(),
-    cloudflare(),
+    cloudflare({
+      viteEnvironment: { name: "ssr" },
+    }),
     viteReact(),
   ],
 });
