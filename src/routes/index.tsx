@@ -1,39 +1,32 @@
+import { DayhomeCard } from "@/features/dayhomes/dayhome_card";
+import { listDayhomesFn } from "@/features/dayhomes/list_dayhomes.fn";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import logo from "../logo.svg";
+import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/")({
   component: App,
 });
 
 function App() {
+  const fn = useServerFn(listDayhomesFn);
+
+  const { data } = useQuery({
+    queryKey: ["dayhomes"],
+    queryFn: () => fn(),
+  });
+
   return (
-    <div className="text-center">
-      <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
-        <img
-          src={logo}
-          className="h-[40vmin] pointer-events-none animate-[spin_20s_linear_infinite]"
-          alt="logo"
-        />
-        <p>
-          Edit <code>src/routes/index.tsx</code> and save to reload.
-        </p>
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://tanstack.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn TanStack
-        </a>
-      </header>
+    <div className="max-w-lg mx-auto">
+      <h1 className="text-center text-xl py-2">Day Home Directory</h1>
+      <div className="p-2 space-y-4">
+        {data?.map((dayhome) => (
+          <DayhomeCard
+            key={dayhome.name}
+            {...dayhome}
+          />
+        ))}
+      </div>
     </div>
   );
 }
