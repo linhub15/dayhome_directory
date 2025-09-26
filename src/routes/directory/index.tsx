@@ -8,10 +8,10 @@ type Search = z.infer<typeof filterSearchParams>;
 export const Route = createFileRoute("/directory/")({
   ssr: "data-only",
   validateSearch: (search: Search) => filterSearchParams.parse(search),
-  component: App,
+  component: RouteComponent,
 });
 
-function App() {
+function RouteComponent() {
   const searchParams = Route.useSearch();
 
   return (

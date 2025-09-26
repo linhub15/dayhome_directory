@@ -1,4 +1,4 @@
-import { Map } from "@/components/ui/map";
+import { PinnedMap } from "@/components/ui/pinned_map";
 
 type Props = {
   name: string;
@@ -14,7 +14,11 @@ export function DayhomeCard(props: Props) {
       <div className="text-slate-600 text-sm">{props.address}</div>
       <div className="text-slate-600 text-sm">{props.phone}</div>
       {props.location &&
-        <Map location={{ lat: props.location?.y, lng: props.location?.x }} />}
+        (
+          <PinnedMap
+            location={{ lat: props.location?.y, lng: props.location?.x }}
+          />
+        )}
     </div>
   );
 }

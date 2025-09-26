@@ -3,6 +3,7 @@ import { DayhomeCard } from "./dayhome_card";
 import { FilterDrawer } from "./filter_drawer";
 import { useServerFn } from "@tanstack/react-start";
 import { listDayhomesFn } from "./list_dayhomes.fn";
+import { Link } from "@tanstack/react-router";
 
 type Props = { filters: { name?: string } };
 
@@ -17,10 +18,16 @@ export function DayhomeList({ filters }: Props) {
     <div>
       <div className="p-2 space-y-4">
         {data?.map((dayhome) => (
-          <DayhomeCard
+          <Link
+            className="block"
+            to="/directory/$id"
+            params={{ id: dayhome.id }}
             key={dayhome.name}
-            {...dayhome}
-          />
+          >
+            <DayhomeCard
+              {...dayhome}
+            />
+          </Link>
         ))}
       </div>
       <FilterDrawer initialValues={filters} />

@@ -1,6 +1,6 @@
 import { db } from "@/lib/db/db_middleware";
 import { createServerFn } from "@tanstack/react-start";
-import * as z from "zod";
+import z from "zod";
 
 const filters = z.object({
   name: z.string().optional(),
