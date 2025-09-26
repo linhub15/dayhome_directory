@@ -14,10 +14,10 @@ const config = defineConfig({
       projects: ["./tsconfig.json"],
     }),
     tailwindcss(),
-    tanstackStart(),
     cloudflare({
       viteEnvironment: { name: "ssr" },
     }),
+    tanstackStart(),
     viteReact(),
   ],
 });

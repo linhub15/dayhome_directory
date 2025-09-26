@@ -16,9 +16,8 @@ export const dayhome = pgTable("dayhome", {
     type: "point",
     mode: "xy",
     srid: 4326,
-  }),
+  }).notNull(),
   phone: text("phone"),
   email: text("email"),
-  languages: text("languages").array(),
   ...defaultColumns,
 });

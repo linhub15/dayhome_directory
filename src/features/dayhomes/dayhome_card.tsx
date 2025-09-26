@@ -1,3 +1,5 @@
+import { Map } from "@/components/ui/map";
+
 type Props = {
   name: string;
   address: string;
@@ -11,7 +13,8 @@ export function DayhomeCard(props: Props) {
       <div>{props.name}</div>
       <div className="text-slate-600 text-sm">{props.address}</div>
       <div className="text-slate-600 text-sm">{props.phone}</div>
-      <div>{props.location?.x}, {props.location?.y}</div>
+      {props.location &&
+        <Map location={{ lat: props.location?.y, lng: props.location?.x }} />}
     </div>
   );
 }
