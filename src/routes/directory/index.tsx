@@ -1,4 +1,4 @@
-import { DayhomeList } from "@/features/dayhomes/dayhome_list";
+import { DayhomeList } from "@/features/dayhomes/dayhome_list/dayhome_list";
 import { filterSearchParams } from "@/features/dayhomes/filter_drawer";
 import { createFileRoute } from "@tanstack/react-router";
 import z from "zod";

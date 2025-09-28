@@ -26,14 +26,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      {
-        rel: "stylesheet",
-        href: leafletCss,
-      },
+      { rel: "stylesheet", href: "https://rsms.me/inter/inter.css" },
+      { rel: "stylesheet", href: appCss },
+      { rel: "stylesheet", href: leafletCss },
     ],
   }),
   shellComponent: RootDocument,
@@ -45,7 +40,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-background text-foreground">
         {children}
 
         <Scripts />

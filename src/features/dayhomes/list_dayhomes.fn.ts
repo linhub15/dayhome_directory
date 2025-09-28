@@ -2,14 +2,12 @@ import { db } from "@/lib/db/db_middleware";
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 
-const filters = z.object({
+const Request = z.object({
   name: z.string().optional(),
 });
 
-type Request = z.infer<typeof filters>;
-
 export const listDayhomesFn = createServerFn({ method: "GET" })
-  .inputValidator((data: Request) => filters.parse(data))
+  .inputValidator(Request)
   .middleware([db])
   .handler(async ({ data, context }) => {
     const { db } = context;

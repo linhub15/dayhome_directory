@@ -1,6 +1,13 @@
+import { LinkButton } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
 import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/directory/$id/")({
   ssr: "data-only",
@@ -20,35 +27,27 @@ function RouteComponent() {
 
   return (
     <div className="max-w-lg mx-auto py-8">
-      <div className="border rounded overflow-clip">
-        <div className="p-4">
+      <Card className="overflow-clip">
+        <CardHeader>
           <h1 className="text-lg">{name}</h1>
-        </div>
+        </CardHeader>
 
-        <div className="px-4">
-          <div>
-            {address}
-          </div>
+        <CardContent>
+          <div>{address}</div>
           <div>{phone}</div>
           <div>{email}</div>
-        </div>
+        </CardContent>
 
-        <div>
-          <PinnedMap
-            location={{ lat: location.y, lng: location.x }}
-          />
-        </div>
-      </div>
+        <PinnedMap
+          location={{ lat: location.y, lng: location.x }}
+        />
 
-      <div className="mt-4 size-fit mx-auto">
-        <Link
-          className="rounded block border p-4 text-center hover:bg-gray-50 size-fit"
-          to="/directory/$id/edit"
-          params={{ id: id }}
-        >
-          Edit
-        </Link>
-      </div>
+        <CardFooter>
+          <LinkButton to="/directory/$id/edit" params={{ id: id }}>
+            Edit
+          </LinkButton>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

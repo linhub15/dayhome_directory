@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { LinkButton } from "@/components/ui/button";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -7,9 +8,9 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   return (
     <div className="flex items-center justify-center h-screen">
-      <Link className="p-4 rounded border" to="/directory">
+      <LinkButton to="/directory">
         Go to Directory
-      </Link>
+      </LinkButton>
     </div>
   );
 }

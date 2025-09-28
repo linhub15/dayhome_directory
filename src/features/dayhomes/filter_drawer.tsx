@@ -1,3 +1,4 @@
+import { Button, LinkButton } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -7,7 +8,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import z from "zod";
 
@@ -28,9 +28,7 @@ export function FilterDrawer(props: { initialValues?: FilterSearchParams }) {
         <DrawerTrigger asChild>
           <div className="flex items-center fixed left-0 bottom-0 h-30 w-full text-auto border-t bg-white">
             <div className="max-w-lg mx-auto">
-              <button className="rounded border px-4 py-2" type="button">
-                Search
-              </button>
+              <Button type="button">Search</Button>
               <span>{values?.name}</span>
             </div>
           </div>
@@ -53,13 +51,12 @@ export function FilterDrawer(props: { initialValues?: FilterSearchParams }) {
           </div>
           <DrawerFooter>
             <DrawerClose asChild>
-              <Link
-                className="rounded bg-green-300 size-fit mx-auto px-4 py-2"
-                to="/"
+              <LinkButton
+                to="."
                 search={{ ...values }}
               >
                 Apply
-              </Link>
+              </LinkButton>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>

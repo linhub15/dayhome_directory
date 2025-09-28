@@ -11,7 +11,7 @@ export function PinnedMap({ location, label }: Props) {
     <MapContainer
       style={{ height: 200, isolation: "isolate" }}
       center={[location.lat, location.lng]}
-      zoom={12}
+      zoom={13}
       zoomControl={false}
       doubleClickZoom={false}
       dragging={false}

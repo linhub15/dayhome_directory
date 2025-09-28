@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { DayhomeCard } from "./dayhome_card";
-import { FilterDrawer } from "./filter_drawer";
+import { DayhomeListCard } from "./dayhome_list_card";
+import { FilterDrawer } from "../filter_drawer";
 import { useServerFn } from "@tanstack/react-start";
-import { listDayhomesFn } from "./list_dayhomes.fn";
+import { listDayhomesFn } from "../list_dayhomes.fn";
 import { Link } from "@tanstack/react-router";
 
 type Props = { filters: { name?: string } };
@@ -24,7 +24,7 @@ export function DayhomeList({ filters }: Props) {
             params={{ id: dayhome.id }}
             key={dayhome.name}
           >
-            <DayhomeCard
+            <DayhomeListCard
               {...dayhome}
             />
           </Link>
