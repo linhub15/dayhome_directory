@@ -1,4 +1,5 @@
 import { LinkButton } from "@/components/ui/button";
+import { DayhomeSearch } from "@/features/dayhomes/dayhome_search";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -15,23 +16,26 @@ function RouteComponent() {
             <em className="font-bold">
               Edmonton
             </em>{" "}
-            dayhomes and daycares
+            Childcare
           </h1>
-          <p className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
+          <p className="mt-8 text-lg text-pretty text-gray-500 sm:text-xl/8">
             Search from a curated list of dayhomes and daycares in Edmonton.
           </p>
         </div>
+      </div>
 
-        <div className="text-center mt-10">
-          <LinkButton to="/directory">
-            Go to Directory
-          </LinkButton>
-        </div>
+      <div className="text-center mt-10 max-w-md w-full mx-auto py-8 space-y-2">
+        <DayhomeSearch />
+        <LinkButton variant="link" size="sm" to="/directory">
+          View all listings
+        </LinkButton>
       </div>
 
       <div>
-        <p className="mt-8 text-sm text-center text-gray-400">
-          Are you a childcare provider? Contact us to get listed for free.
+        <p className="mt-8 text-sm text-center text-gray-500">
+          Are you a{" "}
+          <strong>childcare provider</strong>? Contact us to get listed for
+          free.
         </p>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { Nav } from "@/components/blocks/nav/nav";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/directory")({
@@ -7,6 +8,7 @@ export const Route = createFileRoute("/directory")({
 function RouteComponent() {
   return (
     <div>
+      <Nav />
       <Outlet />
     </div>
   );
