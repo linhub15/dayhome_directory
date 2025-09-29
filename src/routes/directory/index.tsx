@@ -19,7 +19,7 @@ function RouteComponent() {
 
   return (
     <div className="max-w-lg mx-auto">
-      <div className="my-6 mx-2">
+      <div className="mt-2 mb-6 mx-2">
         <DayhomeSearch value={searchParams.name} />
       </div>
       <DayhomeList filters={searchParams} />
