@@ -1,5 +1,8 @@
 import { DayhomeList } from "@/features/dayhomes/dayhome_list/dayhome_list";
-import { filterSearchParams } from "@/features/dayhomes/filter_drawer";
+import {
+  DayhomeSearch,
+  filterSearchParams,
+} from "@/features/dayhomes/dayhome_search";
 import { createFileRoute } from "@tanstack/react-router";
 import z from "zod";
 
@@ -16,7 +19,9 @@ function RouteComponent() {
 
   return (
     <div className="max-w-lg mx-auto">
-      <h1 className="text-center text-xl py-2">Day Home Directory</h1>
+      <div className="my-6 mx-2">
+        <DayhomeSearch value={searchParams.name} />
+      </div>
       <DayhomeList filters={searchParams} />
     </div>
   );

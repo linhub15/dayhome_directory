@@ -9,35 +9,42 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DirectoryRouteRouteImport } from './routes/directory/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DirectoryIndexRouteImport } from './routes/directory/index'
 import { Route as DirectoryIdIndexRouteImport } from './routes/directory/$id/index'
 import { Route as DirectoryIdEditRouteImport } from './routes/directory/$id/edit'
 
+const DirectoryRouteRoute = DirectoryRouteRouteImport.update({
+  id: '/directory',
+  path: '/directory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DirectoryIndexRoute = DirectoryIndexRouteImport.update({
-  id: '/directory/',
-  path: '/directory/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => DirectoryRouteRoute,
 } as any)
 const DirectoryIdIndexRoute = DirectoryIdIndexRouteImport.update({
-  id: '/directory/$id/',
-  path: '/directory/$id/',
-  getParentRoute: () => rootRouteImport,
+  id: '/$id/',
+  path: '/$id/',
+  getParentRoute: () => DirectoryRouteRoute,
 } as any)
 const DirectoryIdEditRoute = DirectoryIdEditRouteImport.update({
-  id: '/directory/$id/edit',
-  path: '/directory/$id/edit',
-  getParentRoute: () => rootRouteImport,
+  id: '/$id/edit',
+  path: '/$id/edit',
+  getParentRoute: () => DirectoryRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/directory': typeof DirectoryIndexRoute
+  '/directory': typeof DirectoryRouteRouteWithChildren
+  '/directory/': typeof DirectoryIndexRoute
   '/directory/$id/edit': typeof DirectoryIdEditRoute
   '/directory/$id': typeof DirectoryIdIndexRoute
 }
@@ -50,18 +57,25 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/directory': typeof DirectoryRouteRouteWithChildren
   '/directory/': typeof DirectoryIndexRoute
   '/directory/$id/edit': typeof DirectoryIdEditRoute
   '/directory/$id/': typeof DirectoryIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/directory' | '/directory/$id/edit' | '/directory/$id'
+  fullPaths:
+    | '/'
+    | '/directory'
+    | '/directory/'
+    | '/directory/$id/edit'
+    | '/directory/$id'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/directory' | '/directory/$id/edit' | '/directory/$id'
   id:
     | '__root__'
     | '/'
+    | '/directory'
     | '/directory/'
     | '/directory/$id/edit'
     | '/directory/$id/'
@@ -69,13 +83,18 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DirectoryIndexRoute: typeof DirectoryIndexRoute
-  DirectoryIdEditRoute: typeof DirectoryIdEditRoute
-  DirectoryIdIndexRoute: typeof DirectoryIdIndexRoute
+  DirectoryRouteRoute: typeof DirectoryRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/directory': {
+      id: '/directory'
+      path: '/directory'
+      fullPath: '/directory'
+      preLoaderRoute: typeof DirectoryRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -85,33 +104,47 @@ declare module '@tanstack/react-router' {
     }
     '/directory/': {
       id: '/directory/'
-      path: '/directory'
-      fullPath: '/directory'
+      path: '/'
+      fullPath: '/directory/'
       preLoaderRoute: typeof DirectoryIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DirectoryRouteRoute
     }
     '/directory/$id/': {
       id: '/directory/$id/'
-      path: '/directory/$id'
+      path: '/$id'
       fullPath: '/directory/$id'
       preLoaderRoute: typeof DirectoryIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DirectoryRouteRoute
     }
     '/directory/$id/edit': {
       id: '/directory/$id/edit'
-      path: '/directory/$id/edit'
+      path: '/$id/edit'
       fullPath: '/directory/$id/edit'
       preLoaderRoute: typeof DirectoryIdEditRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DirectoryRouteRoute
     }
   }
 }
 
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+interface DirectoryRouteRouteChildren {
+  DirectoryIndexRoute: typeof DirectoryIndexRoute
+  DirectoryIdEditRoute: typeof DirectoryIdEditRoute
+  DirectoryIdIndexRoute: typeof DirectoryIdIndexRoute
+}
+
+const DirectoryRouteRouteChildren: DirectoryRouteRouteChildren = {
   DirectoryIndexRoute: DirectoryIndexRoute,
   DirectoryIdEditRoute: DirectoryIdEditRoute,
   DirectoryIdIndexRoute: DirectoryIdIndexRoute,
+}
+
+const DirectoryRouteRouteWithChildren = DirectoryRouteRoute._addFileChildren(
+  DirectoryRouteRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  DirectoryRouteRoute: DirectoryRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

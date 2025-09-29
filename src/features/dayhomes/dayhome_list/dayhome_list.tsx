@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { DayhomeListCard } from "./dayhome_list_card";
-import { FilterDrawer } from "../filter_drawer";
 import { useServerFn } from "@tanstack/react-start";
 import { listDayhomesFn } from "../list_dayhomes.fn";
 import { Link } from "@tanstack/react-router";
@@ -30,7 +29,6 @@ export function DayhomeList({ filters }: Props) {
           </Link>
         ))}
       </div>
-      <FilterDrawer initialValues={filters} />
     </div>
   );
 }
