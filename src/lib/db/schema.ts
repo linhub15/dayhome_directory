@@ -1,4 +1,5 @@
 import {
+  boolean,
   geometry,
   integer,
   pgTable,
@@ -26,6 +27,7 @@ export const dayhome = pgTable("dayhome", {
   }).notNull(),
   phone: text("phone"),
   email: text("email"),
+  isLicensed: boolean("is_licensed").notNull().default(false),
   youngestAgeInMonths: integer("youngest_age_in_months"),
   oldestAgeInMonths: integer("oldest_age_in_months"),
   availableSpots: integer("available_spots"),

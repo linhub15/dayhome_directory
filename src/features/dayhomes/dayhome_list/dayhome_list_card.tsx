@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
 
@@ -6,6 +7,7 @@ type Props = {
   address: string;
   phone: string | null;
   location: { x: number; y: number } | null;
+  isLicensed: boolean;
   youngestAgeInMonths: number | null;
   oldestAgeInMonths: number | null;
   capacity: string | null;
@@ -16,11 +18,11 @@ export function DayhomeListCard(props: Props) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between">
-          <div>{props.name}</div>{" "}
-          <AvailableSpots spots={props.availableSpots} />
+        <div className="flex justify-between items-center">
+          <div>{props.name}</div>
+          {props.isLicensed &&
+            <Badge>Licensed</Badge>}
         </div>
-
         <div className="text-slate-600 text-sm">{props.address}</div>
         {props.youngestAgeInMonths && props.oldestAgeInMonths && (
           <AgeRangeChip
@@ -63,5 +65,15 @@ function AvailableSpots(props: { spots: number | null }) {
     <div className="w-fit px-4 py-1 rounded-full text-xs bg-green-600 text-white font-bold">
       {props.spots} opening
     </div>
+  );
+}
+
+function IsLicensed(props: { licensed: boolean }) {
+  if (!props.licensed) return null;
+
+  return (
+    <Badge>
+      Licensed
+    </Badge>
   );
 }

@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/button";
 import {
   Card,
@@ -23,13 +24,18 @@ export const Route = createFileRoute("/directory/$id/")({
 
 function RouteComponent() {
   const id = Route.useParams().id;
-  const { name, location, address, phone, email } = Route.useLoaderData();
+  const { name, location, address, phone, email, isLicensed } = Route
+    .useLoaderData();
 
   return (
     <div className="max-w-lg mx-auto py-8">
       <Card className="overflow-clip">
         <CardHeader>
-          <h1 className="text-lg">{name}</h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-lg">{name}</h1>
+            {isLicensed &&
+              <Badge>Licensed</Badge>}
+          </div>
         </CardHeader>
 
         <CardContent>
