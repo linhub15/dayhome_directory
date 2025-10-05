@@ -1,28 +1,57 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
-import { Icon } from "leaflet";
+import { Icon, LatLngExpression } from "leaflet";
+import { useEffect } from "react";
+
+const EDMONTON = [53.5462, -113.4937] as LatLngExpression;
 
 type Props = {
-  location: { lat: number; lng: number };
+  location: { lat: number; lng: number } | undefined;
   label?: string;
 };
 export function PinnedMap({ location, label }: Props) {
+  const center: LatLngExpression | undefined = location &&
+    [location?.lat, location?.lng];
+
   return (
-    <MapContainer
-      style={{ height: 200, isolation: "isolate" }}
-      center={[location.lat, location.lng]}
-      zoom={13}
-      zoomControl={false}
-      doubleClickZoom={false}
-      dragging={false}
-      scrollWheelZoom={false}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+    <div>
+      <MapContainer
+        style={{ height: 200, isolation: "isolate" }}
+        center={center || EDMONTON}
+        zoom={13}
+        zoomControl={false}
+        doubleClickZoom={false}
+        dragging={false}
+        scrollWheelZoom={false}
+        fadeAnimation={true}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <InnerMap center={center} label={label} />
+      </MapContainer>
+    </div>
+  );
+}
+
+function InnerMap(
+  { center, label }: { center?: LatLngExpression; label?: string },
+) {
+  const map = useMap();
+
+  useEffect(() => {
+    map.setView(center || EDMONTON, map.getZoom(), {
+      animate: true,
+    });
+  }, [center]);
+
+  if (!center) return;
+
+  return (
+    <>
       <Marker
-        position={[location.lat, location.lng]}
+        position={center}
         icon={new Icon({
           iconUrl: markerIconPng,
           iconSize: [25, 41],
@@ -31,6 +60,6 @@ export function PinnedMap({ location, label }: Props) {
       >
         {label && <Popup>{label}</Popup>}
       </Marker>
-    </MapContainer>
+    </>
   );
 }

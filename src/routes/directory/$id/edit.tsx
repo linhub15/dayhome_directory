@@ -1,15 +1,18 @@
-import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
-import { useForm } from "@tanstack/react-form";
-import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
-import { useServerFn } from "@tanstack/react-start";
-import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome.fn";
 import { Button, LinkButton } from "@/components/ui/button";
-import { Field } from "@/components/ui/fieldset";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { Field } from "@/components/ui/fieldset";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { PinnedMap } from "@/components/ui/pinned_map";
+import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
+import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome.fn";
+import { useGeocode } from "@/lib/geocoding/use_geocode";
+import { useForm, useStore } from "@tanstack/react-form";
+import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/directory/$id/edit")({
+  ssr: "data-only",
   component: RouteComponent,
   loader: async ({ params }) => {
     const dayhome = await getDayhomeFn({ data: { id: params.id } });
@@ -34,6 +37,7 @@ function RouteComponent() {
       location: { latitude: dayhome.location.y, longitude: dayhome.location.x },
       phone: dayhome.phone ?? "",
       email: dayhome.email ?? "",
+      isLicensed: dayhome.isLicensed ?? false,
     },
     onSubmit: async ({ value }) => {
       await updateDayhome({
@@ -42,11 +46,12 @@ function RouteComponent() {
           name: value.name,
           address: value.address,
           location: {
-            x: value.location.longitude,
-            y: value.location.latitude,
+            x: geocode?.longitude || 0,
+            y: geocode?.latitude || 0,
           },
           phone: value.phone || null,
           email: value.email || null,
+          isLicensed: value.isLicensed,
         },
       });
 
@@ -55,6 +60,9 @@ function RouteComponent() {
       navigate({ to: ".." });
     },
   });
+
+  const address = useStore(form.store, (state) => state.values.address);
+  const { data: geocode } = useGeocode(address);
 
   return (
     <div className="max-w-lg mx-auto my-8">
@@ -71,7 +79,7 @@ function RouteComponent() {
             <form.Field name="name">
               {(field) => (
                 <Field>
-                  <Label>Name</Label>
+                  <Label htmlFor={field.name}>Name</Label>
                   <Input
                     id={field.name}
                     type="text"
@@ -86,13 +94,13 @@ function RouteComponent() {
             <form.Field name="address">
               {(field) => (
                 <Field>
-                  <Label>Address</Label>
+                  <Label htmlFor={field.name}>Address</Label>
                   <Input
                     id={field.name}
                     type="text"
                     value={field.state.value}
-                    onChange={(e) =>
-                      field.setValue(e.currentTarget.value.trim())}
+                    onChange={(e) => field.setValue(e.currentTarget.value)}
+                    onBlur={(e) => field.setValue(e.currentTarget.value.trim())}
                   />
                 </Field>
               )}
@@ -101,19 +109,22 @@ function RouteComponent() {
             <form.Field name="location">
               {(field) => (
                 <Field>
-                  <Label>Location (Latitude, Longitude)</Label>
+                  <Label htmlFor={field.name}>
+                    Location (Latitude, Longitude)
+                  </Label>
                   <div className="flex gap-4 flex-wrap md:flex-nowrap">
                     <div className="flex items-center space-x-1 w-full">
                       <label>Lat</label>
                       <Input
                         id={field.name}
                         type="number"
-                        value={field.state.value.latitude}
+                        value={geocode?.latitude}
                         onChange={(e) =>
                           field.setValue((prev) => ({
                             ...prev,
                             latitude: +e.currentTarget.value,
                           }))}
+                        disabled
                       />
                     </div>
 
@@ -122,14 +133,23 @@ function RouteComponent() {
                       <Input
                         id={field.name}
                         type="number"
-                        value={field.state.value.longitude}
+                        value={geocode?.longitude}
                         onChange={(e) =>
                           field.setValue((prev) => ({
                             ...prev,
                             longitude: +e.currentTarget.value,
                           }))}
+                        disabled
                       />
                     </div>
+                  </div>
+                  <div>
+                    <PinnedMap
+                      location={geocode && {
+                        lat: geocode.latitude,
+                        lng: geocode?.longitude,
+                      }}
+                    />
                   </div>
                 </Field>
               )}
@@ -138,7 +158,7 @@ function RouteComponent() {
             <form.Field name="phone">
               {(field) => (
                 <Field>
-                  <Label>Phone</Label>
+                  <Label htmlFor={field.name}>Phone</Label>
                   <Input
                     id={field.name}
                     type="text"
@@ -153,13 +173,27 @@ function RouteComponent() {
             <form.Field name="email">
               {(field) => (
                 <Field>
-                  <Label>Email</Label>
+                  <Label htmlFor={field.name}>Email</Label>
                   <Input
                     id={field.name}
                     type="text"
                     value={field.state.value}
                     onChange={(e) =>
                       field.setValue(e.currentTarget.value.trim())}
+                  />
+                </Field>
+              )}
+            </form.Field>
+
+            <form.Field name="isLicensed">
+              {(field) => (
+                <Field>
+                  <Label htmlFor={field.name}>Is Licensed</Label>
+                  <Input
+                    id={field.name}
+                    type="checkbox"
+                    checked={field.state.value}
+                    onChange={(e) => field.setValue(e.currentTarget.checked)}
                   />
                 </Field>
               )}
