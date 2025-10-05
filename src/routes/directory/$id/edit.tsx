@@ -8,6 +8,7 @@ import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
 import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome.fn";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
 import { useForm, useStore } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 
@@ -29,6 +30,7 @@ function RouteComponent() {
   const dayhome = Route.useLoaderData();
   const updateDayhome = useServerFn(updateDayhomeFn);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const form = useForm({
     defaultValues: {
@@ -44,22 +46,23 @@ function RouteComponent() {
       await updateDayhome({
         data: {
           id: dayhome.id,
-          name: value.name ? value.name.trim() : undefined,
-          address: value.address ? value.address.trim() : undefined,
+          name: value.name ? value.name.trim() : "",
+          address: value.address ? value.address.trim() : "",
           location: geocode && {
             x: geocode.longitude,
             y: geocode.latitude,
           },
-          phone: value.phone,
-          email: value.email,
+          phone: value.phone ?? null,
+          email: value.email ?? null,
           isLicensed: value.isLicensed,
-          agencyName: value.agencyName ? value.agencyName.trim() : undefined,
+          agencyName: value.agencyName ? value.agencyName.trim() : null,
         },
       });
 
       alert("saved");
 
-      navigate({ to: ".." });
+      navigate({ to: "..", reloadDocument: true });
+      queryClient.invalidateQueries({ queryKey: ["dayhomes"] });
     },
   });
 
