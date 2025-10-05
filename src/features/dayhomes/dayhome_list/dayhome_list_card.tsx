@@ -6,8 +6,10 @@ type Props = {
   name: string;
   address: string;
   phone: string | null;
+  email: string | null;
   location: { x: number; y: number } | null;
   isLicensed: boolean;
+  agencyName?: string;
   youngestAgeInMonths: number | null;
   oldestAgeInMonths: number | null;
   capacity: string | null;
@@ -19,7 +21,12 @@ export function DayhomeListCard(props: Props) {
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center">
-          <div>{props.name}</div>
+          <div>
+            <div>{props.name}</div>
+            <div className="text-xs text-slate-700 font-medium italic">
+              {props.agencyName}
+            </div>
+          </div>
           {props.isLicensed &&
             <Badge>Licensed</Badge>}
         </div>
@@ -31,6 +38,7 @@ export function DayhomeListCard(props: Props) {
           />
         )}
         <div className="text-slate-600 text-sm">{props.phone}</div>
+        <div className="text-slate-600">{props.email}</div>
       </CardHeader>
       <CardContent>
         {props.location &&
@@ -55,25 +63,5 @@ function AgeRangeChip(props: { startMonths: number; endMonths: number }) {
     <div className="rounded text-xs bg-slate-200 w-fit px-2 py-1">
       {range}
     </div>
-  );
-}
-
-function AvailableSpots(props: { spots: number | null }) {
-  if (!props.spots) return;
-
-  return (
-    <div className="w-fit px-4 py-1 rounded-full text-xs bg-green-600 text-white font-bold">
-      {props.spots} opening
-    </div>
-  );
-}
-
-function IsLicensed(props: { licensed: boolean }) {
-  if (!props.licensed) return null;
-
-  return (
-    <Badge>
-      Licensed
-    </Badge>
   );
 }

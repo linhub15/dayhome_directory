@@ -35,23 +35,25 @@ function RouteComponent() {
       name: dayhome.name,
       address: dayhome.address,
       location: { latitude: dayhome.location.y, longitude: dayhome.location.x },
-      phone: dayhome.phone ?? "",
-      email: dayhome.email ?? "",
+      phone: dayhome.phone,
+      email: dayhome.email,
       isLicensed: dayhome.isLicensed ?? false,
+      agencyName: dayhome.agencyName,
     },
     onSubmit: async ({ value }) => {
       await updateDayhome({
         data: {
           id: dayhome.id,
-          name: value.name,
-          address: value.address,
-          location: {
-            x: geocode?.longitude || 0,
-            y: geocode?.latitude || 0,
+          name: value.name ? value.name.trim() : undefined,
+          address: value.address ? value.address.trim() : undefined,
+          location: geocode && {
+            x: geocode.longitude,
+            y: geocode.latitude,
           },
-          phone: value.phone || null,
-          email: value.email || null,
+          phone: value.phone,
+          email: value.email,
           isLicensed: value.isLicensed,
+          agencyName: value.agencyName ? value.agencyName.trim() : undefined,
         },
       });
 
@@ -162,9 +164,8 @@ function RouteComponent() {
                   <Input
                     id={field.name}
                     type="text"
-                    value={field.state.value}
-                    onChange={(e) =>
-                      field.setValue(e.currentTarget.value.trim())}
+                    value={field.state.value || ""}
+                    onChange={(e) => field.setValue(e.currentTarget.value)}
                   />
                 </Field>
               )}
@@ -177,9 +178,22 @@ function RouteComponent() {
                   <Input
                     id={field.name}
                     type="text"
-                    value={field.state.value}
-                    onChange={(e) =>
-                      field.setValue(e.currentTarget.value.trim())}
+                    value={field.state.value || ""}
+                    onChange={(e) => field.setValue(e.currentTarget.value)}
+                  />
+                </Field>
+              )}
+            </form.Field>
+
+            <form.Field name="agencyName">
+              {(field) => (
+                <Field>
+                  <Label htmlFor={field.name}>Agency Name</Label>
+                  <Input
+                    id={field.name}
+                    type="text"
+                    value={field.state.value || ""}
+                    onChange={(e) => field.setValue(e.currentTarget.value)}
                   />
                 </Field>
               )}

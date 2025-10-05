@@ -24,15 +24,19 @@ export const Route = createFileRoute("/directory/$id/")({
 
 function RouteComponent() {
   const id = Route.useParams().id;
-  const { name, location, address, phone, email, isLicensed } = Route
-    .useLoaderData();
+  const { name, location, address, phone, email, isLicensed, agencyName } =
+    Route
+      .useLoaderData();
 
   return (
     <div className="max-w-lg mx-auto py-8">
       <Card className="overflow-clip">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <h1 className="text-lg">{name}</h1>
+            <div>
+              <h1 className="text-lg">{name}</h1>
+              <div className="text-xs italic text-slate-700">{agencyName}</div>
+            </div>
             {isLicensed &&
               <Badge>Licensed</Badge>}
           </div>

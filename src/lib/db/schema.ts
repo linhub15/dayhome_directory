@@ -28,6 +28,7 @@ export const dayhome = pgTable("dayhome", {
   phone: text("phone"),
   email: text("email"),
   isLicensed: boolean("is_licensed").notNull().default(false),
+  agencyName: text("agency_name"),
   youngestAgeInMonths: integer("youngest_age_in_months"),
   oldestAgeInMonths: integer("oldest_age_in_months"),
   availableSpots: integer("available_spots"),

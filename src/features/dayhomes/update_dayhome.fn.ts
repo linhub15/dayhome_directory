@@ -13,6 +13,7 @@ const requestSchema = createUpdateSchema(dayhome)
     phone: true,
     email: true,
     isLicensed: true,
+    agencyName: true,
   })
   .required({ id: true });
 
@@ -30,6 +31,7 @@ export const updateDayhomeFn = createServerFn({ method: "POST" })
         phone: data.phone,
         email: data.email,
         isLicensed: data.isLicensed,
+        agencyName: data.agencyName,
       })
       .where(eq(dayhome.id, data.id));
   });
