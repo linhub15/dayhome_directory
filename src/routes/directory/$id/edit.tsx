@@ -12,6 +12,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 
+const weekdays = [1, 2, 3, 4, 5, 6, 7] as const;
+
 export const Route = createFileRoute("/directory/$id/edit")({
   ssr: "data-only",
   component: RouteComponent,
@@ -41,6 +43,7 @@ function RouteComponent() {
       email: dayhome.email,
       isLicensed: dayhome.isLicensed ?? false,
       agencyName: dayhome.agencyName,
+      openHours: dayhome.openHours,
     },
     onSubmit: async ({ value }) => {
       await updateDayhome({
@@ -56,6 +59,10 @@ function RouteComponent() {
           email: value.email ?? null,
           isLicensed: value.isLicensed,
           agencyName: value.agencyName ? value.agencyName.trim() : null,
+          openHours: value.openHours.map((hour) => ({
+            ...hour,
+            dayhomeId: dayhome.id,
+          })),
         },
       });
 
@@ -202,6 +209,42 @@ function RouteComponent() {
               )}
             </form.Field>
 
+            <form.Field name="openHours">
+              {(field) => (
+                <Field>
+                  <Label htmlFor={field.name}>Open Hours</Label>
+                  <div>
+                    {weekdays.map((weekday) => (
+                      <OpenHourInput
+                        weekday={weekday}
+                        value={field.state.value.find((v) =>
+                          v.weekday === weekday
+                        )}
+                        onChange={(value) =>
+                          field.setValue((prev) => {
+                            const existing = prev.find((v) =>
+                              v.weekday === weekday
+                            );
+
+                            if (existing) {
+                              existing.openAt = value.openAt;
+                              existing.closeAt = value.closeAt;
+                              return [...prev];
+                            }
+
+                            return [...prev, {
+                              id: crypto.randomUUID(),
+                              weekday: weekday,
+                              ...value,
+                            }];
+                          })}
+                      />
+                    ))}
+                  </div>
+                </Field>
+              )}
+            </form.Field>
+
             <form.Field name="isLicensed">
               {(field) => (
                 <Field>
@@ -223,6 +266,38 @@ function RouteComponent() {
           </form>
         </CardContent>
       </Card>
+    </div>
+  );
+}
+
+function OpenHourInput(
+  { weekday, value, onChange }: {
+    weekday: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+    value: { openAt: string; closeAt: string } | undefined;
+    onChange: (value: { openAt: string; closeAt: string }) => void;
+  },
+) {
+  return (
+    <div className="flex">
+      <span>{weekday}</span>
+      <Input
+        type="time"
+        value={value?.openAt}
+        onChange={(e) =>
+          onChange({
+            openAt: e.currentTarget.value,
+            closeAt: value?.closeAt || "",
+          })}
+      />
+      <Input
+        type="time"
+        value={value?.closeAt}
+        onChange={(e) =>
+          onChange({
+            openAt: value?.openAt || "",
+            closeAt: e.currentTarget.value,
+          })}
+      />
     </div>
   );
 }
