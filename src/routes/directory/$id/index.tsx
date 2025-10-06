@@ -11,17 +11,8 @@ import {
   getDayhomeFn,
   type GetDayhomeResponse,
 } from "@/features/dayhomes/get_dayhome.fn";
+import { weekdayIso } from "@/lib/maps/weekday";
 import { createFileRoute, notFound } from "@tanstack/react-router";
-
-const weekdayIso = {
-  1: "Monday",
-  2: "Tuesday",
-  3: "Wednesday",
-  4: "Thursday",
-  5: "Friday",
-  6: "Saturday",
-  7: "Sunday",
-} as const;
 
 export const Route = createFileRoute("/directory/$id/")({
   ssr: "data-only",
@@ -90,10 +81,16 @@ function OpenHours(
   { openHours }: { openHours: OpenHours },
 ) {
   const hr = (time: string) => {
-    const [hourStr] = time.split(":");
+    const [hourStr, minuteStr] = time.split(":");
     const hour = Number(hourStr);
-    if (hour === 0) return "12 a.m.";
-    return hour < 12 ? `${hour} a.m.` : `${hour - 12} p.m.`;
+    const minute = Number(minuteStr);
+
+    const displayHour = hour === 0 ? 12 : hour < 12 ? hour : hour - 12;
+    const displayMinute = minute ? `:${minuteStr}` : "";
+
+    return hour < 12
+      ? `${displayHour}${displayMinute} a.m.`
+      : `${displayHour}${displayMinute} p.m.`;
   };
 
   const format = (openDay?: OpenHours[number]) => {

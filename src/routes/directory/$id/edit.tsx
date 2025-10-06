@@ -7,6 +7,7 @@ import { PinnedMap } from "@/components/ui/pinned_map";
 import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
 import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome.fn";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
+import { weekdayIso } from "@/lib/maps/weekday";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
@@ -43,7 +44,11 @@ function RouteComponent() {
       email: dayhome.email,
       isLicensed: dayhome.isLicensed ?? false,
       agencyName: dayhome.agencyName,
-      openHours: dayhome.openHours,
+      openHours: dayhome.openHours.map((hour) => ({
+        ...hour,
+        openAt: hour.openAt.slice(0, 5),
+        closeAt: hour.closeAt.slice(0, 5),
+      })),
     },
     onSubmit: async ({ value }) => {
       await updateDayhome({
@@ -278,8 +283,8 @@ function OpenHourInput(
   },
 ) {
   return (
-    <div className="flex">
-      <span>{weekday}</span>
+    <div className="grid grid-cols-3">
+      <span>{weekdayIso[weekday]}</span>
       <Input
         type="time"
         value={value?.openAt}
