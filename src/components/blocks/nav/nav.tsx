@@ -7,6 +7,7 @@ export function Nav() {
         <div className="flex gap-4 py-2">
           <LinkButton variant="ghost" to="/">Home</LinkButton>
           <LinkButton variant="ghost" to="/directory">Directory</LinkButton>
+          <LinkButton variant="secondary" to="/directory/new">New</LinkButton>
         </div>
       </nav>
     </div>

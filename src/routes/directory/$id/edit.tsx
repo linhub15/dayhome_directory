@@ -4,6 +4,7 @@ import { Field } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PinnedMap } from "@/components/ui/pinned_map";
+import { deleteDayhomeFn } from "@/features/dayhomes/delete_dayhome.fn";
 import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
 import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome.fn";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
@@ -32,6 +33,7 @@ export const Route = createFileRoute("/directory/$id/edit")({
 function RouteComponent() {
   const dayhome = Route.useLoaderData();
   const updateDayhome = useServerFn(updateDayhomeFn);
+  const deleteDayhome = useServerFn(deleteDayhomeFn);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -271,6 +273,19 @@ function RouteComponent() {
           </form>
         </CardContent>
       </Card>
+      <div className="py-12 text-center">
+        <Button
+          type="button"
+          variant="destructive"
+          onClick={async () => {
+            await deleteDayhome({ data: { dayhomeId: dayhome.id } });
+            alert("deleted");
+            await navigate({ to: "/directory", reloadDocument: true });
+          }}
+        >
+          Permanently Delete
+        </Button>
+      </div>
     </div>
   );
 }

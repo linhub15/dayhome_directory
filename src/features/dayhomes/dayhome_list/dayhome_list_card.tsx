@@ -9,7 +9,7 @@ type Props = {
   email: string | null;
   location: { x: number; y: number } | null;
   isLicensed: boolean;
-  agencyName?: string;
+  agencyName?: string | null;
   youngestAgeInMonths: number | null;
   oldestAgeInMonths: number | null;
   capacity: string | null;
