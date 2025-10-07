@@ -6,6 +6,7 @@ import {
 import appCss from "../styles.css?url";
 import leafletCss from "leaflet/dist/leaflet.css?url";
 import type { QueryClient } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
 
 interface RouterContext {
   queryClient: QueryClient;
@@ -42,6 +43,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="m-2 sm:m-0">
         {children}
+
+        <Toaster />
 
         <Scripts />
       </body>

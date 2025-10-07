@@ -13,6 +13,7 @@ import { useForm, useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
 
 const weekdays = [1, 2, 3, 4, 5, 6, 7] as const;
 
@@ -73,9 +74,9 @@ function RouteComponent() {
         },
       });
 
-      alert("saved");
+      toast.success("Saved");
 
-      navigate({ to: "..", reloadDocument: true });
+      navigate({ to: ".." });
       queryClient.invalidateQueries({ queryKey: ["dayhomes"] });
     },
   });
@@ -223,6 +224,7 @@ function RouteComponent() {
                   <div>
                     {weekdays.map((weekday) => (
                       <OpenHourInput
+                        key={weekday}
                         weekday={weekday}
                         value={field.state.value.find((v) =>
                           v.weekday === weekday
@@ -279,8 +281,8 @@ function RouteComponent() {
           variant="destructive"
           onClick={async () => {
             await deleteDayhome({ data: { dayhomeId: dayhome.id } });
-            alert("deleted");
-            await navigate({ to: "/directory", reloadDocument: true });
+            toast.info("Deleted");
+            await navigate({ to: "/directory" });
           }}
         >
           Permanently Delete

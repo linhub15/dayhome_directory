@@ -11,6 +11,7 @@ import { useGeocode } from "@/lib/geocoding/use_geocode";
 import { useForm, useStore } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/directory/new")({
   component: RouteComponent,
@@ -31,7 +32,7 @@ function RouteComponent() {
         data: { ...value },
       });
 
-      alert("Dayhome created!");
+      toast.success("Dayhome created!");
 
       await navigate({ to: "/directory" });
     },

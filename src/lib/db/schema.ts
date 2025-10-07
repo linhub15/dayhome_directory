@@ -43,7 +43,9 @@ export const dayhome = pgTable("dayhome", {
 });
 
 export const dayhomeOpenHours = pgTable("dayhome_open_hours", {
-  dayhomeId: uuid("dayhome_id").notNull().references(() => dayhome.id),
+  dayhomeId: uuid("dayhome_id").notNull().references(() => dayhome.id, {
+    onDelete: "cascade",
+  }),
   /** ISO-8601 Monday is 1*/
   weekday: smallint("weekday").notNull().$type<1 | 2 | 3 | 4 | 5 | 6 | 7>(),
   openAt: time("open_at").notNull(),

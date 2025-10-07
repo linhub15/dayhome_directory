@@ -2,7 +2,7 @@ import { LinkButton } from "@/components/ui/button";
 import { DayhomeSearch } from "@/features/dayhomes/dayhome_search";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/(www)/home")({
   component: RouteComponent,
 });
 

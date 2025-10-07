@@ -10,9 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DirectoryRouteRouteImport } from './routes/directory/route'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as RouteRouteImport } from './routes/route'
 import { Route as DirectoryIndexRouteImport } from './routes/directory/index'
 import { Route as DirectoryNewRouteImport } from './routes/directory/new'
+import { Route as wwwHomeRouteImport } from './routes/(www)/home'
 import { Route as DirectoryIdIndexRouteImport } from './routes/directory/$id/index'
 import { Route as DirectoryIdEditRouteImport } from './routes/directory/$id/edit'
 
@@ -21,7 +22,7 @@ const DirectoryRouteRoute = DirectoryRouteRouteImport.update({
   path: '/directory',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const RouteRoute = RouteRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
@@ -36,6 +37,11 @@ const DirectoryNewRoute = DirectoryNewRouteImport.update({
   path: '/new',
   getParentRoute: () => DirectoryRouteRoute,
 } as any)
+const wwwHomeRoute = wwwHomeRouteImport.update({
+  id: '/(www)/home',
+  path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DirectoryIdIndexRoute = DirectoryIdIndexRouteImport.update({
   id: '/$id/',
   path: '/$id/',
@@ -48,15 +54,17 @@ const DirectoryIdEditRoute = DirectoryIdEditRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof RouteRoute
   '/directory': typeof DirectoryRouteRouteWithChildren
+  '/home': typeof wwwHomeRoute
   '/directory/new': typeof DirectoryNewRoute
   '/directory/': typeof DirectoryIndexRoute
   '/directory/$id/edit': typeof DirectoryIdEditRoute
   '/directory/$id': typeof DirectoryIdIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof RouteRoute
+  '/home': typeof wwwHomeRoute
   '/directory/new': typeof DirectoryNewRoute
   '/directory': typeof DirectoryIndexRoute
   '/directory/$id/edit': typeof DirectoryIdEditRoute
@@ -64,8 +72,9 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/': typeof RouteRoute
   '/directory': typeof DirectoryRouteRouteWithChildren
+  '/(www)/home': typeof wwwHomeRoute
   '/directory/new': typeof DirectoryNewRoute
   '/directory/': typeof DirectoryIndexRoute
   '/directory/$id/edit': typeof DirectoryIdEditRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/directory'
+    | '/home'
     | '/directory/new'
     | '/directory/'
     | '/directory/$id/edit'
@@ -83,6 +93,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/home'
     | '/directory/new'
     | '/directory'
     | '/directory/$id/edit'
@@ -91,6 +102,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/directory'
+    | '/(www)/home'
     | '/directory/new'
     | '/directory/'
     | '/directory/$id/edit'
@@ -98,8 +110,9 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  RouteRoute: typeof RouteRoute
   DirectoryRouteRoute: typeof DirectoryRouteRouteWithChildren
+  wwwHomeRoute: typeof wwwHomeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -115,7 +128,7 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof RouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/directory/': {
@@ -131,6 +144,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/directory/new'
       preLoaderRoute: typeof DirectoryNewRouteImport
       parentRoute: typeof DirectoryRouteRoute
+    }
+    '/(www)/home': {
+      id: '/(www)/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof wwwHomeRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/directory/$id/': {
       id: '/directory/$id/'
@@ -168,8 +188,9 @@ const DirectoryRouteRouteWithChildren = DirectoryRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  RouteRoute: RouteRoute,
   DirectoryRouteRoute: DirectoryRouteRouteWithChildren,
+  wwwHomeRoute: wwwHomeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
