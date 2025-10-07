@@ -1,5 +1,6 @@
 import { Button, LinkButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +18,13 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 
 const weekdays = [1, 2, 3, 4, 5, 6, 7] as const;
+const ageGroups = [
+  { label: "Infant", value: "infant" },
+  { label: "Toddler", value: "toddler" },
+  { label: "Preschool", value: "preschool" },
+  { label: "Kindergarten", value: "kindergarten" },
+  { label: "Grade School", value: "grade_school" },
+] as const;
 
 export const Route = createFileRoute("/directory/$id/edit")({
   ssr: "data-only",
@@ -53,6 +61,7 @@ function RouteComponent() {
       email: dayhome.email,
       isLicensed: dayhome.isLicensed ?? false,
       agencyName: dayhome.agencyName,
+      ageGroups: new Set(dayhome.ageGroups),
       openHours: dayhome.openHours.map((hour) => ({
         ...hour,
         openAt: hour.openAt.slice(0, 5),
@@ -73,6 +82,7 @@ function RouteComponent() {
           email: value.email ?? null,
           isLicensed: value.isLicensed,
           agencyName: value.agencyName ? value.agencyName.trim() : null,
+          ageGroups: Array.from(value.ageGroups),
           openHours: value.openHours.map((hour) => ({
             ...hour,
             dayhomeId: dayhome.id,
@@ -219,6 +229,36 @@ function RouteComponent() {
                     value={field.state.value || ""}
                     onChange={(e) => field.setValue(e.currentTarget.value)}
                   />
+                </Field>
+              )}
+            </form.Field>
+
+            <form.Field name="ageGroups">
+              {(field) => (
+                <Field>
+                  <Label htmlFor={field.name}>Age Groups</Label>
+                  <div className="space-y-2">
+                    {ageGroups.map((ageGroup) => (
+                      <div className="flex gap-2">
+                        <Label className="py-1">
+                          <Checkbox
+                            value={ageGroup.value}
+                            checked={field.state.value.has(ageGroup.value)}
+                            onCheckedChange={(checked) => {
+                              field.setValue((prev) => {
+                                const changed = new Set(prev);
+                                checked
+                                  ? changed.add(ageGroup.value)
+                                  : changed.delete(ageGroup.value);
+                                return changed;
+                              });
+                            }}
+                          />
+                          {ageGroup.label}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
                 </Field>
               )}
             </form.Field>

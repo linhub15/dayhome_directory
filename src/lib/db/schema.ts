@@ -3,6 +3,7 @@ import {
   check,
   geometry,
   integer,
+  pgEnum,
   pgTable,
   primaryKey,
   smallint,
@@ -22,6 +23,15 @@ export const defaultColumns = {
 } as const;
 
 /// Tables
+
+export const ageGroup = pgEnum("age_group", [
+  "infant",
+  "toddler",
+  "preschool",
+  "kindergarten",
+  "grade_school",
+]);
+
 export const dayhome = pgTable("dayhome", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
@@ -35,8 +45,7 @@ export const dayhome = pgTable("dayhome", {
   email: text("email"),
   isLicensed: boolean("is_licensed").notNull().default(false),
   agencyName: text("agency_name"),
-  youngestAgeInMonths: integer("youngest_age_in_months"),
-  oldestAgeInMonths: integer("oldest_age_in_months"),
+  ageGroups: ageGroup("age_groups").array(),
   availableSpots: integer("available_spots"),
   capacity: text("capacity"),
   ...defaultColumns,

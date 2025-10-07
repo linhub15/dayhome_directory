@@ -10,8 +10,7 @@ type Props = {
   location: { x: number; y: number } | null;
   isLicensed: boolean;
   agencyName?: string | null;
-  youngestAgeInMonths: number | null;
-  oldestAgeInMonths: number | null;
+  ageGroups: string[] | null;
   capacity: string | null;
   availableSpots: number | null;
 };
@@ -30,13 +29,19 @@ export function DayhomeListCard(props: Props) {
           {props.isLicensed &&
             <Badge>Licensed</Badge>}
         </div>
+        <div>
+          {props.ageGroups?.map((ageGroup) => (
+            <Badge
+              className="capitalize mr-1"
+              variant="secondary"
+              key={ageGroup}
+            >
+              {ageGroup.replace("_", " ")}
+            </Badge>
+          ))}
+        </div>
         <div className="text-slate-600 text-sm">{props.address}</div>
-        {props.youngestAgeInMonths && props.oldestAgeInMonths && (
-          <AgeRangeChip
-            startMonths={props.youngestAgeInMonths}
-            endMonths={props.oldestAgeInMonths}
-          />
-        )}
+
         <div className="text-slate-600 text-sm">{props.phone}</div>
         <div className="text-slate-600">{props.email}</div>
       </CardHeader>
@@ -49,19 +54,5 @@ export function DayhomeListCard(props: Props) {
           )}
       </CardContent>
     </Card>
-  );
-}
-
-function AgeRangeChip(props: { startMonths: number; endMonths: number }) {
-  const toYears = (months: number) => {
-    if (months < 12) return `${months} mo`;
-    return `${Math.floor(months / 12)} yrs`;
-  };
-
-  const range = `${toYears(props.startMonths)} - ${toYears(props.endMonths)}`;
-  return (
-    <div className="rounded text-xs bg-slate-200 w-fit px-2 py-1">
-      {range}
-    </div>
   );
 }

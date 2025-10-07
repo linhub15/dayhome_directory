@@ -16,6 +16,7 @@ const requestSchema = createUpdateSchema(dayhome)
     email: true,
     isLicensed: true,
     agencyName: true,
+    ageGroups: true,
   })
   .required({ id: true })
   .extend({
@@ -52,6 +53,7 @@ export const updateDayhomeFn = createServerFn({ method: "POST" })
           email: data.email,
           isLicensed: data.isLicensed,
           agencyName: data.agencyName,
+          ageGroups: data.ageGroups,
         })
         .where(eq(dayhome.id, data.id));
 

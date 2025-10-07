@@ -37,6 +37,7 @@ function RouteComponent() {
     isLicensed,
     agencyName,
     openHours,
+    ageGroups,
   } = Route
     .useLoaderData();
 
@@ -62,7 +63,16 @@ function RouteComponent() {
           <PinnedMap
             location={{ lat: location.y, lng: location.x }}
           />
-          <div className="py-8">
+
+          <div className="py-4 space-x-2">
+            {ageGroups?.map((ageGroup) => (
+              <Badge className="capitalize" variant="secondary" key={ageGroup}>
+                {ageGroup.replace("_", " ")}
+              </Badge>
+            ))}
+          </div>
+
+          <div className="py-4">
             <OpenHours openHours={openHours} />
           </div>
         </CardContent>
@@ -76,7 +86,9 @@ function RouteComponent() {
     </div>
   );
 }
+
 type OpenHours = GetDayhomeResponse["openHours"];
+
 function OpenHours(
   { openHours }: { openHours: OpenHours },
 ) {
@@ -85,7 +97,7 @@ function OpenHours(
     const hour = Number(hourStr);
     const minute = Number(minuteStr);
 
-    const displayHour = hour === 0 ? 12 : hour < 12 ? hour : hour - 12;
+    const displayHour = hour === 0 ? 12 : hour <= 12 ? hour : hour - 12;
     const displayMinute = minute ? `:${minuteStr}` : "";
 
     return hour < 12
