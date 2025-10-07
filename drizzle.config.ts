@@ -1,3 +1,4 @@
+import { serverEnv } from "@/config/server_env";
 import "dotenv/config";
 import { defineConfig } from "drizzle-kit";
 
@@ -9,6 +10,6 @@ export default defineConfig({
   extensionsFilters: ["postgis"],
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL!,
+    url: serverEnv.DATABASE_URL,
   },
 });

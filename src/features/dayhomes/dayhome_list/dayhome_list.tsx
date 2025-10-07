@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { DayhomeListCard } from "./dayhome_list_card";
 import { useServerFn } from "@tanstack/react-start";
-import { listDayhomesFn } from "../list_dayhomes.fn";
+import { listDayhomesFn } from "./list_dayhomes.fn";
 import { Link } from "@tanstack/react-router";
+import { dayhomeKeys } from "../query_keys";
 
 type Props = { filters: { name?: string } };
 
 export function DayhomeList({ filters }: Props) {
   const fn = useServerFn(listDayhomesFn);
+
   const { data } = useQuery({
-    queryKey: ["dayhomes", filters.name],
+    queryKey: dayhomeKeys.list(filters),
     queryFn: () => fn({ data: filters }),
   });
 

@@ -4,9 +4,10 @@ import { Field } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PinnedMap } from "@/components/ui/pinned_map";
-import { deleteDayhomeFn } from "@/features/dayhomes/delete_dayhome.fn";
+import { useDeleteDayhome } from "@/features/dayhomes/delete_dayhome/use_delete_dayhome";
 import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
-import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome.fn";
+import { dayhomeKeys } from "@/features/dayhomes/query_keys";
+import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome/update_dayhome.fn";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
 import { weekdayIso } from "@/lib/maps/weekday";
 import { useForm, useStore } from "@tanstack/react-form";
@@ -32,11 +33,16 @@ export const Route = createFileRoute("/directory/$id/edit")({
 });
 
 function RouteComponent() {
-  const dayhome = Route.useLoaderData();
-  const updateDayhome = useServerFn(updateDayhomeFn);
-  const deleteDayhome = useServerFn(deleteDayhomeFn);
   const navigate = useNavigate();
+  const dayhome = Route.useLoaderData();
   const queryClient = useQueryClient();
+  const updateDayhome = useServerFn(updateDayhomeFn);
+  const deleteDayhome = useDeleteDayhome();
+
+  const handleDeleteDayhome = async () => {
+    await deleteDayhome.mutateAsync(dayhome.id);
+    await navigate({ to: "/directory" });
+  };
 
   const form = useForm({
     defaultValues: {
@@ -77,7 +83,7 @@ function RouteComponent() {
       toast.success("Saved");
 
       navigate({ to: ".." });
-      queryClient.invalidateQueries({ queryKey: ["dayhomes"] });
+      queryClient.invalidateQueries({ queryKey: dayhomeKeys.lists() });
     },
   });
 
@@ -279,11 +285,7 @@ function RouteComponent() {
         <Button
           type="button"
           variant="destructive"
-          onClick={async () => {
-            await deleteDayhome({ data: { dayhomeId: dayhome.id } });
-            toast.info("Deleted");
-            await navigate({ to: "/directory" });
-          }}
+          onClick={handleDeleteDayhome}
         >
           Permanently Delete
         </Button>

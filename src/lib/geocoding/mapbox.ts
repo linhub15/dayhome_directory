@@ -1,10 +1,11 @@
+import { serverEnv } from "@/config/server_env";
 import {
   GeocodingCore,
   LngLatBounds,
   type LngLatBoundsLike,
 } from "@mapbox/search-js-core";
 
-const geocode = new GeocodingCore({ accessToken: process.env.MAPBOX_TOKEN! });
+const geocode = new GeocodingCore({ accessToken: serverEnv.MAPBOX_TOKEN });
 
 /**
  * ISO 3166 Alpha 2 country codes

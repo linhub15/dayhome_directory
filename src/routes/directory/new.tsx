@@ -6,7 +6,7 @@ import { PinnedMap } from "@/components/ui/pinned_map";
 import {
   createDayhomeFn,
   CreateDayhomRequest,
-} from "@/features/dayhomes/create_dayhome.fn";
+} from "@/features/dayhomes/create_dayhome/create_dayhome.fn";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
 import { useForm, useStore } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
