@@ -7,6 +7,7 @@ import appCss from "../styles.css?url";
 import leafletCss from "leaflet/dist/leaflet.css?url";
 import type { QueryClient } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
+import * as PostHog from "@/integrations/posthog/posthog_provider";
 
 interface RouterContext {
   queryClient: QueryClient;
@@ -32,7 +33,11 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       { rel: "stylesheet", href: leafletCss },
     ],
   }),
-  shellComponent: RootDocument,
+  shellComponent: ({ children }) => (
+    <RootDocument>
+      <PostHog.Provider>{children}</PostHog.Provider>
+    </RootDocument>
+  ),
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {

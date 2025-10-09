@@ -1,14 +1,16 @@
 /// <reference types="vite/client" />
 
+/** Client-side environment variables */
 interface ImportMetaEnv {
-  // Client-side environment variables
+  readonly VITE_PUBLIC_POSTHOG_HOST: string;
+  readonly VITE_PUBLIC_POSTHOG_KEY: string;
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-// Server-side environment variables
+/** Server-side environment variables */
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
