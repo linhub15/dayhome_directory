@@ -1,4 +1,5 @@
 import { clientEnv } from "@/config/client_env";
+import { ClientOnly } from "@tanstack/react-router";
 import { PostHogProvider } from "posthog-js/react";
 
 const options = {
@@ -8,11 +9,13 @@ const options = {
 
 export function Provider({ children }: { children: React.ReactNode }) {
   return (
-    <PostHogProvider
-      apiKey={clientEnv.VITE_PUBLIC_POSTHOG_KEY}
-      options={options}
-    >
-      {children}
-    </PostHogProvider>
+    <ClientOnly>
+      <PostHogProvider
+        apiKey={clientEnv.VITE_PUBLIC_POSTHOG_KEY}
+        options={options}
+      >
+        {children}
+      </PostHogProvider>
+    </ClientOnly>
   );
 }
