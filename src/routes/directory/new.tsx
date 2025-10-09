@@ -29,7 +29,11 @@ function RouteComponent() {
     } satisfies CreateDayhomRequest,
     onSubmit: async ({ value }) => {
       await createDayhome({
-        data: { ...value },
+        data: {
+          name: value.name.trim(),
+          address: value.address.trim(),
+          location: value.location,
+        },
       });
 
       toast.success("Dayhome created!");
@@ -61,7 +65,7 @@ function RouteComponent() {
                 id={field.name}
                 type="text"
                 value={field.state.value}
-                onChange={(e) => field.setValue(e.currentTarget.value.trim())}
+                onChange={(e) => field.setValue(e.currentTarget.value)}
               />
             </Field>
           )}

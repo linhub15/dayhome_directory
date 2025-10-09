@@ -120,8 +120,7 @@ function RouteComponent() {
                     id={field.name}
                     type="text"
                     value={field.state.value}
-                    onChange={(e) =>
-                      field.setValue(e.currentTarget.value.trim())}
+                    onChange={(e) => field.setValue(e.currentTarget.value)}
                   />
                 </Field>
               )}
