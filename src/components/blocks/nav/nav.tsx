@@ -5,9 +5,20 @@ export function Nav() {
     <div className="w-fit mx-auto">
       <nav>
         <div className="flex gap-4 py-2">
-          <LinkButton variant="ghost" to="/">Home</LinkButton>
-          <LinkButton variant="ghost" to="/directory">Directory</LinkButton>
-          <LinkButton variant="secondary" to="/directory/new">New</LinkButton>
+          <LinkButton
+            variant="ghost"
+            to="/home"
+            activeProps={{ className: "underline" }}
+          >
+            Home
+          </LinkButton>
+          <LinkButton
+            variant="ghost"
+            to="/directory"
+            activeProps={{ className: "underline" }}
+          >
+            Directory
+          </LinkButton>
         </div>
       </nav>
     </div>
