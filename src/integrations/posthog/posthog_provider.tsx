@@ -1,21 +1,19 @@
+import posthog from "posthog-js";
 import { clientEnv } from "@/config/client_env";
-import { ClientOnly } from "@tanstack/react-router";
 import { PostHogProvider } from "posthog-js/react";
-
-const options = {
-  api_host: clientEnv.VITE_PUBLIC_POSTHOG_HOST,
-  defaults: "2025-05-24",
-} as const;
+import { useEffect } from "react";
 
 export function Provider({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    posthog.init(clientEnv.VITE_PUBLIC_POSTHOG_KEY, {
+      api_host: clientEnv.VITE_PUBLIC_POSTHOG_HOST,
+      defaults: "2025-05-24",
+    });
+  }, []);
+
   return (
-    <ClientOnly>
-      <PostHogProvider
-        apiKey={clientEnv.VITE_PUBLIC_POSTHOG_KEY}
-        options={options}
-      >
-        {children}
-      </PostHogProvider>
-    </ClientOnly>
+    <PostHogProvider client={posthog}>
+      {children}
+    </PostHogProvider>
   );
 }
