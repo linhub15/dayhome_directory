@@ -1,0 +1,68 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@std/bytes@^1.0.6": "1.0.6",
+    "jsr:@std/csv@*": "1.0.6",
+    "jsr:@std/csv@^1.0.6": "1.0.6",
+    "jsr:@std/dotenv@~0.225.5": "0.225.5",
+    "jsr:@std/streams@^1.0.9": "1.0.13",
+    "jsr:@zod/zod@*": "4.1.12",
+    "jsr:@zod/zod@^4.1.12": "4.1.12",
+    "npm:@mapbox/search-js-core@^1.4.0": "1.4.0",
+    "npm:drizzle-orm@~0.44.6": "0.44.6",
+    "npm:postgres@^3.4.7": "3.4.7"
+  },
+  "jsr": {
+    "@std/bytes@1.0.6": {
+      "integrity": "f6ac6adbd8ccd99314045f5703e23af0a68d7f7e58364b47d2c7f408aeb5820a"
+    },
+    "@std/csv@1.0.6": {
+      "integrity": "52ef0e62799a0028d278fa04762f17f9bd263fad9a8e7f98c14fbd371d62d9fd",
+      "dependencies": [
+        "jsr:@std/streams"
+      ]
+    },
+    "@std/dotenv@0.225.5": {
+      "integrity": "9ce6f9d0ec3311f74a32535aa1b8c62ed88b1ab91b7f0815797d77a6f60c922f"
+    },
+    "@std/streams@1.0.10": {
+      "integrity": "75c0b1431873cd0d8b3d679015220204d36d3c7420d93b60acfc379eb0dc30af"
+    },
+    "@std/streams@1.0.13": {
+      "integrity": "772d208cd0d3e5dac7c1d9e6cdb25842846d136eea4a41a62e44ed4ab0c8dd9e",
+      "dependencies": [
+        "jsr:@std/bytes"
+      ]
+    },
+    "@zod/zod@4.1.12": {
+      "integrity": "5876ed4c6d44673faf5120f0a461a2ada2eb6c735329d3ebaf5ba1fc08387695"
+    }
+  },
+  "npm": {
+    "@mapbox/search-js-core@1.4.0": {
+      "integrity": "sha512-5XwuFQLyH72/c8zgX9z8Gs2lQttpUil9hyUkyf8oyTmyfWszKWz4C9kHzKjfsg37/q6PpF5kXnAMkeYO/LXiXw==",
+      "dependencies": [
+        "@types/geojson"
+      ]
+    },
+    "@types/geojson@7946.0.16": {
+      "integrity": "sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg=="
+    },
+    "drizzle-orm@0.44.6": {
+      "integrity": "sha512-uy6uarrrEOc9K1u5/uhBFJbdF5VJ5xQ/Yzbecw3eAYOunv5FDeYkR2m8iitocdHBOHbvorviKOW5GVw0U1j4LQ=="
+    },
+    "postgres@3.4.7": {
+      "integrity": "sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/csv@^1.0.6",
+      "jsr:@std/dotenv@~0.225.5",
+      "jsr:@zod/zod@^4.1.12",
+      "npm:@mapbox/search-js-core@^1.4.0",
+      "npm:drizzle-orm@~0.44.6",
+      "npm:postgres@^3.4.7"
+    ]
+  }
+}
