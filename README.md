@@ -11,7 +11,7 @@ VITE_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
 DATA_SPREADSHEET_ID=
 ```
 
-## Tools
+### Install Tools
 
 - Node.js
 - pnpm
@@ -22,3 +22,9 @@ DATA_SPREADSHEET_ID=
 ```
 CREATE EXTENSION postgis;
 ```
+
+### Services
+- https://dash.cloudflare.com
+- https://console.neon.tech
+- https://console.mapbox.com
+- https://us.posthog.com
