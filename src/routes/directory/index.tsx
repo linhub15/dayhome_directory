@@ -18,7 +18,7 @@ function RouteComponent() {
   const searchParams = Route.useSearch();
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-xl mx-auto">
       <div className="mt-2 mb-6 mx-2">
         <DayhomeSearch value={searchParams.name} />
       </div>

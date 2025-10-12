@@ -16,6 +16,7 @@ export function PinnedMap({ location, label }: Props) {
   return (
     <div>
       <MapContainer
+        className="rounded-md"
         style={{ height: 200, isolation: "isolate" }}
         center={center || EDMONTON}
         zoom={13}
@@ -24,6 +25,7 @@ export function PinnedMap({ location, label }: Props) {
         dragging={false}
         scrollWheelZoom={false}
         fadeAnimation={true}
+        attributionControl={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
