@@ -5,7 +5,7 @@ import { listDayhomesFn } from "./list_dayhomes.fn";
 import { Link } from "@tanstack/react-router";
 import { dayhomeKeys } from "../query_keys";
 
-type Props = { filters: { name?: string } };
+type Props = { filters: { name?: string; postalCode?: string } };
 
 export function DayhomeList({ filters }: Props) {
   const fn = useServerFn(listDayhomesFn);

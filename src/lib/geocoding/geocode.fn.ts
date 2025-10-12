@@ -7,5 +7,5 @@ export const geocodeFn = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const result = await forwardGeocode(data.query);
 
-    return result.features.at(0)?.geometry || null;
+    return result;
   });

@@ -15,10 +15,7 @@ export function useGeocode(query: string) {
 
       if (!response) return;
 
-      return {
-        latitude: response.coordinates[1],
-        longitude: response.coordinates[0],
-      };
+      return response;
     },
     enabled: !!debouncedValue,
   });

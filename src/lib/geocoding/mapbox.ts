@@ -4,6 +4,8 @@ import {
   LngLatBounds,
   type LngLatBoundsLike,
 } from "@mapbox/search-js-core";
+import { LatLng } from "./types";
+import z from "zod";
 
 const geocode = new GeocodingCore({ accessToken: serverEnv.MAPBOX_TOKEN });
 
@@ -21,7 +23,13 @@ const CANADA_BOUNDING_BOX: LngLatBoundsLike = new LngLatBounds(
   [-52.3231981, 70],
 );
 
+const validQuery = z.string().nonempty();
+
 export async function forwardGeocode(query: string) {
+  if (!validQuery.safeParse(query).success) {
+    return null;
+  }
+
   const response = await geocode.forward(query, {
     autocomplete: false,
     limit: 1,
@@ -32,5 +40,16 @@ export async function forwardGeocode(query: string) {
     language: "en",
   });
 
-  return response;
+  const { coordinates } = response.features.at(0)?.geometry ?? {};
+
+  if (!coordinates) {
+    return null;
+  }
+
+  const latLng: LatLng = {
+    latitude: coordinates[1],
+    longitude: coordinates[0],
+  };
+
+  return latLng;
 }

@@ -4,13 +4,10 @@ import {
   filterSearchParams,
 } from "@/features/dayhomes/dayhome_search";
 import { createFileRoute } from "@tanstack/react-router";
-import z from "zod";
-
-type Search = z.infer<typeof filterSearchParams>;
 
 export const Route = createFileRoute("/directory/")({
   ssr: "data-only",
-  validateSearch: (search: Search) => filterSearchParams.parse(search),
+  validateSearch: filterSearchParams,
   component: RouteComponent,
 });
 
@@ -20,7 +17,7 @@ function RouteComponent() {
   return (
     <div className="max-w-xl mx-auto">
       <div className="mt-2 mb-6 mx-2">
-        <DayhomeSearch value={searchParams.name} />
+        <DayhomeSearch value={searchParams.postalCode} />
       </div>
       <DayhomeList filters={searchParams} />
     </div>

@@ -5,11 +5,11 @@ import { useState } from "react";
 import z from "zod";
 
 export const filterSearchParams = z.object({
-  name: z.string().trim().toLowerCase().optional(),
+  postalCode: z.string().trim().toLowerCase().optional(),
 });
 
 export type Props = {
-  name?: string;
+  postalCode?: string;
 };
 
 export function DayhomeSearch(props: { value?: string }) {
@@ -19,7 +19,7 @@ export function DayhomeSearch(props: { value?: string }) {
   const onSubmit = () => {
     navigate({
       to: "/directory",
-      search: { name: value?.trim().toLowerCase() },
+      search: { postalCode: value?.trim().toLowerCase() },
     });
   };
 
@@ -35,7 +35,7 @@ export function DayhomeSearch(props: { value?: string }) {
         <div className="flex gap-3">
           <Input
             type="search"
-            placeholder="Search here..."
+            placeholder="Enter your Postal Code"
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
           />
