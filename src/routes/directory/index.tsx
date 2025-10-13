@@ -16,7 +16,7 @@ function RouteComponent() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <div className="mt-2 mb-6 mx-2">
+      <div className="py-2 mb-6 px-2">
         <DayhomeSearch value={searchParams.postalCode} />
       </div>
       <DayhomeList filters={searchParams} />

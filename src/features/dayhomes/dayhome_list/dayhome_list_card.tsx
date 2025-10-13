@@ -41,17 +41,8 @@ export function DayhomeListCard(props: Props) {
           ))}
         </div>
         <div className="text-slate-600 text-sm">{props.address}</div>
-
-        <div className="text-slate-600 text-sm">{props.phone}</div>
-        <div className="text-slate-600">{props.email}</div>
       </CardHeader>
       <CardContent>
-        {props.location &&
-          (
-            <PinnedMap
-              location={{ lat: props.location?.y, lng: props.location?.x }}
-            />
-          )}
       </CardContent>
     </Card>
   );

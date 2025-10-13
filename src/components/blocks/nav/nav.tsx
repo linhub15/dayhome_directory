@@ -2,7 +2,7 @@ import { LinkButton } from "@/components/ui/button";
 
 export function Nav() {
   return (
-    <div className="w-fit mx-auto">
+    <div className="mx-auto w-fit">
       <nav>
         <div className="flex gap-4 py-2">
           <LinkButton
@@ -18,6 +18,13 @@ export function Nav() {
             activeProps={{ className: "underline" }}
           >
             Directory
+          </LinkButton>
+          <LinkButton
+            variant="ghost"
+            to="/directory/map"
+            activeProps={{ className: "underline" }}
+          >
+            Map
           </LinkButton>
         </div>
       </nav>

@@ -41,7 +41,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="m-2 sm:m-0">
+      <body className="mx-2 sm:m-0">
         {children}
 
         <Toaster />

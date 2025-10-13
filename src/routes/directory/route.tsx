@@ -8,8 +8,14 @@ export const Route = createFileRoute("/directory")({
 function RouteComponent() {
   return (
     <div>
-      <Nav />
-      <Outlet />
+      <div className="relative">
+        <div className="absolute z-10 bg-white w-full h-15">
+          <Nav />
+        </div>
+        <div className="pt-15">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 }
