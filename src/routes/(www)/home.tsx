@@ -1,6 +1,5 @@
 import { Nav } from "@/components/blocks/nav/nav";
 import { LinkButton } from "@/components/ui/button";
-import { DayhomeSearch } from "@/features/dayhomes/dayhome_search";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(www)/home")({
@@ -28,8 +27,7 @@ function RouteComponent() {
         </div>
 
         <div className="text-center mt-10 max-w-md w-full mx-auto py-8 space-y-2">
-          <DayhomeSearch />
-          <LinkButton variant="link" size="sm" to="/directory">
+          <LinkButton variant="default" to="/map">
             View all listings
           </LinkButton>
         </div>
