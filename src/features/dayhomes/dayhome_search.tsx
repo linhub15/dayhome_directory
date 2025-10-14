@@ -24,7 +24,7 @@ export function DayhomeSearch(props: { value?: string }) {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <form
         onSubmit={(e) => {
           e.preventDefault();

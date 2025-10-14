@@ -47,13 +47,11 @@ function RouteComponent() {
         />
       </div>
 
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-4">
-        <div className="">
-          <DayhomeSearch value={postalCode} />
-        </div>
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-4 max-w-xs w-full px-2">
+        <DayhomeSearch value={postalCode} />
       </div>
 
-      <div className="fixed bottom-0 w-full">
+      <div className="fixed bottom-0 w-full mx-2">
         <DayhomeList items={data ?? []} />
       </div>
     </div>

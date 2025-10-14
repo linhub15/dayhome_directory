@@ -27,12 +27,18 @@ export function DayhomeMap(props: Props) {
     <MapContainer
       style={{ height: "100vh", width: "100%", isolation: "isolate" }}
       center={{ lat: center.latitude, lng: center.longitude }}
+      // Zoom
       zoom={13}
       zoomControl={false}
-      doubleClickZoom={false}
+      zoomAnimation={true}
+      markerZoomAnimation={true}
+      doubleClickZoom={true}
+      scrollWheelZoom={true}
+      minZoom={12}
+      maxZoom={16}
+      // Other
       dragging={true}
-      scrollWheelZoom={false}
-      fadeAnimation={false}
+      fadeAnimation={true}
       attributionControl={false}
       // @ts-ignore: react-leaflet types are out of date
       whenReady={(m: { target: MapRef }) =>

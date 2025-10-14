@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Sheet, SheetRef } from "react-modal-sheet";
 import { useRef } from "react";
 
-const snapPoints = [0, 50, 0.5, 1];
+const snapPoints = [0, 70, 0.5, 1];
 
 type Props = { items: CardProps[] };
 
@@ -13,21 +13,24 @@ export function DayhomeList({ items }: Props) {
 
   return (
     <Sheet
-      ref={ref}
+      className="max-w-2xl sm:mx-auto mx-2"
       isOpen
+      ref={ref}
       onClose={() => {}}
       initialSnap={1}
       dragSnapToOrigin
       snapPoints={snapPoints}
       disableDismiss
     >
-      <Sheet.Container>
+      <Sheet.Container className="max-h-[60vh]">
         <Sheet.Header />
-        <Sheet.Content>
-          <div className="space-y-4">
+        <Sheet.Content
+          disableDrag={(state) => state.scrollPosition !== "top"}
+        >
+          <div className="space-y-7">
             {items?.map((item) => (
               <Link
-                className="block max-w-lg mx-auto"
+                className="block max-w-lg sm:mx-auto px-2"
                 to="/directory/$id"
                 params={{ id: item.id }}
                 key={item.name}
@@ -80,8 +83,6 @@ function DayhomeListCard(props: CardProps) {
         </div>
         <div className="text-slate-600 text-sm">{props.address}</div>
       </CardHeader>
-      <CardContent>
-      </CardContent>
     </Card>
   );
 }
