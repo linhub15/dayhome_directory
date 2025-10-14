@@ -27,6 +27,7 @@ function RouteComponent() {
 
   const initialCenter = geocode ??
     { latitude: 53.4892, longitude: -113.565081 };
+
   const [bounds, setBounds] = useState<LatLngBounds | null>(null);
 
   const { data } = useListDayhomes({

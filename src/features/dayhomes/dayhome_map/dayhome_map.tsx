@@ -13,6 +13,7 @@ import { ListDayhomesData } from "./use_list_dayhomes.ts";
 import { Link } from "@tanstack/react-router";
 import { MapRef } from "react-leaflet/MapContainer";
 import { useEffect } from "react";
+import { debounce } from "@tanstack/react-pacer";
 
 type Props = {
   center: LatLng;
@@ -66,9 +67,14 @@ function InnerMap(
     map.panTo({ lat: props.center.latitude, lng: props.center.longitude });
   }, [props.center.latitude, props.center.longitude]);
 
+  const debouncedBoundsChange = debounce(
+    (bounds: LatLngBounds) => props.onBoundsChange(bounds),
+    { wait: 700 },
+  );
+
   useMapEvents({
     moveend: () => {
-      props.onBoundsChange(map.getBounds());
+      debouncedBoundsChange(map.getBounds());
     },
   });
 
