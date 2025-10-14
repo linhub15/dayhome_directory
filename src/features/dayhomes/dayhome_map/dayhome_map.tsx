@@ -34,9 +34,9 @@ export function DayhomeMap(props: Props) {
       markerZoomAnimation={true}
       doubleClickZoom={true}
       scrollWheelZoom={true}
-      minZoom={12}
-      maxZoom={16}
-      // Other
+      minZoom={11}
+      maxZoom={15}
+      //----
       dragging={true}
       fadeAnimation={true}
       attributionControl={false}
@@ -64,7 +64,8 @@ function InnerMap(
 
   useEffect(() => {
     map.panTo({ lat: props.center.latitude, lng: props.center.longitude });
-  }, [props.center]);
+  }, [props.center.latitude, props.center.longitude]);
+
   useMapEvents({
     moveend: () => {
       props.onBoundsChange(map.getBounds());

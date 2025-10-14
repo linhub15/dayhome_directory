@@ -36,13 +36,13 @@ export function DayhomeSearch(props: { value?: string }) {
           <Input
             className="bg-background"
             type="search"
-            placeholder="Enter your Postal Code"
+            placeholder="Postal Code e.g. T5A0A7"
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
             maxLength={6}
           />
 
-          <Button variant="secondary" type="submit">
+          <Button variant="outline" type="submit">
             <SearchIcon />
           </Button>
         </div>
