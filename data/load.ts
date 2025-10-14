@@ -32,7 +32,7 @@ async function main() {
           dayhomeId: schema.dayhome.id,
         });
 
-      console.info(`Inserted ${inserted.length} dayhomes into the DB`);
+      console.info(`Inserted ${item.Name} dayhomes into the DB`);
 
       const [{ dayhomeId }] = inserted;
 
@@ -109,7 +109,9 @@ async function main() {
         sunday,
       ].filter((x) => x !== null);
 
-      await tx.insert(schema.dayhomeOpenHours).values(openHours);
+      if (openHours.length > 0) {
+        await tx.insert(schema.dayhomeOpenHours).values(openHours);
+      }
     }
   });
 

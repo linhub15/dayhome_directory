@@ -51,7 +51,7 @@ const sheetSchema = z.object({
   "Agency Name": safeString.optional(),
   "Age Groups": safeString
     .transform((x) => x?.split(",").map((s) => s.trim()))
-    .pipe(z.array(ageGroup)).optional(),
+    .pipe(z.array(ageGroup).default([])).optional(),
   "M▶️": timeNumber,
   "M🛑": timeNumber,
   "T▶️": timeNumber,

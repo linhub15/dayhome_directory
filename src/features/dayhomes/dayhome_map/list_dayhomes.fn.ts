@@ -1,5 +1,4 @@
 import { db } from "@/lib/db/db_middleware";
-import { forwardGeocode } from "@/lib/geocoding/mapbox";
 import { LatLngSchema } from "@/lib/geocoding/types";
 import { createServerFn } from "@tanstack/react-start";
 import { sql } from "drizzle-orm";
@@ -7,10 +6,10 @@ import z from "zod";
 
 const Request = z.object({
   name: z.string().optional(),
-  postalCode: z.string().optional(),
-  point: LatLngSchema.optional(),
-  /** Kilometers to Meters */
-  radius: z.number().optional().transform((v) => v && v * 1000).default(1000),
+  boundingBox: z.object({
+    min: LatLngSchema,
+    max: LatLngSchema,
+  }).optional(),
 });
 
 export const listDayhomesFn = createServerFn({ method: "GET" })
@@ -19,10 +18,6 @@ export const listDayhomesFn = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     const { db } = context;
 
-    const currentLatLng = data.point ?? await getCurrentLatLng({
-      postalCode: data.postalCode,
-    });
-
     const result = await db.query.dayhome.findMany({
       limit: 20,
       where: (dayhome, { and, ilike }) => {
@@ -30,24 +25,21 @@ export const listDayhomesFn = createServerFn({ method: "GET" })
           ? ilike(dayhome.name, `%${data.name}%`)
           : undefined;
 
-        const distance = currentLatLng
-          ? sql`ST_DWithin(location::geography, ST_MakePoint(${currentLatLng.longitude}, ${currentLatLng.latitude})::geography, ${data.radius})`
+        const boundingBox = data.boundingBox
+          ? sql`ST_Within(${dayhome.location}, ST_MakeEnvelope(
+              ${data.boundingBox.min.longitude},
+              ${data.boundingBox.min.latitude},
+              ${data.boundingBox.max.longitude},
+              ${data.boundingBox.max.latitude},
+              4326))`
           : undefined;
 
         return and(
           searchName,
-          distance,
+          boundingBox,
         );
       },
     });
 
     return result;
   });
-
-async function getCurrentLatLng({ postalCode }: { postalCode?: string }) {
-  if (!postalCode) {
-    return null;
-  }
-
-  return await forwardGeocode(postalCode);
-}

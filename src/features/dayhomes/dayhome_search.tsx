@@ -5,7 +5,7 @@ import { useState } from "react";
 import z from "zod";
 
 export const filterSearchParams = z.object({
-  postalCode: z.string().trim().toLowerCase().optional(),
+  postalCode: z.string().trim().max(6).optional(),
 });
 
 export type Props = {
@@ -18,8 +18,8 @@ export function DayhomeSearch(props: { value?: string }) {
 
   const onSubmit = () => {
     navigate({
-      to: "/directory",
-      search: { postalCode: value?.trim().toLowerCase() },
+      to: ".",
+      search: { postalCode: value?.trim() },
     });
   };
 
@@ -34,10 +34,12 @@ export function DayhomeSearch(props: { value?: string }) {
       >
         <div className="flex gap-3">
           <Input
+            className="bg-background"
             type="search"
             placeholder="Enter your Postal Code"
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
+            maxLength={6}
           />
 
           <Button variant="secondary" type="submit">

@@ -14,14 +14,7 @@ export function Nav() {
           </LinkButton>
           <LinkButton
             variant="ghost"
-            to="/directory"
-            activeProps={{ className: "underline" }}
-          >
-            Directory
-          </LinkButton>
-          <LinkButton
-            variant="ghost"
-            to="/directory/map"
+            to="/map"
             activeProps={{ className: "underline" }}
           >
             Map

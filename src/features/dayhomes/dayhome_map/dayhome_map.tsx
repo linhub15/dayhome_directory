@@ -1,5 +1,5 @@
 import type { LatLng } from "@/lib/geocoding/types";
-import { Icon, LatLngExpression } from "leaflet";
+import { Icon, type LatLngBounds, type LatLngExpression } from "leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import {
   MapContainer,
@@ -7,18 +7,21 @@ import {
   Popup,
   TileLayer,
   useMap,
-  useMapEvent,
+  useMapEvents,
 } from "react-leaflet";
-import { useListDayhomes } from "../dayhome_list/use_list_dayhomes";
-import { useState } from "react";
+import { ListDayhomesData } from "./use_list_dayhomes.ts";
 import { Link } from "@tanstack/react-router";
+import { MapRef } from "react-leaflet/MapContainer";
+import { useEffect } from "react";
 
 type Props = {
   center: LatLng;
+  items: ListDayhomesData;
+  onBoundsChange: (bounds: LatLngBounds) => void;
 };
 
 export function DayhomeMap(props: Props) {
-  const { center } = props;
+  const { center, items, onBoundsChange: onBoundsChange } = props;
 
   return (
     <MapContainer
@@ -31,30 +34,38 @@ export function DayhomeMap(props: Props) {
       scrollWheelZoom={false}
       fadeAnimation={false}
       attributionControl={false}
+      // @ts-ignore: react-leaflet types are out of date
+      whenReady={(m: { target: MapRef }) =>
+        m.target && onBoundsChange(m.target?.getBounds())}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <InnerMap />
+      <InnerMap center={center} items={items} onBoundsChange={onBoundsChange} />
     </MapContainer>
   );
 }
 
-function InnerMap() {
+function InnerMap(
+  props: {
+    center: LatLng;
+    items: ListDayhomesData;
+    onBoundsChange: (bounds: LatLngBounds) => void;
+  },
+) {
   const map = useMap();
-  const [center, setCenter] = useState(map.getCenter());
 
-  useMapEvent("moveend", () => {
-    setCenter(map.getCenter());
+  useEffect(() => {
+    map.panTo({ lat: props.center.latitude, lng: props.center.longitude });
+  }, [props.center]);
+  useMapEvents({
+    moveend: () => {
+      props.onBoundsChange(map.getBounds());
+    },
   });
 
-  const { data } = useListDayhomes({
-    center: { latitude: center.lat, longitude: center.lng },
-    radius: 5,
-  });
-
-  const items = data?.map((d) => ({
+  const items = props.items?.map((d) => ({
     id: d.id,
     name: d.name,
     position: { lat: d.location.y, lng: d.location.x } as LatLngExpression,
@@ -64,7 +75,6 @@ function InnerMap() {
 
   return (
     <>
-      {/* Add markers for each item */}
       {items.map((item) => (
         <Marker
           key={item.id}

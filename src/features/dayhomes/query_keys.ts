@@ -5,8 +5,14 @@ export const dayhomeKeys = {
 
   lists: () => [...dayhomeKeys.all, "list"] as const,
 
-  list: (filters: { name?: string; center?: LatLng; radius?: Kilometers }) =>
-    [...dayhomeKeys.lists(), { filters }] as const,
+  list: (
+    filters: {
+      name?: string;
+      center?: LatLng;
+      radius?: Kilometers;
+      boundingBox?: { min: LatLng; max: LatLng };
+    },
+  ) => [...dayhomeKeys.lists(), { filters }] as const,
 
   details: () => [...dayhomeKeys.all, "detail"] as const,
 

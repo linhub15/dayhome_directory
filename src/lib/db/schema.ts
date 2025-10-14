@@ -79,3 +79,12 @@ export const dayhomeOpenHoursRelations = relations(
     }),
   }),
 );
+
+export const geocodeCache = pgTable("geocode_cache", {
+  query: text("query").notNull().primaryKey(),
+  geometry: geometry("geometry", {
+    type: "point",
+    mode: "xy",
+    srid: 4326,
+  }).notNull(),
+});

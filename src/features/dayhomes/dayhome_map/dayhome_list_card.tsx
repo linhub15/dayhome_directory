@@ -1,8 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { PinnedMap } from "@/components/ui/pinned_map";
 
-type Props = {
+export type Props = {
   name: string;
   address: string;
   phone: string | null;
