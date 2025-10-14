@@ -4,7 +4,7 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { Sheet, SheetRef } from "react-modal-sheet";
 import { useRef } from "react";
 
-const snapPoints = [0, 70, 0.5, 1];
+const snapPoints = [0, 60, 0.5, 1];
 
 type Props = { items: CardProps[] };
 
@@ -26,8 +26,9 @@ export function DayhomeList({ items }: Props) {
         <Sheet.Header />
         <Sheet.Content
           disableDrag={(state) => state.scrollPosition !== "top"}
+          disableScroll={(state) => state.currentSnap !== snapPoints.length - 1}
         >
-          <div className="space-y-7">
+          <div className="space-y-7 py-4">
             {items?.map((item) => (
               <Link
                 className="block max-w-lg sm:mx-auto px-2"
