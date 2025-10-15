@@ -14,26 +14,25 @@ export function PinnedMap({ location, label }: Props) {
     [location?.lat, location?.lng];
 
   return (
-    <div>
-      <MapContainer
-        className="rounded-md"
-        style={{ height: 200, isolation: "isolate" }}
-        center={center || EDMONTON}
-        zoom={13}
-        zoomControl={false}
-        doubleClickZoom={false}
-        dragging={false}
-        scrollWheelZoom={false}
-        fadeAnimation={true}
-        attributionControl={false}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <InnerMap center={center} label={label} />
-      </MapContainer>
-    </div>
+    <MapContainer
+      className="rounded-md"
+      style={{ height: 200, isolation: "isolate" }}
+      center={center || EDMONTON}
+      zoom={13}
+      zoomControl={false}
+      doubleClickZoom={false}
+      dragging={false}
+      scrollWheelZoom={false}
+      fadeAnimation={true}
+      attributionControl={false}
+      touchZoom={false}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <InnerMap center={center} label={label} />
+    </MapContainer>
   );
 }
 
