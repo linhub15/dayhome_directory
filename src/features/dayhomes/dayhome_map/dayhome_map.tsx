@@ -12,7 +12,7 @@ import {
 import { ListDayhomesData } from "./use_list_dayhomes.ts";
 import { Link } from "@tanstack/react-router";
 import { MapRef } from "react-leaflet/MapContainer";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { debounce } from "@tanstack/react-pacer";
 
 type Props = {
@@ -62,21 +62,7 @@ function InnerMap(
   },
 ) {
   const map = useMap();
-
-  useEffect(() => {
-    map.panTo({ lat: props.center.latitude, lng: props.center.longitude });
-  }, [props.center.latitude, props.center.longitude]);
-
-  const debouncedBoundsChange = debounce(
-    (bounds: LatLngBounds) => props.onBoundsChange(bounds),
-    { wait: 700 },
-  );
-
-  useMapEvents({
-    moveend: () => {
-      debouncedBoundsChange(map.getBounds());
-    },
-  });
+  const icon = useMarkerIcon();
 
   const items = props.items?.map((d) => ({
     id: d.id,
@@ -86,17 +72,43 @@ function InnerMap(
     ageGroups: d.ageGroups || [],
   })) ?? [];
 
+  const [markers, setMarkers] = useState<typeof items>([]);
+
+  useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+
+    setMarkers((prev) => [
+      ...prev,
+      ...items.filter((item) => !markers.map((m) => m.id).includes(item.id)),
+    ]);
+
+    console.log(markers);
+  }, [items.length]);
+
+  useEffect(() => {
+    map.panTo({ lat: props.center.latitude, lng: props.center.longitude });
+  }, [props.center.latitude, props.center.longitude]);
+
+  const debouncedBoundsChange = debounce(
+    (bounds: LatLngBounds) => props.onBoundsChange(bounds),
+    { wait: 500 },
+  );
+
+  useMapEvents({
+    moveend: () => {
+      debouncedBoundsChange(map.getBounds());
+    },
+  });
+
   return (
     <>
-      {items.map((item) => (
+      {markers.map((item) => (
         <Marker
           key={item.id}
           position={item.position}
-          icon={new Icon({
-            iconUrl: markerIconPng,
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-          })}
+          icon={icon}
         >
           <Popup>
             <Link to={"/directory/$id"} params={{ id: item.id }}>
@@ -108,5 +120,17 @@ function InnerMap(
         </Marker>
       ))}
     </>
+  );
+}
+
+function useMarkerIcon() {
+  return useMemo(
+    () =>
+      new Icon({
+        iconUrl: markerIconPng,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+      }),
+    [],
   );
 }
