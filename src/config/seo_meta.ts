@@ -1,4 +1,4 @@
-const seo = {
+export const SEO_META = {
   title: "Discover Care",
   description: "Edmonton daycare, dayhome, and afterschool care directory",
   domain: "discovercare.ca",
@@ -12,5 +12,3 @@ const seo = {
     alt: "",
   },
 };
-
-export { seo };
