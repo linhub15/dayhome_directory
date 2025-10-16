@@ -14,7 +14,7 @@ function RouteComponent() {
         <div className="max-w-2xl">
           <div className="text-center">
             <h1 className="text-4xl font-light tracking-tight text-balance text-gray-900 sm:text-6xl">
-              Find{" "}
+              Discover{" "}
               <em className="font-bold">
                 Edmonton
               </em>{" "}
@@ -28,7 +28,7 @@ function RouteComponent() {
 
         <div className="text-center mt-10 max-w-md w-full mx-auto py-8 space-y-2">
           <LinkButton variant="default" to="/map">
-            View all listings
+            See the Map
           </LinkButton>
         </div>
 
