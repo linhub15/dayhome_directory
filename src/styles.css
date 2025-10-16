@@ -84,3 +84,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Remove background, border, and arrow from all Leaflet tooltips */
+.leaflet-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #222 !important; /* optional: text color */
+  font-weight: 600; /* optional */
+  padding: 0 !important; /* optional: tighter layout */
+}
+
+/* Remove the small arrow (pointer) */
+.leaflet-tooltip::before {
+  display: none !important;
+}

@@ -1,7 +1,7 @@
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import markerIconPng from "leaflet/dist/images/marker-icon.png";
-import { Icon, LatLngExpression } from "leaflet";
+import { LatLngExpression } from "leaflet";
 import { useEffect } from "react";
+import { mapMarkerIcon } from "./map/pin_icon";
 
 const EDMONTON = [53.5462, -113.4937] as LatLngExpression;
 
@@ -53,11 +53,7 @@ function InnerMap(
     <>
       <Marker
         position={center}
-        icon={new Icon({
-          iconUrl: markerIconPng,
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-        })}
+        icon={mapMarkerIcon}
       >
         {label && <Popup>{label}</Popup>}
       </Marker>

@@ -1,19 +1,21 @@
 import type { LatLng } from "@/lib/geocoding/types";
-import { Icon, type LatLngBounds, type LatLngExpression } from "leaflet";
-import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import { type LatLngBounds, type LatLngExpression } from "leaflet";
 import {
   MapContainer,
   Marker,
+  Pane,
   Popup,
   TileLayer,
+  Tooltip,
   useMap,
   useMapEvents,
 } from "react-leaflet";
 import { ListDayhomesData } from "./use_list_dayhomes.ts";
 import { Link } from "@tanstack/react-router";
 import { MapRef } from "react-leaflet/MapContainer";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { debounce } from "@tanstack/react-pacer";
+import { mapMarkerIcon } from "@/components/ui/map/pin_icon.ts";
 
 type Props = {
   center: LatLng;
@@ -62,7 +64,6 @@ function InnerMap(
   },
 ) {
   const map = useMap();
-  const icon = useMarkerIcon();
 
   const items = props.items?.map((d) => ({
     id: d.id,
@@ -83,8 +84,6 @@ function InnerMap(
       ...prev,
       ...items.filter((item) => !markers.map((m) => m.id).includes(item.id)),
     ]);
-
-    console.log(markers);
   }, [items.length]);
 
   useEffect(() => {
@@ -98,7 +97,8 @@ function InnerMap(
 
   useMapEvents({
     moveend: () => {
-      debouncedBoundsChange(map.getBounds());
+      // todo: no-op for now to save bandwidth;
+      // debouncedBoundsChange(map.getBounds());
     },
   });
 
@@ -108,29 +108,17 @@ function InnerMap(
         <Marker
           key={item.id}
           position={item.position}
-          icon={icon}
+          icon={mapMarkerIcon}
+          title={item.name}
+          autoPanOnFocus={false}
         >
-          <Popup>
-            <Link to={"/directory/$id"} params={{ id: item.id }}>
-              <strong>{item.name}</strong>
-              <br />
-              {item.ageGroups.join(", ")}
-            </Link>
-          </Popup>
+          <Tooltip permanent interactive>
+            <div className="text-base font-normal text-black px-2 text-shadow-md text-shadow-white">
+              {item.name}
+            </div>
+          </Tooltip>
         </Marker>
       ))}
     </>
-  );
-}
-
-function useMarkerIcon() {
-  return useMemo(
-    () =>
-      new Icon({
-        iconUrl: markerIconPng,
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-      }),
-    [],
   );
 }

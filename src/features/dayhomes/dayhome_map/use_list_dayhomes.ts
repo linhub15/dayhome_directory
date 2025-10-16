@@ -18,7 +18,12 @@ export function useListDayhomes(
     queryKey: dayhomeKeys.list({ boundingBox }),
     queryFn: async () => {
       return await listDayhomes({
-        data: { boundingBox },
+        data: {
+          boundingBox: {
+            min: { latitude: 53.335624, longitude: -113.715512 },
+            max: { latitude: 53.71737, longitude: -113.270719 },
+          },
+        },
       });
     },
   });
