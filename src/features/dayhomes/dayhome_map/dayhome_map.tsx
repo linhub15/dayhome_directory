@@ -1,31 +1,32 @@
-import type { LatLng } from "@/lib/geocoding/types";
-import { type LatLngBounds, type LatLngExpression } from "leaflet";
+import { mapMarkerIcon } from "@/components/ui/map/pin_icon.ts";
+import type { LatLng } from "@/lib/geocoding/types.ts";
+import { debounce } from "@tanstack/react-pacer";
+import type { LatLngBounds, LatLngExpression } from "leaflet";
+import { useEffect, useState } from "react";
 import {
   MapContainer,
   Marker,
-  Pane,
-  Popup,
   TileLayer,
   Tooltip,
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import { ListDayhomesData } from "./use_list_dayhomes.ts";
-import { Link } from "@tanstack/react-router";
 import { MapRef } from "react-leaflet/MapContainer";
-import { useEffect, useState } from "react";
-import { debounce } from "@tanstack/react-pacer";
-import { mapMarkerIcon } from "@/components/ui/map/pin_icon.ts";
+import { ListDayhomesData } from "./use_list_dayhomes.ts";
 
 type Props = {
   center: LatLng;
   items: ListDayhomesData;
-  onBoundsChange: (bounds: LatLngBounds) => void;
+  onMoveEnd: (data: MapState) => void;
 };
 
-export function DayhomeMap(props: Props) {
-  const { center, items, onBoundsChange: onBoundsChange } = props;
+type MapState = {
+  center: LatLng;
+  zoom: number;
+  bounds: LatLngBounds;
+};
 
+export function DayhomeMap({ center, items, onMoveEnd }: Props) {
   return (
     <MapContainer
       style={{ height: "100vh", width: "100%", isolation: "isolate" }}
@@ -44,23 +45,36 @@ export function DayhomeMap(props: Props) {
       fadeAnimation={true}
       attributionControl={false}
       // @ts-ignore: react-leaflet types are out of date
-      whenReady={(m: { target: MapRef }) =>
-        m.target && onBoundsChange(m.target?.getBounds())}
+      whenReady={(m: { target: MapRef }) => {
+        const { target } = m;
+        if (!target) return;
+
+        onMoveEnd({
+          center: {
+            latitude: target.getCenter().lat,
+            longitude: target.getCenter().lng,
+          },
+          zoom: target.getZoom(),
+          bounds: target.getBounds(),
+        });
+      }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <InnerMap center={center} items={items} onBoundsChange={onBoundsChange} />
+      <InnerMap
+        items={items}
+        onMoveEnd={onMoveEnd}
+      />
     </MapContainer>
   );
 }
 
 function InnerMap(
   props: {
-    center: LatLng;
     items: ListDayhomesData;
-    onBoundsChange: (bounds: LatLngBounds) => void;
+    onMoveEnd: (data: MapState) => void;
   },
 ) {
   const map = useMap();
@@ -86,19 +100,21 @@ function InnerMap(
     ]);
   }, [items.length]);
 
-  useEffect(() => {
-    map.panTo({ lat: props.center.latitude, lng: props.center.longitude });
-  }, [props.center.latitude, props.center.longitude]);
-
-  const debouncedBoundsChange = debounce(
-    (bounds: LatLngBounds) => props.onBoundsChange(bounds),
-    { wait: 500 },
-  );
+  const mapStateChange = debounce((data: MapState) => {
+    props.onMoveEnd(data);
+  }, { wait: 500 });
 
   useMapEvents({
     moveend: () => {
-      // todo: no-op for now to save bandwidth;
-      // debouncedBoundsChange(map.getBounds());
+      const center = map.getCenter();
+      mapStateChange({
+        center: {
+          latitude: center.lat,
+          longitude: center.lng,
+        },
+        zoom: map.getZoom(),
+        bounds: map.getBounds(),
+      });
     },
   });
 

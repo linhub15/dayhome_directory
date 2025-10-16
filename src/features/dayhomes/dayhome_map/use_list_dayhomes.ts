@@ -14,7 +14,7 @@ export function useListDayhomes(
   const listDayhomes = useServerFn(listDayhomesFn);
 
   return useQuery({
-    enabled: !!boundingBox,
+    // enabled: !!boundingBox,
     queryKey: dayhomeKeys.list({ boundingBox }),
     queryFn: async () => {
       return await listDayhomes({

@@ -7,26 +7,46 @@ import {
   filterSearchParams,
 } from "@/features/dayhomes/dayhome_search";
 import { geocodeFn } from "@/lib/geocoding/geocode.fn";
+import type { LatLng } from "@/lib/geocoding/types";
 import { createFileRoute } from "@tanstack/react-router";
-import { LatLngBounds } from "leaflet";
+import type { LatLngBounds } from "leaflet";
 import { useState } from "react";
+import z from "zod";
+
+const searchParamSchema = z.object({
+  l: z.string().optional(),
+});
+
+const zMapStateFromSearch = z.string().optional().transform((s) => {
+  if (!s) return;
+  const [latitude, longitude, zoom] = s?.split(",");
+  return {
+    latitude: Number(latitude),
+    longitude: Number(longitude),
+    zoom: Number(zoom),
+  };
+});
+
+const defaultCenter = { latitude: 53.4892, longitude: -113.565081, zoom: 12 };
 
 export const Route = createFileRoute("/map/")({
   ssr: "data-only",
   component: RouteComponent,
-  validateSearch: filterSearchParams,
+  validateSearch: z.object({
+    ...searchParamSchema.shape,
+    ...filterSearchParams.shape,
+  }),
   loaderDeps: ({ search: { postalCode } }) => ({ postalCode: postalCode }),
   loader: async ({ deps: { postalCode } }) => {
     const geocode = await geocodeFn({ data: { query: postalCode } });
     return { geocode };
   },
 });
+
 function RouteComponent() {
   const { geocode } = Route.useLoaderData();
-  const { postalCode } = Route.useSearch();
-
-  const initialCenter = geocode ??
-    { latitude: 53.4892, longitude: -113.565081 };
+  const { postalCode, l } = Route.useSearch();
+  const navigate = Route.useNavigate();
 
   const [bounds, setBounds] = useState<LatLngBounds | null>(null);
 
@@ -39,13 +59,34 @@ function RouteComponent() {
       : undefined,
   });
 
+  const handleMoveEnd = async (
+    { center, zoom, bounds }: {
+      center: LatLng;
+      zoom: number;
+      bounds: LatLngBounds;
+    },
+  ) => {
+    // setBounds(bounds);
+    const atParam = `${center.latitude},${center.longitude},${zoom}`;
+    await navigate({ search: { l: atParam, postalCode: postalCode } });
+  };
+
+  const mapState = zMapStateFromSearch.parse(l);
+  const initialCenter = (mapState &&
+    {
+      latitude: mapState.latitude!,
+      longitude: mapState.longitude!,
+    } satisfies LatLng) ??
+    geocode ??
+    defaultCenter;
+
   return (
     <div className="">
       <div className="">
         <DayhomeMap
           center={initialCenter}
           items={data ?? []}
-          onBoundsChange={setBounds}
+          onMoveEnd={handleMoveEnd}
         />
       </div>
 
