@@ -53,6 +53,7 @@ function RouteComponent() {
   const navigate = Route.useNavigate();
 
   const [bounds, setBounds] = useState<LatLngBounds | null>(null);
+  const [sheetDismissed, setSheetDismissed] = useState(false);
 
   // todo: refactor this into it's own hook and context to be shared deeper
   const { data } = useListDayhomes({
@@ -63,6 +64,11 @@ function RouteComponent() {
       }
       : undefined,
   });
+
+  const handleSelect = (id: string) => {
+    setSheetDismissed(false);
+    navigate({ search: (prev) => ({ ...prev, f: id }) });
+  };
 
   const handleMoveEnd = async (
     { center, zoom, bounds }: {
@@ -95,8 +101,8 @@ function RouteComponent() {
           center={initialCenter}
           items={data ?? []}
           onMoveEnd={handleMoveEnd}
-          onSelect={(id: string) =>
-            navigate({ search: (prev) => ({ ...prev, f: id }) })}
+          onSelect={handleSelect}
+          onDragStart={() => setSheetDismissed(true)}
         />
       </div>
 
@@ -110,7 +116,12 @@ function RouteComponent() {
       </div>
 
       <div className="fixed bottom-0 w-full mx-2">
-        {f && <DayhomeSheetPreview dayhomeId={f} />}
+        {f && (
+          <DayhomeSheetPreview
+            isDismissed={sheetDismissed}
+            dayhomeId={f}
+          />
+        )}
       </div>
     </div>
   );

@@ -2,29 +2,39 @@ import { Sheet, SheetRef } from "react-modal-sheet";
 import { useGetDayhome } from "../get_dayhome/use_get_dayhome";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants, LinkButton } from "@/components/ui/button";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { googleDirections } from "@/lib/geocoding/constant_data";
 
 const snapPoints = [0, 40, 0.7, 1];
+const maxSnap = snapPoints.length - 1;
 
 type Props = {
+  isDismissed: boolean;
   dayhomeId: string;
 };
 
-export function DayhomeSheetPreview({ dayhomeId }: Props) {
+export function DayhomeSheetPreview({ isDismissed, dayhomeId }: Props) {
   const { data, isPending } = useGetDayhome(dayhomeId);
+  const [snapPoint, setSnapPoint] = useState(2);
   const sheetRef = useRef<SheetRef>(null);
 
+  const shrink = () => {
+    sheetRef.current?.snapTo(1);
+  };
+
+  const expand = () => {
+    sheetRef.current?.snapTo(2);
+  };
+
   useEffect(() => {
-    if (isPending) {
-      sheetRef.current?.snapTo(1);
-      return;
+    if (isPending || isDismissed) {
+      return shrink();
     }
 
     if (data && !isPending) {
-      sheetRef.current?.snapTo(2);
+      return expand();
     }
-  }, [data, isPending]);
+  }, [data, isPending, isDismissed]);
 
   return (
     <Sheet
@@ -32,15 +42,16 @@ export function DayhomeSheetPreview({ dayhomeId }: Props) {
       isOpen
       ref={sheetRef}
       onClose={() => {}}
-      initialSnap={2}
+      initialSnap={snapPoint}
       dragSnapToOrigin
       snapPoints={snapPoints}
+      onSnap={(snap) => setSnapPoint(snap)}
       disableDismiss
     >
       <Sheet.Container className="max-h-[60vh]">
-        <Sheet.Header onClick={() => sheetRef.current?.snapTo(2)} />
+        <Sheet.Header onClick={expand} />
         <Sheet.Content
-          disableScroll={(state) => state.currentSnap !== snapPoints.length - 1}
+          disableScroll={(state) => state.currentSnap !== maxSnap}
         >
           {!data ? undefined : (
             <div className="px-6">

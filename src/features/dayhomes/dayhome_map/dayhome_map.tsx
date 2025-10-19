@@ -19,6 +19,7 @@ type Props = {
   items: ListDayhomesData;
   onMoveEnd: (data: MapState) => void;
   onSelect: (id: string) => void;
+  onDragStart: () => void;
 };
 
 type MapState = {
@@ -28,7 +29,9 @@ type MapState = {
   selectedId?: string;
 };
 
-export function DayhomeMap({ center, items, onMoveEnd, onSelect }: Props) {
+export function DayhomeMap(
+  { center, items, onMoveEnd, onSelect, onDragStart }: Props,
+) {
   return (
     <MapContainer
       style={{ height: "100vh", width: "100%", isolation: "isolate" }}
@@ -69,6 +72,7 @@ export function DayhomeMap({ center, items, onMoveEnd, onSelect }: Props) {
         items={items}
         onMoveEnd={onMoveEnd}
         onSelect={onSelect}
+        onDragStart={onDragStart}
       />
     </MapContainer>
   );
@@ -79,6 +83,7 @@ function InnerMap(
     items: ListDayhomesData;
     onMoveEnd: (data: MapState) => void;
     onSelect: (id: string) => void;
+    onDragStart: () => void;
   },
 ) {
   const map = useMap();
@@ -109,6 +114,9 @@ function InnerMap(
   }, { wait: 500 });
 
   useMapEvents({
+    dragstart: () => {
+      props.onDragStart();
+    },
     moveend: () => {
       const center = map.getCenter();
       mapStateChange({
