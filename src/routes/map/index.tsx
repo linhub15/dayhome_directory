@@ -75,6 +75,7 @@ function RouteComponent() {
     const atParam = `${center.latitude},${center.longitude},${zoom}`;
     await navigate({
       search: (prev) => ({ ...prev, l: atParam, postalCode: postalCode }),
+      replace: true,
     });
   };
 

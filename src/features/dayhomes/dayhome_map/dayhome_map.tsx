@@ -34,7 +34,7 @@ export function DayhomeMap({ center, items, onMoveEnd, onSelect }: Props) {
       style={{ height: "100vh", width: "100%", isolation: "isolate" }}
       center={{ lat: center.latitude, lng: center.longitude }}
       // Zoom
-      zoom={12}
+      zoom={11}
       zoomControl={false}
       zoomAnimation={true}
       markerZoomAnimation={true}

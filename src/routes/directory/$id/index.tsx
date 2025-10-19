@@ -11,6 +11,7 @@ import {
   getDayhomeFn,
   type GetDayhomeResponse,
 } from "@/features/dayhomes/get_dayhome.fn";
+import { googleDirections } from "@/lib/geocoding/constant_data";
 import { weekdayIso } from "@/lib/maps/weekday";
 import { cn } from "@/lib/utils/cn";
 import { createFileRoute, notFound } from "@tanstack/react-router";
@@ -41,11 +42,6 @@ function RouteComponent() {
     ageGroups,
   } = Route
     .useLoaderData();
-
-  const googleDirections =
-    `https://www.google.com/maps/dir/?api=1&destination=${
-      encodeURIComponent(address)
-    }`;
 
   return (
     <div className="max-w-xl mx-auto py-8 space-y-6">
@@ -99,7 +95,7 @@ function RouteComponent() {
 
             <a
               className={buttonVariants({ variant: "outline" })}
-              href={googleDirections}
+              href={googleDirections(address)}
               target="_blank"
             >
               Directions

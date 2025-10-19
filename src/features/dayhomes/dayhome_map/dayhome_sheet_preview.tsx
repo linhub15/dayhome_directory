@@ -1,8 +1,9 @@
 import { Sheet, SheetRef } from "react-modal-sheet";
 import { useGetDayhome } from "../get_dayhome/use_get_dayhome";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants, LinkButton } from "@/components/ui/button";
+import { buttonVariants, LinkButton } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
+import { googleDirections } from "@/lib/geocoding/constant_data";
 
 const snapPoints = [0, 40, 0.7, 1];
 
@@ -37,19 +38,18 @@ export function DayhomeSheetPreview({ dayhomeId }: Props) {
       disableDismiss
     >
       <Sheet.Container className="max-h-[60vh]">
-        <Sheet.Header />
+        <Sheet.Header onClick={() => sheetRef.current?.snapTo(2)} />
         <Sheet.Content
-          disableDrag={(state) => state.scrollPosition !== "top"}
           disableScroll={(state) => state.currentSnap !== snapPoints.length - 1}
         >
           {!data ? undefined : (
             <div className="px-6">
-              <div className="flex justify-between pb-4">
+              <div className="flex justify-between items-start pb-4">
                 <span>{data.name}</span>
                 {data.isLicensed && <Badge>Licensed</Badge>}
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 {data.ageGroups?.map((ageGroup) => (
                   <Badge
                     className="capitalize"
@@ -67,7 +67,15 @@ export function DayhomeSheetPreview({ dayhomeId }: Props) {
                     {data.address}
                   </span>
 
-                  <Button variant="outline" size="sm">Directions</Button>
+                  <a
+                    className={buttonVariants({
+                      variant: "outline",
+                      size: "sm",
+                    })}
+                    href={googleDirections(data.address)}
+                  >
+                    Directions
+                  </a>
                 </div>
 
                 {data.phone &&
