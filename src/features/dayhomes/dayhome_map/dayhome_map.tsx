@@ -18,21 +18,23 @@ type Props = {
   center: LatLng;
   items: ListDayhomesData;
   onMoveEnd: (data: MapState) => void;
+  onSelect: (id: string) => void;
 };
 
 type MapState = {
   center: LatLng;
   zoom: number;
   bounds: LatLngBounds;
+  selectedId?: string;
 };
 
-export function DayhomeMap({ center, items, onMoveEnd }: Props) {
+export function DayhomeMap({ center, items, onMoveEnd, onSelect }: Props) {
   return (
     <MapContainer
       style={{ height: "100vh", width: "100%", isolation: "isolate" }}
       center={{ lat: center.latitude, lng: center.longitude }}
       // Zoom
-      zoom={13}
+      zoom={12}
       zoomControl={false}
       zoomAnimation={true}
       markerZoomAnimation={true}
@@ -66,6 +68,7 @@ export function DayhomeMap({ center, items, onMoveEnd }: Props) {
       <InnerMap
         items={items}
         onMoveEnd={onMoveEnd}
+        onSelect={onSelect}
       />
     </MapContainer>
   );
@@ -75,6 +78,7 @@ function InnerMap(
   props: {
     items: ListDayhomesData;
     onMoveEnd: (data: MapState) => void;
+    onSelect: (id: string) => void;
   },
 ) {
   const map = useMap();
@@ -127,12 +131,25 @@ function InnerMap(
           icon={mapMarkerIcon}
           title={item.name}
           autoPanOnFocus={false}
+          eventHandlers={{
+            click: () => {
+              props.onSelect(item.id);
+
+              const targetZoom = map.getZoom();
+              const targetPoint = map.project(item.position, targetZoom)
+                .subtract([0, map.getSize().y / -4]);
+              const targetLatLng = map.unproject(targetPoint, targetZoom);
+              map.setView(targetLatLng, targetZoom);
+            },
+          }}
         >
-          <Tooltip permanent interactive>
-            <div className="text-base font-normal text-black px-2 text-shadow-md text-shadow-white">
-              {item.name}
-            </div>
-          </Tooltip>
+          {map.getZoom() >= 14 && (
+            <Tooltip permanent interactive>
+              <div className="text-base font-normal text-black px-2 text-shadow-md text-shadow-white">
+                {item.name}
+              </div>
+            </Tooltip>
+          )}
         </Marker>
       ))}
     </>

@@ -1,11 +1,12 @@
 import { LinkButton } from "@/components/ui/button";
-import { DayhomeList } from "@/features/dayhomes/dayhome_map/dayhome_list";
 import { DayhomeMap } from "@/features/dayhomes/dayhome_map/dayhome_map";
+import { DayhomeSheetPreview } from "@/features/dayhomes/dayhome_map/dayhome_sheet_preview";
 import { useListDayhomes } from "@/features/dayhomes/dayhome_map/use_list_dayhomes";
 import {
   DayhomeSearch,
   filterSearchParams,
 } from "@/features/dayhomes/dayhome_search";
+import { EDMONTON } from "@/lib/geocoding/constant_data";
 import { geocodeFn } from "@/lib/geocoding/geocode.fn";
 import type { LatLng } from "@/lib/geocoding/types";
 import { createFileRoute } from "@tanstack/react-router";
@@ -14,7 +15,10 @@ import { useState } from "react";
 import z from "zod";
 
 const searchParamSchema = z.object({
+  /** Location details */
   l: z.string().optional(),
+  /** Facility id*/
+  f: z.string().optional(),
 });
 
 const zMapStateFromSearch = z.string().optional().transform((s) => {
@@ -27,7 +31,7 @@ const zMapStateFromSearch = z.string().optional().transform((s) => {
   };
 });
 
-const defaultCenter = { latitude: 53.4892, longitude: -113.565081, zoom: 12 };
+const defaultCenter = { ...EDMONTON, zoom: 11 };
 
 export const Route = createFileRoute("/map/")({
   ssr: "data-only",
@@ -45,11 +49,12 @@ export const Route = createFileRoute("/map/")({
 
 function RouteComponent() {
   const { geocode } = Route.useLoaderData();
-  const { postalCode, l } = Route.useSearch();
+  const { postalCode, l, f } = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const [bounds, setBounds] = useState<LatLngBounds | null>(null);
 
+  // todo: refactor this into it's own hook and context to be shared deeper
   const { data } = useListDayhomes({
     boundingBox: bounds
       ? {
@@ -68,7 +73,9 @@ function RouteComponent() {
   ) => {
     // setBounds(bounds);
     const atParam = `${center.latitude},${center.longitude},${zoom}`;
-    await navigate({ search: { l: atParam, postalCode: postalCode } });
+    await navigate({
+      search: (prev) => ({ ...prev, l: atParam, postalCode: postalCode }),
+    });
   };
 
   const mapState = zMapStateFromSearch.parse(l);
@@ -87,6 +94,8 @@ function RouteComponent() {
           center={initialCenter}
           items={data ?? []}
           onMoveEnd={handleMoveEnd}
+          onSelect={(id: string) =>
+            navigate({ search: (prev) => ({ ...prev, f: id }) })}
         />
       </div>
 
@@ -100,7 +109,7 @@ function RouteComponent() {
       </div>
 
       <div className="fixed bottom-0 w-full mx-2">
-        <DayhomeList items={data ?? []} />
+        {f && <DayhomeSheetPreview dayhomeId={f} />}
       </div>
     </div>
   );
