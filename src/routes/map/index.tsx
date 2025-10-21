@@ -1,4 +1,4 @@
-import { LinkButton } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
 import { DayhomeMap } from "@/features/dayhomes/dayhome_map/dayhome_map";
 import { DayhomeSheetPreview } from "@/features/dayhomes/dayhome_map/dayhome_sheet_preview";
 import {
@@ -6,12 +6,7 @@ import {
   filterModalSearchSchema,
 } from "@/features/dayhomes/dayhome_map/filter_modal";
 import { useListDayhomes } from "@/features/dayhomes/dayhome_map/use_list_dayhomes";
-import {
-  DayhomeSearch,
-  filterSearchParams,
-} from "@/features/dayhomes/dayhome_search";
 import { EDMONTON } from "@/lib/geocoding/constant_data";
-import { geocodeFn } from "@/lib/geocoding/geocode.fn";
 import type { LatLng } from "@/lib/geocoding/types";
 import { createFileRoute } from "@tanstack/react-router";
 import type { LatLngBounds } from "leaflet";
@@ -43,18 +38,11 @@ export const Route = createFileRoute("/map/")({
   component: RouteComponent,
   validateSearch: z.object({
     ...searchParamSchema.shape,
-    ...filterSearchParams.shape,
   }),
-  loaderDeps: ({ search: { postalCode } }) => ({ postalCode: postalCode }),
-  loader: async ({ deps: { postalCode } }) => {
-    const geocode = await geocodeFn({ data: { query: postalCode } });
-    return { geocode };
-  },
 });
 
 function RouteComponent() {
-  const { geocode } = Route.useLoaderData();
-  const { postalCode, l, f, filters } = Route.useSearch();
+  const { l, f, filters } = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const [bounds, setBounds] = useState<LatLngBounds | null>(null);
@@ -72,22 +60,22 @@ function RouteComponent() {
 
   const dayhomes = data?.filter((item) => {
     if (!filters) return true;
-    return (filters.includePrivate ? true : item.isLicensed) &&
-      (filters.ageGroups?.infant
-        ? true
-        : !item.ageGroups?.includes("infant")) &&
-      (filters.ageGroups?.toddler
-        ? true
-        : !item.ageGroups?.includes("toddler")) &&
-      (filters.ageGroups?.preschool
-        ? true
-        : !item.ageGroups?.includes("preschool")) &&
-      (filters.ageGroups?.kindergarten
-        ? true
-        : !item.ageGroups?.includes("kindergarten")) &&
-      (filters.ageGroups?.grade_school
-        ? true
-        : !item.ageGroups?.includes("grade_school"));
+    return (filters.includePrivate ? true : item.isLicensed);
+    // (filters.ageGroups?.infant
+    //   ? item.ageGroups?.includes("infant")
+    //   : !item.ageGroups?.includes("infant")) &&
+    // (filters.ageGroups?.toddler
+    //   ? item.ageGroups?.includes("toddler")
+    //   : !item.ageGroups?.includes("toddler")) &&
+    // (filters.ageGroups?.preschool
+    //   ? item.ageGroups?.includes("preschool")
+    //   : !item.ageGroups?.includes("preschool")) &&
+    // (filters.ageGroups?.kindergarten
+    //   ? item.ageGroups?.includes("kindergarten")
+    //   : !item.ageGroups?.includes("kindergarten")) &&
+    // (filters.ageGroups?.grade_school
+    //   ? item.ageGroups?.includes("grade_school")
+    //   : !item.ageGroups?.includes("grade_school"));
   });
 
   const handleSelect = (id: string) => {
@@ -105,7 +93,7 @@ function RouteComponent() {
     // setBounds(bounds);
     const atParam = `${center.latitude},${center.longitude},${zoom}`;
     await navigate({
-      search: (prev) => ({ ...prev, l: atParam, postalCode: postalCode }),
+      search: (prev) => ({ ...prev, l: atParam }),
       replace: true,
     });
   };
@@ -116,7 +104,6 @@ function RouteComponent() {
       latitude: mapState.latitude!,
       longitude: mapState.longitude!,
     } satisfies LatLng) ??
-    geocode ??
     defaultCenter;
 
   return (
@@ -132,12 +119,17 @@ function RouteComponent() {
       </div>
 
       <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-4 max-w-lg w-full px-2">
-        <div className="flex gap-4">
+        <div className="flex gap-4 justify-between">
           <LinkButton to="/home" variant="outline">
             <HomeIcon />
           </LinkButton>
 
-          <DayhomeSearch value={postalCode} />
+          <Button
+            variant="secondary"
+            onClick={() => alert("Not done yet, going to implement this next")}
+          >
+            Use my location
+          </Button>
 
           <FilterModal
             filters={filters}
