@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants, LinkButton } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -29,7 +29,6 @@ export const Route = createFileRoute("/directory/$id/")({
 });
 
 function RouteComponent() {
-  const id = Route.useParams().id;
   const {
     name,
     location,
@@ -113,12 +112,6 @@ function RouteComponent() {
             <OpenHours openHours={openHours} />
           </div>
         </CardContent>
-
-        <CardFooter>
-          <LinkButton to="/directory/$id/edit" params={{ id: id }}>
-            Edit
-          </LinkButton>
-        </CardFooter>
       </Card>
     </div>
   );

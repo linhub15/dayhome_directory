@@ -1,6 +1,10 @@
 import { LinkButton } from "@/components/ui/button";
 import { DayhomeMap } from "@/features/dayhomes/dayhome_map/dayhome_map";
 import { DayhomeSheetPreview } from "@/features/dayhomes/dayhome_map/dayhome_sheet_preview";
+import {
+  FilterModal,
+  filterModalSearchSchema,
+} from "@/features/dayhomes/dayhome_map/filter_modal";
 import { useListDayhomes } from "@/features/dayhomes/dayhome_map/use_list_dayhomes";
 import {
   DayhomeSearch,
@@ -19,6 +23,7 @@ const searchParamSchema = z.object({
   l: z.string().optional(),
   /** Facility id*/
   f: z.string().optional(),
+  filters: filterModalSearchSchema.optional(),
 });
 
 const zMapStateFromSearch = z.string().optional().transform((s) => {
@@ -49,7 +54,7 @@ export const Route = createFileRoute("/map/")({
 
 function RouteComponent() {
   const { geocode } = Route.useLoaderData();
-  const { postalCode, l, f } = Route.useSearch();
+  const { postalCode, l, f, filters } = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const [bounds, setBounds] = useState<LatLngBounds | null>(null);
@@ -63,6 +68,26 @@ function RouteComponent() {
         max: { latitude: bounds.getNorth(), longitude: bounds.getEast() },
       }
       : undefined,
+  });
+
+  const dayhomes = data?.filter((item) => {
+    if (!filters) return true;
+    return (filters.includePrivate ? true : item.isLicensed) &&
+      (filters.ageGroups?.infant
+        ? true
+        : !item.ageGroups?.includes("infant")) &&
+      (filters.ageGroups?.toddler
+        ? true
+        : !item.ageGroups?.includes("toddler")) &&
+      (filters.ageGroups?.preschool
+        ? true
+        : !item.ageGroups?.includes("preschool")) &&
+      (filters.ageGroups?.kindergarten
+        ? true
+        : !item.ageGroups?.includes("kindergarten")) &&
+      (filters.ageGroups?.grade_school
+        ? true
+        : !item.ageGroups?.includes("grade_school"));
   });
 
   const handleSelect = (id: string) => {
@@ -95,11 +120,11 @@ function RouteComponent() {
     defaultCenter;
 
   return (
-    <div className="">
-      <div className="">
+    <div>
+      <div>
         <DayhomeMap
           center={initialCenter}
-          items={data ?? []}
+          items={dayhomes ?? []}
           onMoveEnd={handleMoveEnd}
           onSelect={handleSelect}
           onDragStart={() => setSheetDismissed(true)}
@@ -111,7 +136,16 @@ function RouteComponent() {
           <LinkButton to="/home" variant="outline">
             <HomeIcon />
           </LinkButton>
+
           <DayhomeSearch value={postalCode} />
+
+          <FilterModal
+            filters={filters}
+            onFilterChange={(filters) =>
+              navigate({
+                search: (prev) => ({ ...prev, filters: filters }),
+              })}
+          />
         </div>
       </div>
 

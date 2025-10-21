@@ -24,7 +24,7 @@ export function DayhomeSearch(props: { value?: string }) {
   };
 
   return (
-    <div className="w-full">
+    <div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -32,9 +32,9 @@ export function DayhomeSearch(props: { value?: string }) {
           onSubmit();
         }}
       >
-        <div className="flex gap-3">
+        <div className="flex gap-1">
           <Input
-            className="bg-background"
+            className="bg-background w-60"
             type="search"
             placeholder="Postal Code e.g. T5A0A7"
             value={value}

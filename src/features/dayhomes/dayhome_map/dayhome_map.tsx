@@ -103,10 +103,7 @@ function InnerMap(
       return;
     }
 
-    setMarkers((prev) => [
-      ...prev,
-      ...items.filter((item) => !markers.map((m) => m.id).includes(item.id)),
-    ]);
+    setMarkers(items);
   }, [items.length]);
 
   const mapStateChange = debounce((data: MapState) => {
