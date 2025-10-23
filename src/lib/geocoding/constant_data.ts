@@ -6,7 +6,7 @@ export const EDMONTON = {
 } satisfies LatLng;
 
 export function googleDirections(address: string): string {
-  return `https://www.google.com/maps/dir/?api=1&destination=${
-    encodeURIComponent(address)
-  }`;
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+    address,
+  )}`;
 }

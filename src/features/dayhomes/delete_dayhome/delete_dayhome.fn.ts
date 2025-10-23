@@ -10,6 +10,5 @@ export const deleteDayhomeFn = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { db } = context;
 
-    await db.delete(dayhome)
-      .where(eq(dayhome.id, data.dayhomeId));
+    await db.delete(dayhome).where(eq(dayhome.id, data.dayhomeId));
   });

@@ -30,9 +30,14 @@ type MapState = {
   selectedId?: string;
 };
 
-export function DayhomeMap(
-  { ref, center, items, onMoveEnd, onSelect, onDragStart }: Props,
-) {
+export function DayhomeMap({
+  ref,
+  center,
+  items,
+  onMoveEnd,
+  onSelect,
+  onDragStart,
+}: Props) {
   return (
     <MapContainer
       style={{ height: "100vh", width: "100%", isolation: "isolate" }}
@@ -80,15 +85,13 @@ export function DayhomeMap(
   );
 }
 
-function InnerMap(
-  props: {
-    ref: Ref<{ locate: () => void }>;
-    items: ListDayhomesData;
-    onMoveEnd: (data: MapState) => void;
-    onSelect: (id: string) => void;
-    onDragStart: () => void;
-  },
-) {
+function InnerMap(props: {
+  ref: Ref<{ locate: () => void }>;
+  items: ListDayhomesData;
+  onMoveEnd: (data: MapState) => void;
+  onSelect: (id: string) => void;
+  onDragStart: () => void;
+}) {
   const map = useMap();
 
   useImperativeHandle(props.ref, () => {
@@ -99,13 +102,14 @@ function InnerMap(
     };
   }, [map]);
 
-  const items = props.items?.map((d) => ({
-    id: d.id,
-    name: d.name,
-    position: { lat: d.location.y, lng: d.location.x } as LatLngExpression,
-    isLicensed: d.isLicensed,
-    ageGroups: d.ageGroups || [],
-  })) ?? [];
+  const items =
+    props.items?.map((d) => ({
+      id: d.id,
+      name: d.name,
+      position: { lat: d.location.y, lng: d.location.x } as LatLngExpression,
+      isLicensed: d.isLicensed,
+      ageGroups: d.ageGroups || [],
+    })) ?? [];
 
   const [markers, setMarkers] = useState<typeof items>([]);
 
@@ -117,9 +121,12 @@ function InnerMap(
     setMarkers(items);
   }, [items.length]);
 
-  const mapStateChange = debounce((data: MapState) => {
-    props.onMoveEnd(data);
-  }, { wait: 500 });
+  const mapStateChange = debounce(
+    (data: MapState) => {
+      props.onMoveEnd(data);
+    },
+    { wait: 500 },
+  );
 
   useMapEvents({
     dragstart: () => {
@@ -152,7 +159,8 @@ function InnerMap(
               props.onSelect(item.id);
 
               const targetZoom = map.getZoom();
-              const targetPoint = map.project(item.position, targetZoom)
+              const targetPoint = map
+                .project(item.position, targetZoom)
                 .subtract([0, map.getSize().y / -4]);
               const targetLatLng = map.unproject(targetPoint, targetZoom);
               map.setView(targetLatLng, targetZoom);

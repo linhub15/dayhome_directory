@@ -20,7 +20,7 @@ const ageGroup = [
   "kindergarten",
   "grade_school",
 ] as const;
-type AgeGroupKey = typeof ageGroup[number];
+type AgeGroupKey = (typeof ageGroup)[number];
 const ageGroupsOptions = {
   infant: "Infant",
   toddler: "Toddler",
@@ -31,13 +31,15 @@ const ageGroupsOptions = {
 
 const filterModalSearchSchema = z.object({
   onlyLicensed: z.boolean().optional(),
-  ageGroups: z.object({
-    infant: z.boolean(),
-    toddler: z.boolean(),
-    preschool: z.boolean(),
-    kindergarten: z.boolean(),
-    grade_school: z.boolean(),
-  }).optional(),
+  ageGroups: z
+    .object({
+      infant: z.boolean(),
+      toddler: z.boolean(),
+      preschool: z.boolean(),
+      kindergarten: z.boolean(),
+      grade_school: z.boolean(),
+    })
+    .optional(),
 });
 
 type Filter = z.infer<typeof filterModalSearchSchema>;
@@ -62,10 +64,10 @@ function FilterModal(props: Props) {
         grade_school: false,
       },
     } satisfies Filter,
-    onSubmit: (({ value }) => {
+    onSubmit: ({ value }) => {
       props.onFilterChange?.(value);
       setOpen(false);
-    }),
+    },
   });
 
   return (
@@ -134,10 +136,11 @@ function FilterModal(props: Props) {
                       <Badge
                         className="cursor-pointer select-none"
                         size="lg"
-                        variant={field.state
-                            .value[key as AgeGroupKey]
-                          ? "default"
-                          : "outline"}
+                        variant={
+                          field.state.value[key as AgeGroupKey]
+                            ? "default"
+                            : "outline"
+                        }
                       >
                         <Checkbox
                           checked={field.state.value[key as AgeGroupKey]}
@@ -145,7 +148,8 @@ function FilterModal(props: Props) {
                             field.handleChange((prev) => ({
                               ...prev,
                               [key]: e,
-                            }))}
+                            }))
+                          }
                         />
                         {ageGroupsOptions[key as AgeGroupKey]}
                       </Badge>

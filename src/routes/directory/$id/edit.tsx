@@ -158,7 +158,8 @@ function RouteComponent() {
                           field.setValue((prev) => ({
                             ...prev,
                             latitude: +e.currentTarget.value,
-                          }))}
+                          }))
+                        }
                         disabled
                       />
                     </div>
@@ -173,17 +174,20 @@ function RouteComponent() {
                           field.setValue((prev) => ({
                             ...prev,
                             longitude: +e.currentTarget.value,
-                          }))}
+                          }))
+                        }
                         disabled
                       />
                     </div>
                   </div>
                   <div>
                     <PinnedMap
-                      location={geocode && {
-                        lat: geocode.latitude,
-                        lng: geocode?.longitude,
-                      }}
+                      location={
+                        geocode && {
+                          lat: geocode.latitude,
+                          lng: geocode?.longitude,
+                        }
+                      }
                     />
                   </div>
                 </Field>
@@ -273,13 +277,13 @@ function RouteComponent() {
                       <OpenHourInput
                         key={weekday}
                         weekday={weekday}
-                        value={field.state.value.find((v) =>
-                          v.weekday === weekday
+                        value={field.state.value.find(
+                          (v) => v.weekday === weekday,
                         )}
                         onChange={(value) =>
                           field.setValue((prev) => {
-                            const existing = prev.find((v) =>
-                              v.weekday === weekday
+                            const existing = prev.find(
+                              (v) => v.weekday === weekday,
                             );
 
                             if (existing) {
@@ -288,12 +292,16 @@ function RouteComponent() {
                               return [...prev];
                             }
 
-                            return [...prev, {
-                              id: crypto.randomUUID(),
-                              weekday: weekday,
-                              ...value,
-                            }];
-                          })}
+                            return [
+                              ...prev,
+                              {
+                                id: crypto.randomUUID(),
+                                weekday: weekday,
+                                ...value,
+                              },
+                            ];
+                          })
+                        }
                       />
                     ))}
                   </div>
@@ -316,7 +324,9 @@ function RouteComponent() {
             </form.Field>
 
             <div className="flex justify-between">
-              <LinkButton variant="secondary" to="..">Cancel</LinkButton>
+              <LinkButton variant="secondary" to="..">
+                Cancel
+              </LinkButton>
               <Button type="submit">Save</Button>
             </div>
           </form>
@@ -335,13 +345,15 @@ function RouteComponent() {
   );
 }
 
-function OpenHourInput(
-  { weekday, value, onChange }: {
-    weekday: 1 | 2 | 3 | 4 | 5 | 6 | 7;
-    value: { openAt: string; closeAt: string } | undefined;
-    onChange: (value: { openAt: string; closeAt: string }) => void;
-  },
-) {
+function OpenHourInput({
+  weekday,
+  value,
+  onChange,
+}: {
+  weekday: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  value: { openAt: string; closeAt: string } | undefined;
+  onChange: (value: { openAt: string; closeAt: string }) => void;
+}) {
   return (
     <div className="grid grid-cols-3">
       <span>{weekdayIso[weekday]}</span>
@@ -352,7 +364,8 @@ function OpenHourInput(
           onChange({
             openAt: e.currentTarget.value,
             closeAt: value?.closeAt || "",
-          })}
+          })
+        }
       />
       <Input
         type="time"
@@ -361,7 +374,8 @@ function OpenHourInput(
           onChange({
             openAt: value?.openAt || "",
             closeAt: e.currentTarget.value,
-          })}
+          })
+        }
       />
     </div>
   );

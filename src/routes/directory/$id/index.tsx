@@ -39,8 +39,7 @@ function RouteComponent() {
     agencyName,
     openHours,
     ageGroups,
-  } = Route
-    .useLoaderData();
+  } = Route.useLoaderData();
 
   return (
     <div className="max-w-xl mx-auto py-8 space-y-6">
@@ -51,12 +50,12 @@ function RouteComponent() {
               <h1 className="text-lg">{name}</h1>
               <div className="text-xs italic text-slate-700">{agencyName}</div>
             </div>
-            {isLicensed &&
-              (
-                <Badge>
-                  <CheckIcon />Licensed
-                </Badge>
-              )}
+            {isLicensed && (
+              <Badge>
+                <CheckIcon />
+                Licensed
+              </Badge>
+            )}
           </div>
         </CardHeader>
 
@@ -103,9 +102,7 @@ function RouteComponent() {
         </CardHeader>
         <CardContent>
           <div>
-            <PinnedMap
-              location={{ lat: location.y, lng: location.x }}
-            />
+            <PinnedMap location={{ lat: location.y, lng: location.x }} />
           </div>
 
           <div className="py-4">
@@ -119,9 +116,7 @@ function RouteComponent() {
 
 type OpenHours = GetDayhomeResponse["openHours"];
 
-function OpenHours(
-  { openHours }: { openHours: OpenHours },
-) {
+function OpenHours({ openHours }: { openHours: OpenHours }) {
   const hr = (time: string) => {
     const [hourStr, minuteStr] = time.split(":");
     const hour = Number(hourStr);
@@ -148,9 +143,7 @@ function OpenHours(
         <div className="grid grid-cols-2" key={key}>
           <span className="text-sm">{value}</span>
           <span>
-            {format(openHours.find((x) =>
-              x.weekday === Number(key)
-            ))}
+            {format(openHours.find((x) => x.weekday === Number(key)))}
           </span>
         </div>
       ))}

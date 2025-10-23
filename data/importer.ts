@@ -1,7 +1,7 @@
 import { parse } from "@std/csv";
 import * as z from "@zod/zod";
-import { ageGroup as ageGroupEnum } from "../src/lib/db/schema.ts";
-import { InferEnum } from "drizzle-orm";
+import type { ageGroup as ageGroupEnum } from "../src/lib/db/schema.ts";
+import type { InferEnum } from "drizzle-orm";
 import { hoursToTimeString } from "./utils.ts";
 
 const spreadsheetId = Deno.env.get("DATA_SPREADSHEET_ID");
@@ -33,7 +33,7 @@ const safeString = z
   .optional()
   .transform((x) => x || undefined);
 const timeNumber = safeString.transform((x) =>
-  x ? hoursToTimeString(Number(x)) : undefined
+  x ? hoursToTimeString(Number(x)) : undefined,
 );
 
 type AgeGroup = InferEnum<typeof ageGroupEnum>;

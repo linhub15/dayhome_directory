@@ -52,9 +52,7 @@ export async function forwardGeocode(query: string) {
     coordinates: z.tuple([z.number(), z.number()]),
   });
 
-  const { coordinates } = geometry.parse(
-    response.features.at(0)?.geometry,
-  );
+  const { coordinates } = geometry.parse(response.features.at(0)?.geometry);
 
   const location = {
     latitude: coordinates[1],

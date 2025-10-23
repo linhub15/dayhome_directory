@@ -25,8 +25,7 @@ export function DayhomeListCard(props: Props) {
               {props.agencyName}
             </div>
           </div>
-          {props.isLicensed &&
-            <Badge>Licensed</Badge>}
+          {props.isLicensed && <Badge>Licensed</Badge>}
         </div>
         <div>
           {props.ageGroups?.map((ageGroup) => (
@@ -41,8 +40,7 @@ export function DayhomeListCard(props: Props) {
         </div>
         <div className="text-slate-600 text-sm">{props.address}</div>
       </CardHeader>
-      <CardContent>
-      </CardContent>
+      <CardContent></CardContent>
     </Card>
   );
 }

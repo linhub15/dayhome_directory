@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "cva";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils/cn";
-import { Link, LinkProps } from "@tanstack/react-router";
+import { Link, type LinkProps } from "@tanstack/react-router";
 
 const buttonVariants = cva({
   base: [
@@ -41,10 +41,8 @@ function Button({
   size,
   asChild = false,
   ...props
-}:
-  & React.ComponentProps<"button">
-  & VariantProps<typeof buttonVariants>
-  & {
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";
@@ -63,10 +61,8 @@ function LinkButton({
   variant,
   size,
   ...props
-}:
-  & LinkProps
-  & VariantProps<typeof buttonVariants>
-  & {
+}: LinkProps &
+  VariantProps<typeof buttonVariants> & {
     className?: string;
   }) {
   return (

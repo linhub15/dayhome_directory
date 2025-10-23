@@ -30,9 +30,14 @@ const requestSchema = createUpdateSchema(dayhome)
           closeAt: true,
         })
         .extend({
-          weekday: z.literal(1).or(z.literal(2)).or(z.literal(3)).or(
-            z.literal(4),
-          ).or(z.literal(5)).or(z.literal(6)).or(z.literal(7)),
+          weekday: z
+            .literal(1)
+            .or(z.literal(2))
+            .or(z.literal(3))
+            .or(z.literal(4))
+            .or(z.literal(5))
+            .or(z.literal(6))
+            .or(z.literal(7)),
         }),
     ),
   });
@@ -44,7 +49,8 @@ export const updateDayhomeFn = createServerFn({ method: "POST" })
     const { db } = context;
 
     await db.transaction(async (tx) => {
-      await tx.update(dayhome)
+      await tx
+        .update(dayhome)
         .set({
           name: data.name,
           address: data.address,
@@ -57,7 +63,8 @@ export const updateDayhomeFn = createServerFn({ method: "POST" })
         })
         .where(eq(dayhome.id, data.id));
 
-      await tx.insert(dayhomeOpenHours)
+      await tx
+        .insert(dayhomeOpenHours)
         .values(data.openHours)
         .onConflictDoUpdate({
           target: [dayhomeOpenHours.dayhomeId, dayhomeOpenHours.weekday],

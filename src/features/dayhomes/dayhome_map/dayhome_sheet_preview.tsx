@@ -50,9 +50,7 @@ export function DayhomeSheetPreview({ isDismissed, dayhomeId }: Props) {
     >
       <Sheet.Container className="max-h-[60vh]">
         <Sheet.Header onClick={expand} />
-        <Sheet.Content
-          disableScroll={(state) => state.currentSnap !== maxSnap}
-        >
+        <Sheet.Content disableScroll={(state) => state.currentSnap !== maxSnap}>
           {!data ? undefined : (
             <div className="px-6">
               <div className="flex justify-between items-start pb-4">
@@ -74,9 +72,7 @@ export function DayhomeSheetPreview({ isDismissed, dayhomeId }: Props) {
 
               <div className="divide-y">
                 <div className="flex items-center justify-between py-4">
-                  <span className="text-sm text-slate-500">
-                    {data.address}
-                  </span>
+                  <span className="text-sm text-slate-500">{data.address}</span>
 
                   <a
                     className={buttonVariants({
@@ -89,39 +85,37 @@ export function DayhomeSheetPreview({ isDismissed, dayhomeId }: Props) {
                   </a>
                 </div>
 
-                {data.phone &&
-                  (
-                    <div className="flex items-center justify-between py-4">
-                      <span>{data.phone}</span>
+                {data.phone && (
+                  <div className="flex items-center justify-between py-4">
+                    <span>{data.phone}</span>
 
-                      <a
-                        className={buttonVariants({
-                          variant: "outline",
-                          size: "sm",
-                        })}
-                        href={`tel:${data.phone}`}
-                      >
-                        Call
-                      </a>
-                    </div>
-                  )}
+                    <a
+                      className={buttonVariants({
+                        variant: "outline",
+                        size: "sm",
+                      })}
+                      href={`tel:${data.phone}`}
+                    >
+                      Call
+                    </a>
+                  </div>
+                )}
 
-                {data.email &&
-                  (
-                    <div className="flex items-center justify-between py-4">
-                      <span>{data.email}</span>
+                {data.email && (
+                  <div className="flex items-center justify-between py-4">
+                    <span>{data.email}</span>
 
-                      <a
-                        className={buttonVariants({
-                          variant: "outline",
-                          size: "sm",
-                        })}
-                        href={`mailto:${data.email}`}
-                      >
-                        Email
-                      </a>
-                    </div>
-                  )}
+                    <a
+                      className={buttonVariants({
+                        variant: "outline",
+                        size: "sm",
+                      })}
+                      href={`mailto:${data.email}`}
+                    >
+                      Email
+                    </a>
+                  </div>
+                )}
               </div>
 
               <div className="py-6">

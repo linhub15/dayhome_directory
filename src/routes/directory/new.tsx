@@ -88,15 +88,19 @@ function RouteComponent() {
 
         <Field>
           <PinnedMap
-            location={geocode && {
-              lat: geocode.latitude,
-              lng: geocode?.longitude,
-            }}
+            location={
+              geocode && {
+                lat: geocode.latitude,
+                lng: geocode?.longitude,
+              }
+            }
           />
         </Field>
 
         <div className="flex justify-between">
-          <LinkButton variant="secondary" to="..">Cancel</LinkButton>
+          <LinkButton variant="secondary" to="..">
+            Cancel
+          </LinkButton>
           <Button type="submit">Create listing</Button>
         </div>
       </form>

@@ -22,15 +22,18 @@ const searchParamSchema = z.object({
   filters: filterModalSearchSchema.optional(),
 });
 
-const zMapStateFromSearch = z.string().optional().transform((s) => {
-  if (!s) return;
-  const [latitude, longitude, zoom] = s.split(",");
-  return {
-    latitude: Number(latitude),
-    longitude: Number(longitude),
-    zoom: Number(zoom),
-  };
-});
+const zMapStateFromSearch = z
+  .string()
+  .optional()
+  .transform((s) => {
+    if (!s) return;
+    const [latitude, longitude, zoom] = s.split(",");
+    return {
+      latitude: Number(latitude),
+      longitude: Number(longitude),
+      zoom: Number(zoom),
+    };
+  });
 
 const defaultCenter = { ...EDMONTON, zoom: 11 };
 
@@ -54,9 +57,9 @@ function RouteComponent() {
   const { data } = useListDayhomes({
     boundingBox: bounds
       ? {
-        min: { latitude: bounds.getSouth(), longitude: bounds.getWest() },
-        max: { latitude: bounds.getNorth(), longitude: bounds.getEast() },
-      }
+          min: { latitude: bounds.getSouth(), longitude: bounds.getWest() },
+          max: { latitude: bounds.getNorth(), longitude: bounds.getEast() },
+        }
       : undefined,
   });
 
@@ -64,7 +67,8 @@ function RouteComponent() {
     ?.filter((item) => {
       if (!filters) return true;
       return filters.onlyLicensed ? item.isLicensed : true;
-    }).filter((item) => {
+    })
+    .filter((item) => {
       if (!filters || !filters.ageGroups) return true;
 
       const filteredAgeGroups = Object.entries(filters.ageGroups!)
@@ -85,13 +89,14 @@ function RouteComponent() {
     navigate({ search: (prev) => ({ ...prev, f: id }) });
   };
 
-  const handleMoveEnd = async (
-    { center, zoom }: {
-      center: LatLng;
-      zoom: number;
-      bounds: LatLngBounds;
-    },
-  ) => {
+  const handleMoveEnd = async ({
+    center,
+    zoom,
+  }: {
+    center: LatLng;
+    zoom: number;
+    bounds: LatLngBounds;
+  }) => {
     // setBounds(bounds);
     const atParam = `${center.latitude},${center.longitude},${zoom}`;
     await navigate({
@@ -101,12 +106,13 @@ function RouteComponent() {
   };
 
   const mapState = zMapStateFromSearch.parse(l);
-  const initialCenter = (mapState &&
-    {
-      latitude: mapState.latitude!,
-      longitude: mapState.longitude!,
-    } satisfies LatLng) ??
-    defaultCenter;
+  const initialCenter =
+    (mapState
+      && ({
+        latitude: mapState.latitude!,
+        longitude: mapState.longitude!,
+      } satisfies LatLng))
+    ?? defaultCenter;
 
   return (
     <div>
@@ -127,10 +133,7 @@ function RouteComponent() {
             <HomeIcon />
           </LinkButton>
 
-          <Button
-            variant="outline"
-            onClick={() => mapRef.current?.locate()}
-          >
+          <Button variant="outline" onClick={() => mapRef.current?.locate()}>
             Use my location
           </Button>
 
@@ -140,17 +143,15 @@ function RouteComponent() {
             onFilterChange={(filters) =>
               navigate({
                 search: (prev) => ({ ...prev, filters: filters }),
-              })}
+              })
+            }
           />
         </div>
       </div>
 
       <div className="fixed bottom-0 w-full mx-2">
         {f && (
-          <DayhomeSheetPreview
-            isDismissed={sheetDismissed}
-            dayhomeId={f}
-          />
+          <DayhomeSheetPreview isDismissed={sheetDismissed} dayhomeId={f} />
         )}
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import { LatLngExpression } from "leaflet";
+import type { LatLngExpression } from "leaflet";
 import { useEffect } from "react";
 import { mapMarkerIcon } from "./map/pin_icon";
 
@@ -10,8 +10,10 @@ type Props = {
   label?: string;
 };
 export function PinnedMap({ location, label }: Props) {
-  const center: LatLngExpression | undefined = location &&
-    [location?.lat, location?.lng];
+  const center: LatLngExpression | undefined = location && [
+    location?.lat,
+    location?.lng,
+  ];
 
   return (
     <MapContainer
@@ -36,9 +38,13 @@ export function PinnedMap({ location, label }: Props) {
   );
 }
 
-function InnerMap(
-  { center, label }: { center?: LatLngExpression; label?: string },
-) {
+function InnerMap({
+  center,
+  label,
+}: {
+  center?: LatLngExpression;
+  label?: string;
+}) {
   const map = useMap();
 
   useEffect(() => {
@@ -51,10 +57,7 @@ function InnerMap(
 
   return (
     <>
-      <Marker
-        position={center}
-        icon={mapMarkerIcon}
-      >
+      <Marker position={center} icon={mapMarkerIcon}>
         {label && <Popup>{label}</Popup>}
       </Marker>
     </>

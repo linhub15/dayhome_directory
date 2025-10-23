@@ -6,10 +6,12 @@ import z from "zod";
 
 const Request = z.object({
   name: z.string().optional(),
-  boundingBox: z.object({
-    min: LatLngSchema,
-    max: LatLngSchema,
-  }).optional(),
+  boundingBox: z
+    .object({
+      min: LatLngSchema,
+      max: LatLngSchema,
+    })
+    .optional(),
 });
 
 export const listDayhomesFn = createServerFn({ method: "GET" })
@@ -34,10 +36,7 @@ export const listDayhomesFn = createServerFn({ method: "GET" })
               4326))`
           : undefined;
 
-        return and(
-          searchName,
-          boundingBox,
-        );
+        return and(searchName, boundingBox);
       },
     });
 

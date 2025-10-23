@@ -2,7 +2,7 @@ import { db } from "@/lib/db/db_middleware";
 import { dayhome } from "@/lib/db/schema";
 import { createServerFn } from "@tanstack/react-start";
 import { createInsertSchema } from "drizzle-zod";
-import z from "zod";
+import type z from "zod";
 
 const requestSchema = createInsertSchema(dayhome);
 
@@ -14,10 +14,9 @@ export const createDayhomeFn = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { db } = context;
 
-    await db.insert(dayhome)
-      .values({
-        name: data.name,
-        address: data.address,
-        location: data.location,
-      });
+    await db.insert(dayhome).values({
+      name: data.name,
+      address: data.address,
+      location: data.location,
+    });
   });

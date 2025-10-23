@@ -14,11 +14,7 @@ function RouteComponent() {
         <div className="max-w-2xl">
           <div className="text-center">
             <h1 className="text-4xl font-light tracking-tight text-balance text-gray-900 sm:text-6xl">
-              Discover{" "}
-              <em className="font-bold">
-                Edmonton
-              </em>{" "}
-              Childcare
+              Discover <em className="font-bold">Edmonton</em> Childcare
             </h1>
             <p className="mt-8 text-lg text-pretty text-gray-500 sm:text-xl/8">
               Search from a curated list of dayhomes and daycares in Edmonton.
@@ -34,9 +30,8 @@ function RouteComponent() {
 
         <div>
           <p className="mt-8 text-sm text-center text-gray-500">
-            Are you a{" "}
-            <strong>childcare provider</strong>? Contact us to get listed for
-            free.
+            Are you a <strong>childcare provider</strong>? Contact us to get
+            listed for free.
           </p>
         </div>
       </div>

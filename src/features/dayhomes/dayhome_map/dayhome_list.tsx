@@ -36,9 +36,7 @@ export function DayhomeList({ items }: Props) {
                 params={{ id: item.id }}
                 key={item.name}
               >
-                <DayhomeListCard
-                  {...item}
-                />
+                <DayhomeListCard {...item} />
               </Link>
             ))}
           </div>
@@ -68,8 +66,7 @@ function DayhomeListCard(props: CardProps) {
               {props.agencyName}
             </div>
           </div>
-          {props.isLicensed &&
-            <Badge>Licensed</Badge>}
+          {props.isLicensed && <Badge>Licensed</Badge>}
         </div>
         <div>
           {props.ageGroups?.map((ageGroup) => (
