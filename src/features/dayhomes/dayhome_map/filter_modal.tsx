@@ -30,7 +30,7 @@ const ageGroupsOptions = {
 };
 
 const filterModalSearchSchema = z.object({
-  includePrivate: z.boolean().optional(),
+  onlyLicensed: z.boolean().optional(),
   ageGroups: z.object({
     infant: z.boolean(),
     toddler: z.boolean(),
@@ -44,6 +44,7 @@ type Filter = z.infer<typeof filterModalSearchSchema>;
 
 type Props = {
   filters?: Filter;
+  onOpenStart?: () => void;
   onFilterChange?: (filters: Filter) => void;
 };
 
@@ -52,13 +53,13 @@ function FilterModal(props: Props) {
 
   const form = useForm({
     defaultValues: {
-      includePrivate: props.filters?.includePrivate ?? true,
+      onlyLicensed: props.filters?.onlyLicensed ?? false,
       ageGroups: props.filters?.ageGroups ?? {
-        infant: true,
-        toddler: true,
-        preschool: true,
-        kindergarten: true,
-        grade_school: true,
+        infant: false,
+        toddler: false,
+        preschool: false,
+        kindergarten: false,
+        grade_school: false,
       },
     } satisfies Filter,
     onSubmit: (({ value }) => {
@@ -71,6 +72,7 @@ function FilterModal(props: Props) {
     <Dialog
       open={open}
       onOpenChange={(opening) => {
+        props.onOpenStart?.();
         setOpen(opening);
         if (opening) {
           form.reset();
@@ -92,7 +94,7 @@ function FilterModal(props: Props) {
             form.handleSubmit();
           }}
         >
-          <form.Field name="includePrivate">
+          <form.Field name="onlyLicensed">
             {(field) => (
               <div className="flex items-center gap-3">
                 <Label className="hover:bg-accent/50 flex items-center gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-primary has-[[aria-checked=true]]:bg-blue-50">
@@ -103,10 +105,10 @@ function FilterModal(props: Props) {
                   />
                   <div className="grid gap-1.5 font-normal">
                     <p className="text-sm leading-none font-medium">
-                      Include private facilities
+                      Only show licensed facilities
                     </p>
                     <p className="text-muted-foreground text-sm">
-                      Private facilities may be ineligible for subsidies.
+                      Licensed facilities can be ineligible for subsidies.
                     </p>
                   </div>
                 </Label>
@@ -153,4 +155,4 @@ function FilterModal(props: Props) {
   );
 }
 
-export { FilterModal, filterModalSearchSchema };
+export { type AgeGroupKey, FilterModal, filterModalSearchSchema };

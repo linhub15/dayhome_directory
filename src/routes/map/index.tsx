@@ -2,6 +2,7 @@ import { Button, LinkButton } from "@/components/ui/button";
 import { DayhomeMap } from "@/features/dayhomes/dayhome_map/dayhome_map";
 import { DayhomeSheetPreview } from "@/features/dayhomes/dayhome_map/dayhome_sheet_preview";
 import {
+  type AgeGroupKey,
   FilterModal,
   filterModalSearchSchema,
 } from "@/features/dayhomes/dayhome_map/filter_modal";
@@ -58,25 +59,25 @@ function RouteComponent() {
       : undefined,
   });
 
-  const dayhomes = data?.filter((item) => {
-    if (!filters) return true;
-    return (filters.includePrivate ? true : item.isLicensed);
-    // (filters.ageGroups?.infant
-    //   ? item.ageGroups?.includes("infant")
-    //   : !item.ageGroups?.includes("infant")) &&
-    // (filters.ageGroups?.toddler
-    //   ? item.ageGroups?.includes("toddler")
-    //   : !item.ageGroups?.includes("toddler")) &&
-    // (filters.ageGroups?.preschool
-    //   ? item.ageGroups?.includes("preschool")
-    //   : !item.ageGroups?.includes("preschool")) &&
-    // (filters.ageGroups?.kindergarten
-    //   ? item.ageGroups?.includes("kindergarten")
-    //   : !item.ageGroups?.includes("kindergarten")) &&
-    // (filters.ageGroups?.grade_school
-    //   ? item.ageGroups?.includes("grade_school")
-    //   : !item.ageGroups?.includes("grade_school"));
-  });
+  const dayhomes = data
+    ?.filter((item) => {
+      if (!filters) return true;
+      return filters.onlyLicensed ? item.isLicensed : true;
+    }).filter((item) => {
+      if (!filters || !filters.ageGroups) return true;
+
+      const filteredAgeGroups = Object.entries(filters.ageGroups!)
+        .filter(([, v]) => v)
+        .map(([k]) => k as AgeGroupKey);
+
+      if (!filteredAgeGroups.length) return true;
+
+      return item.ageGroups?.some((ag) => filteredAgeGroups.includes(ag));
+    });
+
+  const dismissSheet = () => {
+    setSheetDismissed(true);
+  };
 
   const handleSelect = (id: string) => {
     setSheetDismissed(false);
@@ -114,7 +115,7 @@ function RouteComponent() {
           items={dayhomes ?? []}
           onMoveEnd={handleMoveEnd}
           onSelect={handleSelect}
-          onDragStart={() => setSheetDismissed(true)}
+          onDragStart={dismissSheet}
         />
       </div>
 
@@ -133,6 +134,7 @@ function RouteComponent() {
 
           <FilterModal
             filters={filters}
+            onOpenStart={dismissSheet}
             onFilterChange={(filters) =>
               navigate({
                 search: (prev) => ({ ...prev, filters: filters }),
