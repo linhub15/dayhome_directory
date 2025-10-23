@@ -10,7 +10,7 @@ import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
 import { dayhomeKeys } from "@/features/dayhomes/query_keys";
 import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome/update_dayhome.fn";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
-import { weekdayIso } from "@/lib/maps/weekday";
+import { weekdayIso } from "@/lib/constants/weekday";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
@@ -246,9 +246,11 @@ function RouteComponent() {
                             onCheckedChange={(checked) => {
                               field.setValue((prev) => {
                                 const changed = new Set(prev);
-                                checked
-                                  ? changed.add(ageGroup.value)
-                                  : changed.delete(ageGroup.value);
+                                if (checked) {
+                                  changed.add(ageGroup.value);
+                                } else {
+                                  changed.delete(ageGroup.value);
+                                }
                                 return changed;
                               });
                             }}

@@ -27,9 +27,11 @@ const toParse = json.filter((row) => !!row.Name && !!row.Address);
 
 console.info(`Imported ${json.length} rows from Google Sheets`);
 
-const safeString = z.string().trim().optional().transform((x) =>
-  x || undefined
-);
+const safeString = z
+  .string()
+  .trim()
+  .optional()
+  .transform((x) => x || undefined);
 const timeNumber = safeString.transform((x) =>
   x ? hoursToTimeString(Number(x)) : undefined
 );
@@ -46,12 +48,17 @@ const ageGroup = z.literal<AgeGroup[]>([
 const sheetSchema = z.object({
   Name: z.string().trim(),
   Address: z.string().trim(),
-  Phone: z.string().trim().max(10).transform((x) => x || undefined),
+  Phone: z
+    .string()
+    .trim()
+    .max(10)
+    .transform((x) => x || undefined),
   Email: safeString,
   "Agency Name": safeString.optional(),
   "Age Groups": safeString
     .transform((x) => x?.split(",").map((s) => s.trim()))
-    .pipe(z.array(ageGroup).default([])).optional(),
+    .pipe(z.array(ageGroup).default([]))
+    .optional(),
   "M▶️": timeNumber,
   "M🛑": timeNumber,
   "T▶️": timeNumber,
@@ -70,7 +77,6 @@ const sheetSchema = z.object({
   "Is Agency": z.stringbool(),
 });
 
-export const dayhomeFromGoogleSheets = z.array(sheetSchema)
-  .parse(toParse);
+export const dayhomeFromGoogleSheets = z.array(sheetSchema).parse(toParse);
 
 console.info(`Zod Parsed ${dayhomeFromGoogleSheets.length} rows`);

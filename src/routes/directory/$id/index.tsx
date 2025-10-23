@@ -12,7 +12,7 @@ import {
   type GetDayhomeResponse,
 } from "@/features/dayhomes/get_dayhome.fn";
 import { googleDirections } from "@/lib/geocoding/constant_data";
-import { weekdayIso } from "@/lib/maps/weekday";
+import { weekdayIso } from "@/lib/constants/weekday";
 import { cn } from "@/lib/utils/cn";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 

@@ -8,10 +8,6 @@
     "postgres": "npm:postgres@^3.4.7"
   },
   "compilerOptions": {
-    "lib": [
-      "deno.ns",
-      "deno.unstable",
-      "dom"
-    ]
+    "lib": ["deno.ns", "deno.unstable", "dom"]
   }
 }

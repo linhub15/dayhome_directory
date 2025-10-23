@@ -2,11 +2,18 @@ import { clientEnv } from "@/config/client_env";
 import { PostHogProvider } from "posthog-js/react";
 
 export function Provider({ children }: { children: React.ReactNode }) {
+  const apiKey = clientEnv.VITE_PUBLIC_POSTHOG_KEY;
+  const apiHost = clientEnv.VITE_PUBLIC_POSTHOG_HOST;
+
+  if (!apiKey || !apiHost) {
+    return children;
+  }
+
   return (
     <PostHogProvider
-      apiKey={clientEnv.VITE_PUBLIC_POSTHOG_KEY}
+      apiKey={apiKey}
       options={{
-        api_host: clientEnv.VITE_PUBLIC_POSTHOG_HOST,
+        api_host: apiHost,
         defaults: "2025-05-24",
       }}
     >

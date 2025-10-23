@@ -24,7 +24,7 @@ const searchParamSchema = z.object({
 
 const zMapStateFromSearch = z.string().optional().transform((s) => {
   if (!s) return;
-  const [latitude, longitude, zoom] = s?.split(",");
+  const [latitude, longitude, zoom] = s.split(",");
   return {
     latitude: Number(latitude),
     longitude: Number(longitude),
@@ -46,7 +46,7 @@ function RouteComponent() {
   const { l, f, filters } = Route.useSearch();
   const navigate = Route.useNavigate();
 
-  const [bounds, setBounds] = useState<LatLngBounds | null>(null);
+  const [bounds, _setBounds] = useState<LatLngBounds | null>(null);
   const [sheetDismissed, setSheetDismissed] = useState(false);
   const mapRef = useRef<{ locate: () => void }>(null);
 
@@ -86,7 +86,7 @@ function RouteComponent() {
   };
 
   const handleMoveEnd = async (
-    { center, zoom, bounds }: {
+    { center, zoom }: {
       center: LatLng;
       zoom: number;
       bounds: LatLngBounds;

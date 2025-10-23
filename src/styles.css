@@ -85,7 +85,6 @@
   }
 }
 
-
 /* Remove background, border, and arrow from all Leaflet tooltips */
 .leaflet-tooltip {
   background: transparent !important;
