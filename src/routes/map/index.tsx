@@ -11,7 +11,7 @@ import { EDMONTON } from "@/lib/geocoding/constant_data";
 import type { LatLng } from "@/lib/geocoding/types";
 import { createFileRoute } from "@tanstack/react-router";
 import type { LatLngBounds } from "leaflet";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import z from "zod";
 
 const searchParamSchema = z.object({
@@ -48,6 +48,7 @@ function RouteComponent() {
 
   const [bounds, setBounds] = useState<LatLngBounds | null>(null);
   const [sheetDismissed, setSheetDismissed] = useState(false);
+  const mapRef = useRef<{ locate: () => void }>(null);
 
   // todo: refactor this into it's own hook and context to be shared deeper
   const { data } = useListDayhomes({
@@ -111,6 +112,7 @@ function RouteComponent() {
     <div>
       <div>
         <DayhomeMap
+          ref={mapRef}
           center={initialCenter}
           items={dayhomes ?? []}
           onMoveEnd={handleMoveEnd}
@@ -126,8 +128,8 @@ function RouteComponent() {
           </LinkButton>
 
           <Button
-            variant="secondary"
-            onClick={() => alert("Not done yet, going to implement this next")}
+            variant="outline"
+            onClick={() => mapRef.current?.locate()}
           >
             Use my location
           </Button>

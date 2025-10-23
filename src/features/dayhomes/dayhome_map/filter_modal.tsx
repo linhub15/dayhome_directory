@@ -45,7 +45,7 @@ type Filter = z.infer<typeof filterModalSearchSchema>;
 type Props = {
   filters?: Filter;
   onOpenStart?: () => void;
-  onFilterChange?: (filters: Filter) => void;
+  onFilterChange?: (filters?: Filter) => void;
 };
 
 function FilterModal(props: Props) {
@@ -84,10 +84,19 @@ function FilterModal(props: Props) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Filters</DialogTitle>
+          <div className="flex gap-8 items-center">
+            <DialogTitle>Filters</DialogTitle>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => props.onFilterChange?.()}
+            >
+              Clear
+            </Button>
+          </div>
         </DialogHeader>
         <form
-          className="space-y-4"
+          className="space-y-8"
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -118,35 +127,38 @@ function FilterModal(props: Props) {
 
           <form.Field name="ageGroups">
             {(field) => (
-              <div className="flex items-center gap-3 flex-wrap">
-                {Object.keys(ageGroupsOptions).map((key) => (
-                  <Label key={key}>
-                    <Badge
-                      className="cursor-pointer select-none"
-                      variant={field.state
-                          .value[key as AgeGroupKey]
-                        ? "default"
-                        : "outline"}
-                    >
-                      <Checkbox
-                        checked={field.state.value[key as AgeGroupKey]}
-                        onCheckedChange={(e) =>
-                          field.handleChange((prev) => ({
-                            ...prev,
-                            [key]: e,
-                          }))}
-                      />
-                      {ageGroupsOptions[key as AgeGroupKey]}
-                    </Badge>
-                  </Label>
-                ))}
+              <div>
+                <div className="flex items-center gap-4 flex-wrap">
+                  {Object.keys(ageGroupsOptions).map((key) => (
+                    <Label key={key}>
+                      <Badge
+                        className="cursor-pointer select-none"
+                        size="lg"
+                        variant={field.state
+                            .value[key as AgeGroupKey]
+                          ? "default"
+                          : "outline"}
+                      >
+                        <Checkbox
+                          checked={field.state.value[key as AgeGroupKey]}
+                          onCheckedChange={(e) =>
+                            field.handleChange((prev) => ({
+                              ...prev,
+                              [key]: e,
+                            }))}
+                        />
+                        {ageGroupsOptions[key as AgeGroupKey]}
+                      </Badge>
+                    </Label>
+                  ))}
+                </div>
               </div>
             )}
           </form.Field>
 
           <div className="pt-4">
-            <Button type="submit" className="w-full" variant="secondary">
-              Apply filters
+            <Button type="submit" className="w-full" variant="default">
+              Apply
             </Button>
           </div>
         </form>

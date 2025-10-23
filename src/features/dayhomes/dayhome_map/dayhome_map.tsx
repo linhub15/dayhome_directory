@@ -2,7 +2,7 @@ import { mapMarkerIcon } from "@/components/ui/map/pin_icon.ts";
 import type { LatLng } from "@/lib/geocoding/types.ts";
 import { debounce } from "@tanstack/react-pacer";
 import type { LatLngBounds, LatLngExpression } from "leaflet";
-import { useEffect, useState } from "react";
+import { type Ref, useEffect, useImperativeHandle, useState } from "react";
 import {
   MapContainer,
   Marker,
@@ -15,6 +15,7 @@ import { MapRef } from "react-leaflet/MapContainer";
 import { ListDayhomesData } from "./use_list_dayhomes.ts";
 
 type Props = {
+  ref: Ref<{ locate: () => void }>;
   center: LatLng;
   items: ListDayhomesData;
   onMoveEnd: (data: MapState) => void;
@@ -30,7 +31,7 @@ type MapState = {
 };
 
 export function DayhomeMap(
-  { center, items, onMoveEnd, onSelect, onDragStart }: Props,
+  { ref, center, items, onMoveEnd, onSelect, onDragStart }: Props,
 ) {
   return (
     <MapContainer
@@ -43,7 +44,7 @@ export function DayhomeMap(
       markerZoomAnimation={true}
       doubleClickZoom={true}
       scrollWheelZoom={true}
-      minZoom={11}
+      minZoom={10}
       maxZoom={15}
       //----
       dragging={true}
@@ -69,6 +70,7 @@ export function DayhomeMap(
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <InnerMap
+        ref={ref}
         items={items}
         onMoveEnd={onMoveEnd}
         onSelect={onSelect}
@@ -80,6 +82,7 @@ export function DayhomeMap(
 
 function InnerMap(
   props: {
+    ref: Ref<{ locate: () => void }>;
     items: ListDayhomesData;
     onMoveEnd: (data: MapState) => void;
     onSelect: (id: string) => void;
@@ -87,6 +90,14 @@ function InnerMap(
   },
 ) {
   const map = useMap();
+
+  useImperativeHandle(props.ref, () => {
+    return {
+      locate: () => {
+        map.locate({ setView: true, enableHighAccuracy: true, maxZoom: 14 });
+      },
+    };
+  }, [map]);
 
   const items = props.items?.map((d) => ({
     id: d.id,
