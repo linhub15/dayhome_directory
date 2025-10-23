@@ -1,5 +1,3 @@
-import { mapMarkerIcon } from "@/components/ui/map/pin_icon.ts";
-import type { LatLng } from "@/lib/geocoding/types.ts";
 import { debounce } from "@tanstack/react-pacer";
 import type { LatLngBounds, LatLngExpression } from "leaflet";
 import { type Ref, useEffect, useImperativeHandle, useState } from "react";
@@ -11,8 +9,10 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import { MapRef } from "react-leaflet/MapContainer";
-import { ListDayhomesData } from "./use_list_dayhomes.ts";
+import type { MapRef } from "react-leaflet/MapContainer";
+import { mapMarkerIcon } from "@/components/ui/map/pin_icon.ts";
+import type { LatLng } from "@/lib/geocoding/types.ts";
+import type { ListDayhomesData } from "./use_list_dayhomes.ts";
 
 type Props = {
   ref: Ref<{ locate: () => void }>;
@@ -55,7 +55,7 @@ export function DayhomeMap({
       dragging={true}
       fadeAnimation={true}
       attributionControl={false}
-      // @ts-ignore: react-leaflet types are out of date
+      // @ts-expect-error: react-leaflet types are out of date
       whenReady={(m: { target: MapRef }) => {
         const { target } = m;
         if (!target) return;
@@ -119,7 +119,7 @@ function InnerMap(props: {
     }
 
     setMarkers(items);
-  }, [items.length]);
+  }, [items]);
 
   const mapStateChange = debounce(
     (data: MapState) => {

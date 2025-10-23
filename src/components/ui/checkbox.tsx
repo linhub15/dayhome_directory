@@ -1,6 +1,6 @@
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
+import type { ComponentProps, SVGProps } from "react";
 import { cn } from "@/lib/utils/cn";
-import { ComponentProps, SVGProps } from "react";
 
 function Checkbox({
   className,

@@ -1,7 +1,7 @@
-import { cva, type VariantProps } from "cva";
 import { Slot } from "@radix-ui/react-slot";
-import { cn } from "@/lib/utils/cn";
 import { Link, type LinkProps } from "@tanstack/react-router";
+import { cva, type VariantProps } from "cva";
+import { cn } from "@/lib/utils/cn";
 
 const buttonVariants = cva({
   base: [

@@ -1,6 +1,6 @@
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import type { LatLngExpression } from "leaflet";
 import { useEffect } from "react";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { mapMarkerIcon } from "./map/pin_icon";
 
 const EDMONTON = [53.5462, -113.4937] as LatLngExpression;
@@ -51,15 +51,13 @@ function InnerMap({
     map.setView(center || EDMONTON, map.getZoom(), {
       animate: true,
     });
-  }, [center]);
+  }, [center, map]);
 
   if (!center) return;
 
   return (
-    <>
-      <Marker position={center} icon={mapMarkerIcon}>
-        {label && <Popup>{label}</Popup>}
-      </Marker>
-    </>
+    <Marker position={center} icon={mapMarkerIcon}>
+      {label && <Popup>{label}</Popup>}
+    </Marker>
   );
 }

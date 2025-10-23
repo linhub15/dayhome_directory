@@ -1,9 +1,9 @@
-import { Sheet, SheetRef } from "react-modal-sheet";
-import { useGetDayhome } from "../get_dayhome/use_get_dayhome";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Sheet, type SheetRef } from "react-modal-sheet";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants, LinkButton } from "@/components/ui/button";
-import { useEffect, useRef, useState } from "react";
 import { googleDirections } from "@/lib/geocoding/constant_data";
+import { useGetDayhome } from "../get_dayhome/use_get_dayhome";
 
 const snapPoints = [0, 40, 0.7, 1];
 const maxSnap = snapPoints.length - 1;
@@ -18,13 +18,13 @@ export function DayhomeSheetPreview({ isDismissed, dayhomeId }: Props) {
   const [snapPoint, setSnapPoint] = useState(2);
   const sheetRef = useRef<SheetRef>(null);
 
-  const shrink = () => {
+  const shrink = useCallback(() => {
     sheetRef.current?.snapTo(1);
-  };
+  }, []);
 
-  const expand = () => {
+  const expand = useCallback(() => {
     sheetRef.current?.snapTo(2);
-  };
+  }, []);
 
   useEffect(() => {
     if (isPending || isDismissed) {
@@ -34,7 +34,7 @@ export function DayhomeSheetPreview({ isDismissed, dayhomeId }: Props) {
     if (data && !isPending) {
       return expand();
     }
-  }, [data, isPending, isDismissed]);
+  }, [data, isPending, isDismissed, shrink, expand]);
 
   return (
     <Sheet

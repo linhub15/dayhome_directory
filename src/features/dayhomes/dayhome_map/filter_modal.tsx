@@ -1,3 +1,6 @@
+import { useForm } from "@tanstack/react-form";
+import { useState } from "react";
+import z from "zod";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -9,9 +12,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { useForm } from "@tanstack/react-form";
-import { useState } from "react";
-import z from "zod";
 
 const ageGroup = [
   "infant",
@@ -108,7 +108,7 @@ function FilterModal(props: Props) {
           <form.Field name="onlyLicensed">
             {(field) => (
               <div className="flex items-center gap-3">
-                <Label className="hover:bg-accent/50 flex items-center gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-primary has-[[aria-checked=true]]:bg-blue-50">
+                <Label className="hover:bg-accent/50 flex items-center gap-3 rounded-lg border p-3 has-aria-checked:border-primary has-aria-checked:bg-blue-50">
                   <Checkbox
                     checked={field.state.value}
                     onCheckedChange={(e) => field.setValue(!!e)}

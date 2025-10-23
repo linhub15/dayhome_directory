@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
+import { useRef } from "react";
+import { Sheet, type SheetRef } from "react-modal-sheet";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader } from "@/components/ui/card";
-import { Sheet, SheetRef } from "react-modal-sheet";
-import { useRef } from "react";
 
 const snapPoints = [0, 60, 0.5, 1];
 

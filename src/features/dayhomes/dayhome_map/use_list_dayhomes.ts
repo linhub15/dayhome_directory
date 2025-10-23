@@ -1,8 +1,8 @@
-import type { LatLng } from "@/lib/geocoding/types";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import type { LatLng } from "@/lib/geocoding/types";
 import { dayhomeKeys } from "../query_keys.ts";
 import { listDayhomesFn } from "./list_dayhomes.fn.ts";
-import { useServerFn } from "@tanstack/react-start";
 
 export type ListDayhomesData = Awaited<ReturnType<typeof listDayhomesFn>>;
 
