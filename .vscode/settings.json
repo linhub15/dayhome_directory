@@ -5,6 +5,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit"
   },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "js",
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true
   },

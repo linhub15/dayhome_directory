@@ -1,9 +1,10 @@
-import { db } from "@/lib/db/db_middleware";
 import { createServerFn } from "@tanstack/react-start";
-import z from "zod";
+import z from "@zod/zod";
+import { db } from "@/lib/db/db_middleware";
+import { pattern } from "@/lib/utils/nanoid";
 
 const GetDayhomeRequest = z.object({
-  id: z.uuid(),
+  id: z.nanoid({ pattern }),
 });
 
 export type GetDayhomeResponse = NonNullable<

@@ -1,8 +1,8 @@
+import { useNavigate } from "@tanstack/react-router";
+import z from "@zod/zod";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import z from "zod";
 
 export const filterSearchParams = z.object({
   postalCode: z.string().trim().max(6).optional(),

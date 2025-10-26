@@ -1,6 +1,6 @@
 import { useForm } from "@tanstack/react-form";
+import z from "@zod/zod";
 import { useState } from "react";
-import z from "zod";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";

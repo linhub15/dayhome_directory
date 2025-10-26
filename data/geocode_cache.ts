@@ -1,3 +1,4 @@
+import { writeTextFile } from "@std/fs/unstable-write-text-file";
 import z from "@zod/zod";
 import geocodeCache from "./geocode.cache.json" with { type: "json" };
 
@@ -28,7 +29,7 @@ function setGeocode(
 }
 
 async function saveCache() {
-  await Deno.writeTextFile(
+  await writeTextFile(
     `${import.meta.dirname}/geocode.cache.json`,
     JSON.stringify(cache, null, 2),
   );

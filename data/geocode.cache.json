@@ -46,5 +46,61 @@
   "keswick": {
     "latitude": 44.242683,
     "longitude": -79.47651
+  },
+  "unit 210-211, 10807 castle downs rd nw edmonton": {
+    "latitude": 53.627815,
+    "longitude": -113.508134
+  },
+  "370 bulyea rd nw, edmonton, ab t6r 0w8": {
+    "latitude": 53.475416,
+    "longitude": -113.573916
+  },
+  "14928 45th ave nw, edmonton, ab t6h 5t5": {
+    "latitude": 53.48422,
+    "longitude": -113.579745
+  },
+  "1941 garnett way nw, edmonton": {
+    "latitude": 53.511276,
+    "longitude": -113.669868
+  },
+  "3792 erlanger dr nw, edmonton, ab t6m 1r8": {
+    "latitude": 53.467853,
+    "longitude": -113.684655
+  },
+  "295 orchards blvd sw edmonton t6x 2m9": {
+    "latitude": 53.405119,
+    "longitude": -113.451084
+  },
+  "t6j 5k9 edmonton": {
+    "latitude": 53.452628,
+    "longitude": -113.523614
+  },
+  "1407 keswick drive sw edmonton": {
+    "latitude": 53.412301,
+    "longitude": -113.631979
+  },
+  "t6j 4v8 edmonton": {
+    "latitude": 53.451363,
+    "longitude": -113.524529
+  },
+  "keswick edmonton": {
+    "latitude": 53.418945,
+    "longitude": -113.63644
+  },
+  "3788 erlanger dr nw, edmonton, ab t6m 1r8": {
+    "latitude": 53.467701,
+    "longitude": -113.684654
+  },
+  "terwillegar sw edmonton": {
+    "latitude": 53.43683,
+    "longitude": -113.612241
+  },
+  "5134 20 ave sw edmonton": {
+    "latitude": 53.41745,
+    "longitude": -113.4207
+  },
+  "6235 hampton gray ave, edmonton, ab": {
+    "latitude": 53.603466,
+    "longitude": -113.510749
   }
 }

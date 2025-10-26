@@ -1,3 +1,4 @@
+import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   check,
@@ -11,9 +12,8 @@ import {
   time,
   timestamp,
   unique,
-  uuid,
 } from "drizzle-orm/pg-core";
-import { relations, sql } from "drizzle-orm";
+import { nanoid } from "@/lib/utils/nanoid.ts";
 
 /// Helpers
 export const defaultColumns = {
@@ -33,7 +33,7 @@ export const ageGroup = pgEnum("age_group", [
 ]);
 
 export const dayhome = pgTable("dayhome", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: text("id").primaryKey().$default(nanoid),
   name: text("name").notNull(),
   address: text("address").notNull(),
   location: geometry("location", {
@@ -54,7 +54,7 @@ export const dayhome = pgTable("dayhome", {
 export const dayhomeOpenHours = pgTable(
   "dayhome_open_hours",
   {
-    dayhomeId: uuid("dayhome_id")
+    dayhomeId: text("dayhome_id")
       .notNull()
       .references(() => dayhome.id, {
         onDelete: "cascade",

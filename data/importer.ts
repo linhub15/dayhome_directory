@@ -1,10 +1,10 @@
 import { parse } from "@std/csv";
 import * as z from "@zod/zod";
-import type { ageGroup as ageGroupEnum } from "../src/lib/db/schema.ts";
 import type { InferEnum } from "drizzle-orm";
+import type { ageGroup as ageGroupEnum } from "../src/lib/db/schema.ts";
 import { hoursToTimeString } from "./utils.ts";
 
-const spreadsheetId = Deno.env.get("DATA_SPREADSHEET_ID");
+const spreadsheetId = process.env.DATA_SPREADSHEET_ID;
 console.info({ SpreadsheetId: spreadsheetId });
 const sheetName = "directory";
 const url = new URL(

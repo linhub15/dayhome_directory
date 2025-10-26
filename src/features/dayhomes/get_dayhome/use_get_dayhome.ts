@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { dayhomeKeys } from "../query_keys";
-import { getDayhomeFn } from "../get_dayhome.fn";
 import { useServerFn } from "@tanstack/react-start";
+import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
+import { dayhomeKeys } from "@/features/dayhomes/query_keys";
 
 export function useGetDayhome(id: string) {
   const getDayhome = useServerFn(getDayhomeFn);

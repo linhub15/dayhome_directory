@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
-import z from "zod";
+import z from "@zod/zod";
+import { db } from "@/lib/db/db_middleware";
+import { geocodeCache } from "@/lib/db/schema";
 import { forwardGeocode } from "./mapbox";
-import { db } from "../db/db_middleware";
-import { geocodeCache } from "../db/schema";
 
 export const geocodeFn = createServerFn({ method: "GET" })
   .inputValidator(z.object({ query: z.string().trim().optional() }))

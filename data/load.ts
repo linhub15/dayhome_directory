@@ -1,22 +1,22 @@
-import "@std/dotenv/load";
+import "dotenv/config.js";
+import type { InferInsertModel } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import * as schema from "../src/lib/db/schema.ts";
-import { dayhomeFromGoogleSheets } from "./importer.ts";
-import { InferInsertModel } from "drizzle-orm";
-import { forwardGeocode, getGeocodeCount } from "./mapbox_geocode.ts";
 import { saveCache } from "./geocode_cache.ts";
+import { dayhomeFromGoogleSheets } from "./importer.ts";
+import { geocodeAddress, getGeocodeCount } from "./mapbox_geocode.ts";
 
 async function main() {
   const db = drizzle({
     schema: { ...schema },
     connection: {
-      url: Deno.env.get("DATABASE_URL"),
+      url: process.env.DATABASE_URL,
     },
   });
 
   await db.transaction(async (tx) => {
     for (const item of dayhomeFromGoogleSheets) {
-      const location = await forwardGeocode(item.Address);
+      const location = await geocodeAddress(item.Address);
 
       const inserted = await tx
         .insert(schema.dayhome)
@@ -34,7 +34,7 @@ async function main() {
           dayhomeId: schema.dayhome.id,
         });
 
-      console.info(`Inserted ${item.Name} dayhomes into the DB`);
+      console.info(`inserting dayhome ${item.Name}...`);
 
       const [{ dayhomeId }] = inserted;
 
@@ -127,8 +127,10 @@ async function main() {
   await saveCache();
 
   console.info(`Used ${getGeocodeCount()} geocode calls`);
+
+  console.warn("REMEMBER TO SET ALL THE DAYHOME SRID AFTER INSERT");
+
+  process.exit();
 }
 
-await main();
-
-Deno.exit();
+main();

@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/postgres-js";
-import * as schema from "./schema";
 import { serverEnv } from "@/config/server_env";
+import * as schema from "./schema";
 
 export function getDb() {
   return drizzle({
