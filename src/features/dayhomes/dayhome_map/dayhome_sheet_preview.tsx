@@ -1,3 +1,4 @@
+import { CircleCheckIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Sheet, type SheetRef } from "react-modal-sheet";
 import { Badge } from "@/components/ui/badge";
@@ -55,7 +56,12 @@ export function DayhomeSheetPreview({ isDismissed, dayhomeId }: Props) {
             <div className="px-6">
               <div className="flex justify-between items-start pb-4">
                 <span>{data.name}</span>
-                {data.isLicensed && <Badge>Licensed</Badge>}
+                {data.isLicensed && (
+                  <Badge>
+                    <CircleCheckIcon />
+                    Licensed
+                  </Badge>
+                )}
               </div>
 
               <div className="flex gap-2 flex-wrap">
