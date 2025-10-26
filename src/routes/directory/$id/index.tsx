@@ -1,3 +1,5 @@
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { CheckIcon, MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -8,13 +10,12 @@ import {
 } from "@/components/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
 import {
-  getDayhomeFn,
   type GetDayhomeResponse,
+  getDayhomeFn,
 } from "@/features/dayhomes/get_dayhome.fn";
-import { googleDirections } from "@/lib/geocoding/constant_data";
 import { weekdayIso } from "@/lib/constants/weekday";
+import { googleDirections } from "@/lib/geocoding/constant_data";
 import { cn } from "@/lib/utils/cn";
-import { createFileRoute, notFound } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/directory/$id/")({
   ssr: "data-only",
@@ -76,7 +77,7 @@ function RouteComponent() {
               {phone}
             </div>
             <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
-              <EmailIcon className="size-4" />
+              <MailIcon className="size-4" />
               {email}
             </div>
           </div>
@@ -87,7 +88,7 @@ function RouteComponent() {
         <CardHeader>
           <div className="flex justify-between">
             <div className="flex items-center space-x-2">
-              <MapPin />
+              <MapPinIcon />
               <div>{address}</div>
             </div>
 
@@ -148,84 +149,5 @@ function OpenHours({ openHours }: { openHours: OpenHours }) {
         </div>
       ))}
     </div>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-circle-check-icon lucide-circle-check"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
-  );
-}
-
-function MapPin() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-map-pin-icon lucide-map-pin"
-    >
-      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  );
-}
-
-function PhoneIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={cn("lucide lucide-phone-icon lucide-phone", className)}
-    >
-      <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
-    </svg>
-  );
-}
-
-function EmailIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={cn("lucide lucide-phone-icon lucide-phone", className)}
-    >
-      <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
-      <rect x="2" y="4" width="20" height="16" rx="2" />
-    </svg>
   );
 }
