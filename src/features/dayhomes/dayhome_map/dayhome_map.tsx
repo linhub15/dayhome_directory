@@ -1,6 +1,6 @@
 import { debounce } from "@tanstack/react-pacer";
 import type { LatLngBounds, LatLngExpression } from "leaflet";
-import { type Ref, useEffect, useImperativeHandle, useState } from "react";
+import { type Ref, useImperativeHandle } from "react";
 import {
   MapContainer,
   Marker,
@@ -10,6 +10,8 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import type { MapRef } from "react-leaflet/MapContainer";
+import MarkerClusterGroup from "react-leaflet-cluster";
+import { pinClusterIcon } from "@/components/ui/map/pin_cluster_icon.ts";
 import { mapMarkerIcon } from "@/components/ui/map/pin_icon.ts";
 import type { LatLng } from "@/lib/geocoding/types.ts";
 import type { ListDayhomesData } from "./use_list_dayhomes.ts";
@@ -50,7 +52,7 @@ export function DayhomeMap({
       doubleClickZoom={true}
       scrollWheelZoom={true}
       minZoom={10}
-      maxZoom={15}
+      maxZoom={16}
       //----
       dragging={true}
       fadeAnimation={true}
@@ -102,7 +104,7 @@ function InnerMap(props: {
     };
   }, [map]);
 
-  const items =
+  const markers =
     props.items?.map((d) => ({
       id: d.id,
       name: d.name,
@@ -110,16 +112,6 @@ function InnerMap(props: {
       isLicensed: d.isLicensed,
       ageGroups: d.ageGroups || [],
     })) ?? [];
-
-  const [markers, setMarkers] = useState<typeof items>([]);
-
-  useEffect(() => {
-    if (items.length === 0) {
-      return;
-    }
-
-    setMarkers(items);
-  }, [items]);
 
   const mapStateChange = debounce(
     (data: MapState) => {
@@ -146,7 +138,13 @@ function InnerMap(props: {
   });
 
   return (
-    <>
+    <MarkerClusterGroup
+      iconCreateFunction={pinClusterIcon}
+      zoomToBoundsOnClick
+      animate
+      animateAddingMarkers
+      showCoverageOnHover={false}
+    >
       {markers.map((item) => (
         <Marker
           key={item.id}
@@ -176,6 +174,6 @@ function InnerMap(props: {
           )}
         </Marker>
       ))}
-    </>
+    </MarkerClusterGroup>
   );
 }
