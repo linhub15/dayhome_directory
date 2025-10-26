@@ -13,5 +13,8 @@
     "formatter": {
       "operatorLinebreak": "before"
     }
+  },
+  "css": {
+    "parser": { "tailwindDirectives": true }
   }
 }

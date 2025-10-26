@@ -5,7 +5,11 @@
   },
   "editor.defaultFormatter": "biomejs.biome",
   "typescript.preferences.preferTypeOnlyAutoImports": true,
-  "typescript.preferences.autoImportFileExcludePatterns": ["lucide-react"],
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "lucide-react",
+    "@radix-ui"
+  ],
+
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifierEnding": "js",
   "files.watcherExclude": {

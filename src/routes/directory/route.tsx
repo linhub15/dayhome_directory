@@ -1,5 +1,5 @@
-import { Nav } from "@/components/blocks/nav/nav";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { Nav } from "@/components/blocks/nav/nav";
 
 export const Route = createFileRoute("/directory")({
   component: RouteComponent,
@@ -12,7 +12,7 @@ function RouteComponent() {
         <div className="z-10 bg-background w-full h-15">
           <Nav />
         </div>
-        <div className="pt-15">
+        <div className="md:pt-15">
           <Outlet />
         </div>
       </div>

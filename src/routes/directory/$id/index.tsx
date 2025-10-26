@@ -1,5 +1,11 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { CheckIcon, MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
+import {
+  CircleCheckIcon,
+  CircleQuestionMarkIcon,
+  MailIcon,
+  MapPinIcon,
+  PhoneIcon,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -10,12 +16,16 @@ import {
 } from "@/components/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover.tsx";
+import {
   type GetDayhomeResponse,
   getDayhomeFn,
 } from "@/features/dayhomes/get_dayhome.fn";
 import { weekdayIso } from "@/lib/constants/weekday";
 import { googleDirections } from "@/lib/geocoding/constant_data";
-import { cn } from "@/lib/utils/cn";
 
 export const Route = createFileRoute("/directory/$id/")({
   ssr: "data-only",
@@ -53,9 +63,24 @@ function RouteComponent() {
             </div>
             {isLicensed && (
               <Badge>
-                <CheckIcon />
+                <CircleCheckIcon />
                 Licensed
               </Badge>
+            )}
+            {!isLicensed && (
+              <Popover>
+                <PopoverTrigger>
+                  <Badge variant="outline" size="lg">
+                    <CircleQuestionMarkIcon />
+                    Private
+                  </Badge>
+                </PopoverTrigger>
+                <PopoverContent className="mx-2">
+                  <div className="w-fit max-w-xs">
+                    Operates privately without a dayhome agency license
+                  </div>
+                </PopoverContent>
+              </Popover>
             )}
           </div>
         </CardHeader>
@@ -71,7 +96,7 @@ function RouteComponent() {
         </CardContent>
 
         <CardFooter>
-          <div className="flex gap-3">
+          <div className="flex gap-3 overflow-scroll no-scrollbar">
             <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
               <PhoneIcon className="size-4" />
               {phone}
