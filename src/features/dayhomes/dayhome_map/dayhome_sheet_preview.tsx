@@ -13,7 +13,7 @@ import { buttonVariants, LinkButton } from "@/components/ui/button";
 import { useGetDayhome } from "@/features/dayhomes/get_dayhome/use_get_dayhome";
 import { googleDirections } from "@/lib/geocoding/constant_data";
 
-const snapPoints = [0, 40, 0.7, 1];
+const snapPoints = [0, 40, 1];
 const maxSnap = snapPoints.length - 1;
 
 type Props = {
@@ -26,24 +26,24 @@ export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
   const [snapPoint, setSnapPoint] = useState(2);
   const sheetRef = useRef<SheetRef>(null);
 
-  useImperativeHandle(ref, () => {
-    return {
-      open: () => {
-        sheetRef.current?.snapTo(2);
-      },
-      close: () => {
-        sheetRef.current?.snapTo(1);
-      },
-    };
+  const expand = useCallback(() => {
+    sheetRef.current?.snapTo(maxSnap);
   }, []);
 
   const shrink = useCallback(() => {
     sheetRef.current?.snapTo(1);
   }, []);
 
-  const expand = useCallback(() => {
-    sheetRef.current?.snapTo(2);
-  }, []);
+  useImperativeHandle(ref, () => {
+    return {
+      open: () => {
+        expand();
+      },
+      close: () => {
+        shrink();
+      },
+    };
+  }, [shrink, expand]);
 
   useEffect(() => {
     if (isPending) {
@@ -57,9 +57,9 @@ export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
 
   return (
     <Sheet
-      className="max-w-lg sm:mx-auto mx-2"
-      isOpen
       ref={sheetRef}
+      className="max-w-lg sm:mx-auto"
+      isOpen
       onClose={() => {}}
       initialSnap={snapPoint}
       dragSnapToOrigin

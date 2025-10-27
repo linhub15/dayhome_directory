@@ -1,5 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import z from "@zod/zod";
+import { Settings2Icon } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -65,6 +66,13 @@ function FilterModal(props: Props) {
       },
     } satisfies Filter,
     onSubmit: ({ value }) => {
+      if (
+        !value.onlyLicensed
+        && !Object.values(value.ageGroups).some((v) => v)
+      ) {
+        setOpen(false);
+        return;
+      }
       props.onFilterChange?.(value);
       setOpen(false);
     },
@@ -82,7 +90,10 @@ function FilterModal(props: Props) {
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="outline">Filters</Button>
+        <Button variant="outline">
+          <Settings2Icon />
+          Filters
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -91,7 +102,11 @@ function FilterModal(props: Props) {
             <Button
               type="button"
               variant="outline"
-              onClick={() => props.onFilterChange?.()}
+              size="sm"
+              onClick={() => {
+                props.onFilterChange?.();
+                form.reset();
+              }}
             >
               Clear
             </Button>
