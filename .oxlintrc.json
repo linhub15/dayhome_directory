@@ -1,14 +1,5 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": ["import"],
-  "rules": {
-    "import/extensions": [
-      "warn",
-      "always",
-      {
-        "ts": "always",
-        "tsx": "always"
-      }
-    ]
-  }
+  "rules": {}
 }

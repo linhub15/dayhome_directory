@@ -1,5 +1,5 @@
-import { clientEnv } from "@/config/client_env";
 import { PostHogProvider } from "posthog-js/react";
+import { clientEnv } from "@/config/client_env";
 
 export function Provider({ children }: { children: React.ReactNode }) {
   const apiKey = clientEnv.VITE_PUBLIC_POSTHOG_KEY;

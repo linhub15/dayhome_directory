@@ -1,6 +1,5 @@
 import type {
   GeocodingOptions,
-  GeocodingResponse,
   LngLatBoundsLike,
 } from "@mapbox/search-js-core";
 import z from "@zod/zod";

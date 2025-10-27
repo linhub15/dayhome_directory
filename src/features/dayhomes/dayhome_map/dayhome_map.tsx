@@ -17,7 +17,10 @@ import type { LatLng } from "@/lib/geocoding/types.ts";
 import type { ListDayhomesData } from "./use_list_dayhomes.ts";
 
 type Props = {
-  ref: Ref<{ locate: () => void }>;
+  ref: Ref<{
+    panTo: (latLng: LatLngExpression, zoom: number) => void;
+    locate: () => void;
+  }>;
   center: LatLng;
   items: ListDayhomesData;
   onMoveEnd: (data: MapState) => void;
@@ -56,7 +59,7 @@ export function DayhomeMap({
       //----
       dragging={true}
       fadeAnimation={true}
-      attributionControl={false}
+      attributionControl={true}
       // @ts-expect-error: react-leaflet types are out of date
       whenReady={(m: { target: MapRef }) => {
         const { target } = m;
@@ -88,7 +91,10 @@ export function DayhomeMap({
 }
 
 function InnerMap(props: {
-  ref: Ref<{ locate: () => void }>;
+  ref: Ref<{
+    panTo: (latLng: LatLngExpression, zoom: number) => void;
+    locate: () => void;
+  }>;
   items: ListDayhomesData;
   onMoveEnd: (data: MapState) => void;
   onSelect: (id: string) => void;
@@ -98,6 +104,10 @@ function InnerMap(props: {
 
   useImperativeHandle(props.ref, () => {
     return {
+      panTo: (latLng: LatLngExpression, zoom: number) => {
+        map.panTo(latLng);
+        map.setZoom(zoom);
+      },
       locate: () => {
         map.locate({ setView: true, enableHighAccuracy: true, maxZoom: 14 });
       },

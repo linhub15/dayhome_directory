@@ -1,13 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import z from "@zod/zod";
-import type { LatLngBounds } from "leaflet";
-import { HomeIcon, LocateFixedIcon } from "lucide-react";
+import type { LatLngBounds, LatLngExpression } from "leaflet";
+import { InfoIcon, LocateFixedIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { Button, LinkButton } from "@/components/ui/button";
 import { DayhomeMap } from "@/features/dayhomes/dayhome_map/dayhome_map";
 import { DayhomeSheetPreview } from "@/features/dayhomes/dayhome_map/dayhome_sheet_preview";
 import {
-  type AgeGroupKey,
   FilterModal,
   filterModalSearchSchema,
 } from "@/features/dayhomes/dayhome_map/filter_modal";
@@ -51,42 +50,28 @@ function RouteComponent() {
   const navigate = Route.useNavigate();
 
   const [bounds, _setBounds] = useState<LatLngBounds | null>(null);
-  const [sheetDismissed, setSheetDismissed] = useState(false);
-  const mapRef = useRef<{ locate: () => void }>(null);
+  const sheetRef = useRef<{ open: () => void; close: () => void }>(null);
+  const mapRef = useRef<{
+    panTo: (latLng: LatLngExpression, zoom: number) => void;
+    locate: () => void;
+  }>(null);
 
-  // todo: refactor this into it's own hook and context to be shared deeper
-  const { data } = useListDayhomes({
+  const { data: dayhomes } = useListDayhomes({
     boundingBox: bounds
       ? {
           min: { latitude: bounds.getSouth(), longitude: bounds.getWest() },
           max: { latitude: bounds.getNorth(), longitude: bounds.getEast() },
         }
       : undefined,
+    filters: filters,
   });
 
-  const dayhomes = data
-    ?.filter((item) => {
-      if (!filters) return true;
-      return filters.onlyLicensed ? item.isLicensed : true;
-    })
-    .filter((item) => {
-      if (!filters || !filters.ageGroups) return true;
-
-      const filteredAgeGroups = Object.entries(filters.ageGroups!)
-        .filter(([, v]) => v)
-        .map(([k]) => k as AgeGroupKey);
-
-      if (!filteredAgeGroups.length) return true;
-
-      return item.ageGroups?.some((ag) => filteredAgeGroups.includes(ag));
-    });
-
   const dismissSheet = () => {
-    setSheetDismissed(true);
+    sheetRef.current?.close();
   };
 
   const handleSelect = (id: string) => {
-    setSheetDismissed(false);
+    sheetRef.current?.open();
     navigate({ search: (prev) => ({ ...prev, f: id }) });
   };
 
@@ -131,7 +116,7 @@ function RouteComponent() {
       <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-4 max-w-lg w-full px-2">
         <div className="flex gap-4 justify-between">
           <LinkButton to="/home" variant="outline">
-            <HomeIcon />
+            <InfoIcon />
           </LinkButton>
 
           <div className="flex items-center gap-2">
@@ -146,7 +131,12 @@ function RouteComponent() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => mapRef.current?.locate()}
+              onClick={() =>
+                mapRef.current?.panTo(
+                  { lat: EDMONTON.latitude, lng: EDMONTON.longitude },
+                  12,
+                )
+              }
             >
               Edmonton
             </Button>
@@ -165,9 +155,7 @@ function RouteComponent() {
       </div>
 
       <div className="fixed bottom-0 w-full mx-2">
-        {f && (
-          <DayhomeSheetPreview isDismissed={sheetDismissed} dayhomeId={f} />
-        )}
+        {f && <DayhomeSheetPreview ref={sheetRef} dayhomeId={f} />}
       </div>
     </div>
   );
