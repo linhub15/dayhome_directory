@@ -39,10 +39,20 @@ const defaultCenter = { ...EDMONTON, zoom: 11 };
 
 export const Route = createFileRoute("/map/")({
   ssr: "data-only",
-  component: RouteComponent,
   validateSearch: z.object({
     ...searchParamSchema.shape,
   }),
+  head: () => ({
+    meta: [
+      { title: "Edmonton's childcare map" },
+      {
+        name: "description",
+        content:
+          "Find and contact Edmonton daycares, dayhomes, and out-of-school care facilities.",
+      },
+    ],
+  }),
+  component: RouteComponent,
 });
 
 function RouteComponent() {
