@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import z from "@zod/zod";
 import type { LatLngBounds } from "leaflet";
-import { HomeIcon } from "lucide-react";
+import { HomeIcon, LocateFixedIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { Button, LinkButton } from "@/components/ui/button";
 import { DayhomeMap } from "@/features/dayhomes/dayhome_map/dayhome_map";
@@ -134,9 +134,23 @@ function RouteComponent() {
             <HomeIcon />
           </LinkButton>
 
-          <Button variant="outline" onClick={() => mapRef.current?.locate()}>
-            Use my location
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => mapRef.current?.locate()}
+            >
+              <LocateFixedIcon />
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => mapRef.current?.locate()}
+            >
+              Edmonton
+            </Button>
+          </div>
 
           <FilterModal
             filters={filters}

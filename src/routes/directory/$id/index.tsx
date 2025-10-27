@@ -29,7 +29,6 @@ import { googleDirections } from "@/lib/geocoding/constant_data";
 
 export const Route = createFileRoute("/directory/$id/")({
   ssr: "data-only",
-  component: RouteComponent,
   loader: async ({ params }) => {
     const dayhome = await getDayhomeFn({ data: { id: params.id } });
     if (!dayhome) {
@@ -37,6 +36,10 @@ export const Route = createFileRoute("/directory/$id/")({
     }
     return dayhome;
   },
+  head: ({ loaderData }) => ({
+    meta: [{ title: `${loaderData?.name}` }],
+  }),
+  component: RouteComponent,
 });
 
 function RouteComponent() {
