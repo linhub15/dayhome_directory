@@ -15,7 +15,6 @@ DATA_SPREADSHEET_ID=
 
 - Node.js
 - pnpm
-- deno
 
 ### Database things
 
