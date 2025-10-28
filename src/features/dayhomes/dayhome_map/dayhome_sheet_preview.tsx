@@ -69,7 +69,7 @@ export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
       onSnap={(snap) => setSnapPoint(snap)}
       disableDismiss
     >
-      <Sheet.Container className="max-h-[60vh]">
+      <Sheet.Container className="max-h-[65vh]">
         <Sheet.Header onClick={expand} />
         <Sheet.Content disableScroll={(state) => state.currentSnap !== maxSnap}>
           {!data ? undefined : (
@@ -124,7 +124,7 @@ export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
 
                 {data.email && (
                   <div className="flex items-center justify-between py-4">
-                    <span>{data.email}</span>
+                    <span className="overflow-scroll mr-1">{data.email}</span>
 
                     <a
                       className={buttonVariants({
