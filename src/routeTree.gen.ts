@@ -1,3 +1,7 @@
+// biome-ignore-all lint: generated
+
+// biome-ignore-all assist: generated
+
 /* eslint-disable */
 
 // @ts-nocheck
@@ -13,6 +17,7 @@ import { Route as DirectoryRouteRouteImport } from './routes/directory/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MapIndexRouteImport } from './routes/map/index'
 import { Route as DirectoryNewRouteImport } from './routes/directory/new'
+import { Route as wwwSitemapDotxmlRouteImport } from './routes/(www)/sitemap[.]xml'
 import { Route as wwwHomeRouteImport } from './routes/(www)/home'
 import { Route as DirectoryIdIndexRouteImport } from './routes/directory/$id/index'
 import { Route as DirectoryIdEditRouteImport } from './routes/directory/$id/edit'
@@ -37,6 +42,11 @@ const DirectoryNewRoute = DirectoryNewRouteImport.update({
   path: '/new',
   getParentRoute: () => DirectoryRouteRoute,
 } as any)
+const wwwSitemapDotxmlRoute = wwwSitemapDotxmlRouteImport.update({
+  id: '/(www)/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const wwwHomeRoute = wwwHomeRouteImport.update({
   id: '/(www)/home',
   path: '/home',
@@ -57,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRouteRouteWithChildren
   '/home': typeof wwwHomeRoute
+  '/sitemap.xml': typeof wwwSitemapDotxmlRoute
   '/directory/new': typeof DirectoryNewRoute
   '/map': typeof MapIndexRoute
   '/directory/$id/edit': typeof DirectoryIdEditRoute
@@ -66,6 +77,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRouteRouteWithChildren
   '/home': typeof wwwHomeRoute
+  '/sitemap.xml': typeof wwwSitemapDotxmlRoute
   '/directory/new': typeof DirectoryNewRoute
   '/map': typeof MapIndexRoute
   '/directory/$id/edit': typeof DirectoryIdEditRoute
@@ -76,6 +88,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRouteRouteWithChildren
   '/(www)/home': typeof wwwHomeRoute
+  '/(www)/sitemap.xml': typeof wwwSitemapDotxmlRoute
   '/directory/new': typeof DirectoryNewRoute
   '/map/': typeof MapIndexRoute
   '/directory/$id/edit': typeof DirectoryIdEditRoute
@@ -87,6 +100,7 @@ export interface FileRouteTypes {
     | '/'
     | '/directory'
     | '/home'
+    | '/sitemap.xml'
     | '/directory/new'
     | '/map'
     | '/directory/$id/edit'
@@ -96,6 +110,7 @@ export interface FileRouteTypes {
     | '/'
     | '/directory'
     | '/home'
+    | '/sitemap.xml'
     | '/directory/new'
     | '/map'
     | '/directory/$id/edit'
@@ -105,6 +120,7 @@ export interface FileRouteTypes {
     | '/'
     | '/directory'
     | '/(www)/home'
+    | '/(www)/sitemap.xml'
     | '/directory/new'
     | '/map/'
     | '/directory/$id/edit'
@@ -115,6 +131,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DirectoryRouteRoute: typeof DirectoryRouteRouteWithChildren
   wwwHomeRoute: typeof wwwHomeRoute
+  wwwSitemapDotxmlRoute: typeof wwwSitemapDotxmlRoute
   MapIndexRoute: typeof MapIndexRoute
 }
 
@@ -147,6 +164,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/directory/new'
       preLoaderRoute: typeof DirectoryNewRouteImport
       parentRoute: typeof DirectoryRouteRoute
+    }
+    '/(www)/sitemap.xml': {
+      id: '/(www)/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof wwwSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/(www)/home': {
       id: '/(www)/home'
@@ -192,6 +216,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DirectoryRouteRoute: DirectoryRouteRouteWithChildren,
   wwwHomeRoute: wwwHomeRoute,
+  wwwSitemapDotxmlRoute: wwwSitemapDotxmlRoute,
   MapIndexRoute: MapIndexRoute,
 }
 export const routeTree = rootRouteImport

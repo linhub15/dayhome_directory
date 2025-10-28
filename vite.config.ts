@@ -15,7 +15,16 @@ const config = defineConfig({
     cloudflare({
       viteEnvironment: { name: "ssr" },
     }),
-    tanstackStart(),
+    tanstackStart({
+      router: {
+        routeTreeFileHeader: [
+          "// biome-ignore-all lint: generated",
+          "/* eslint-disable */",
+          "// @ts-nocheck",
+          "// noinspection JSUnusedGlobalSymbols",
+        ],
+      },
+    }),
     viteReact(),
   ],
 });

@@ -7,7 +7,7 @@ export function DayhomeTitle({
 }) {
   return (
     <div className="flex flex-col">
-      <span>{name}</span>
+      <h1>{name}</h1>
       {agencyName && (
         <span className="text-sm text-muted-foreground">{agencyName}</span>
       )}
