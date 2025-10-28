@@ -88,10 +88,15 @@ function FilterModal(props: Props) {
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <Settings2Icon />
-          Filters
-        </Button>
+        <div className="relative">
+          {props.filters && (
+            <span className="absolute inline-flex size-2.5 -top-0.5 -right-0.5 rounded-full bg-sky-400 opacity-75"></span>
+          )}
+          <Button variant="outline">
+            <Settings2Icon />
+            Filters
+          </Button>
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

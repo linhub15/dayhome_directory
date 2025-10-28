@@ -71,13 +71,13 @@ function RouteComponent() {
             {phone && (
               <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
                 <PhoneIcon className="size-4" />
-                {phone}
+                <span>{phone}</span>
               </div>
             )}
             {email && (
               <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
                 <MailIcon className="size-4" />
-                {email}
+                <span className="text-nowrap">{email}</span>
               </div>
             )}
           </div>
@@ -87,8 +87,10 @@ function RouteComponent() {
       <Card>
         <CardHeader>
           <div className="flex justify-between">
-            <div className="flex items-center space-x-2">
-              <MapPinIcon />
+            <div className="flex items-top space-x-2">
+              <div>
+                <MapPinIcon className="size-5 mt-1" />
+              </div>
               <div>{address}</div>
             </div>
 
