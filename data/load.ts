@@ -6,6 +6,8 @@ import { saveCache } from "./geocode_cache.ts";
 import { dayhomeFromGoogleSheets } from "./importer.ts";
 import { geocodeAddress, getGeocodeCount } from "./mapbox_geocode.ts";
 
+const DRY_RUN = false;
+
 async function main() {
   const db = drizzle({
     schema: { ...schema },
@@ -13,6 +15,12 @@ async function main() {
       url: process.env.DATABASE_URL,
     },
   });
+
+  if (DRY_RUN) {
+    console.info("DRY RUN - not inserting into database");
+    console.info(`Inserting - ${dayhomeFromGoogleSheets.length}`);
+    return;
+  }
 
   await db.transaction(async (tx) => {
     for (const item of dayhomeFromGoogleSheets) {

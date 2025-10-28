@@ -100,14 +100,18 @@ function RouteComponent() {
 
         <CardFooter>
           <div className="flex gap-3 overflow-scroll no-scrollbar">
-            <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
-              <PhoneIcon className="size-4" />
-              {phone}
-            </div>
-            <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
-              <MailIcon className="size-4" />
-              {email}
-            </div>
+            {phone && (
+              <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
+                <PhoneIcon className="size-4" />
+                {phone}
+              </div>
+            )}
+            {email && (
+              <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
+                <MailIcon className="size-4" />
+                {email}
+              </div>
+            )}
           </div>
         </CardFooter>
       </Card>

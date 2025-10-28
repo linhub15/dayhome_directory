@@ -23,7 +23,9 @@ const json = parse(data, {
 });
 
 // Only keep rows with a name and address
-const toParse = json.filter((row) => !!row.Name && !!row.Address);
+const toParse = json.filter(
+  (row) => !!row.Name && !!row.Address && !row.loaded_to_db_on,
+);
 
 console.info(`Imported ${json.length} rows from Google Sheets`);
 
