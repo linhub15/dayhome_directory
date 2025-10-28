@@ -1,11 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import {
-  CircleCheckIcon,
-  CircleQuestionMarkIcon,
-  MailIcon,
-  MapPinIcon,
-  PhoneIcon,
-} from "lucide-react";
+import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -15,11 +9,8 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover.tsx";
+import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
+import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 import {
   type GetDayhomeResponse,
   getDayhomeFn,
@@ -60,31 +51,8 @@ function RouteComponent() {
       <Card className="overflow-clip">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-lg">{name}</h1>
-              <div className="text-xs italic text-slate-700">{agencyName}</div>
-            </div>
-            {isLicensed && (
-              <Badge>
-                <CircleCheckIcon />
-                Licensed
-              </Badge>
-            )}
-            {!isLicensed && (
-              <Popover>
-                <PopoverTrigger>
-                  <Badge variant="outline" size="lg">
-                    <CircleQuestionMarkIcon />
-                    Private
-                  </Badge>
-                </PopoverTrigger>
-                <PopoverContent className="mx-2">
-                  <div className="w-fit max-w-xs">
-                    Operates privately without a dayhome agency license
-                  </div>
-                </PopoverContent>
-              </Popover>
-            )}
+            <DayhomeTitle name={name} agencyName={agencyName} />
+            <LicensedBadge isLicensed={isLicensed} />
           </div>
         </CardHeader>
 

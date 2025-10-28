@@ -1,4 +1,3 @@
-import { CircleCheckIcon } from "lucide-react";
 import {
   type Ref,
   useCallback,
@@ -10,6 +9,8 @@ import {
 import { Sheet, type SheetRef } from "react-modal-sheet";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants, LinkButton } from "@/components/ui/button";
+import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
+import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 import { useGetDayhome } from "@/features/dayhomes/get_dayhome/use_get_dayhome";
 import { googleDirections } from "@/lib/geocoding/constant_data";
 
@@ -23,7 +24,7 @@ type Props = {
 
 export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
   const { data, isPending } = useGetDayhome(dayhomeId);
-  const [snapPoint, setSnapPoint] = useState(2);
+  const [snapPoint, setSnapPoint] = useState(1);
   const sheetRef = useRef<SheetRef>(null);
 
   const expand = useCallback(() => {
@@ -59,6 +60,7 @@ export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
     <Sheet
       ref={sheetRef}
       className="max-w-lg sm:mx-auto"
+      style={{ zIndex: "auto" }}
       isOpen
       onClose={() => {}}
       initialSnap={snapPoint}
@@ -71,15 +73,10 @@ export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
         <Sheet.Header onClick={expand} />
         <Sheet.Content disableScroll={(state) => state.currentSnap !== maxSnap}>
           {!data ? undefined : (
-            <div className="px-6">
-              <div className="flex justify-between items-start pb-4">
-                <span>{data.name}</span>
-                {data.isLicensed && (
-                  <Badge>
-                    <CircleCheckIcon />
-                    Licensed
-                  </Badge>
-                )}
+            <div className="px-6 isolate">
+              <div className="flex justify-between items-start pb-4 gap-4">
+                <DayhomeTitle name={data.name} agencyName={data.agencyName} />
+                <LicensedBadge isLicensed={data.isLicensed} />
               </div>
 
               <div className="flex gap-2 flex-wrap">

@@ -157,7 +157,7 @@ function RouteComponent() {
             onOpenStart={dismissSheet}
             onFilterChange={(filters) =>
               navigate({
-                search: (prev) => ({ ...prev, filters: filters }),
+                search: (prev) => ({ ...prev, filters }),
               })
             }
           />

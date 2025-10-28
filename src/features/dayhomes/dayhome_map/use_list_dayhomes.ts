@@ -15,7 +15,7 @@ export function useListDayhomes({
   /** Client-side filters */
   filters?: {
     onlyLicensed?: boolean;
-    ageGroups?: Record<AgeGroupKey, boolean>;
+    ageGroups?: Array<AgeGroupKey>;
   };
 }) {
   const listDayhomes = useServerFn(listDayhomesFn);
@@ -43,13 +43,7 @@ export function useListDayhomes({
     .filter((item) => {
       if (!filters || !filters.ageGroups) return true;
 
-      const filteredAgeGroups = Object.entries(filters.ageGroups)
-        .filter(([, v]) => v)
-        .map(([k]) => k as AgeGroupKey);
-
-      if (!filteredAgeGroups.length) return true;
-
-      return item.ageGroups?.some((ag) => filteredAgeGroups.includes(ag));
+      return item.ageGroups?.some((ag) => filters.ageGroups?.includes(ag));
     });
 
   return result;

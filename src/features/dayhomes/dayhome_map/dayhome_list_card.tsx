@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
+import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 
 export type Props = {
   name: string;
@@ -18,14 +20,9 @@ export function DayhomeListCard(props: Props) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between items-center">
-          <div>
-            <div>{props.name}</div>
-            <div className="text-xs text-slate-700 font-medium italic">
-              {props.agencyName}
-            </div>
-          </div>
-          {props.isLicensed && <Badge>Licensed</Badge>}
+        <div className="flex justify-between items-center gap-3">
+          <DayhomeTitle name={props.name} agencyName={props.agencyName} />
+          <LicensedBadge isLicensed={props.isLicensed} />
         </div>
         <div>
           {props.ageGroups?.map((ageGroup) => (

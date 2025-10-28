@@ -22,7 +22,7 @@ const ageGroup = [
   "grade_school",
 ] as const;
 type AgeGroupKey = (typeof ageGroup)[number];
-const ageGroupsOptions = {
+const ageGroupsOptions: Record<AgeGroupKey, string> = {
   infant: "Infant",
   toddler: "Toddler",
   preschool: "Preschool",
@@ -33,13 +33,15 @@ const ageGroupsOptions = {
 const filterModalSearchSchema = z.object({
   onlyLicensed: z.boolean().optional(),
   ageGroups: z
-    .object({
-      infant: z.boolean(),
-      toddler: z.boolean(),
-      preschool: z.boolean(),
-      kindergarten: z.boolean(),
-      grade_school: z.boolean(),
-    })
+    .array(
+      z.literal([
+        "infant",
+        "toddler",
+        "preschool",
+        "kindergarten",
+        "grade_school",
+      ]),
+    )
     .optional(),
 });
 
@@ -57,23 +59,19 @@ function FilterModal(props: Props) {
   const form = useForm({
     defaultValues: {
       onlyLicensed: props.filters?.onlyLicensed ?? false,
-      ageGroups: props.filters?.ageGroups ?? {
-        infant: false,
-        toddler: false,
-        preschool: false,
-        kindergarten: false,
-        grade_school: false,
-      },
+      ageGroups: props.filters?.ageGroups ?? [],
     } satisfies Filter,
     onSubmit: ({ value }) => {
-      if (
-        !value.onlyLicensed
-        && !Object.values(value.ageGroups).some((v) => v)
-      ) {
+      if (!value.onlyLicensed && value.ageGroups?.length === 0) {
+        props.onFilterChange?.();
         setOpen(false);
         return;
       }
-      props.onFilterChange?.(value);
+
+      props.onFilterChange?.({
+        onlyLicensed: value.onlyLicensed ?? undefined,
+        ageGroups: value.ageGroups?.length ? value.ageGroups : undefined,
+      });
       setOpen(false);
     },
   });
@@ -131,10 +129,10 @@ function FilterModal(props: Props) {
                   />
                   <div className="grid gap-1.5 font-normal">
                     <p className="text-sm leading-none font-medium">
-                      Only show licensed facilities
+                      Only show licensed providers
                     </p>
                     <p className="text-muted-foreground text-sm">
-                      Licensed facilities can be ineligible for subsidies.
+                      Daycares or dayhomes under a licensed agency
                     </p>
                   </div>
                 </Label>
@@ -146,27 +144,28 @@ function FilterModal(props: Props) {
             {(field) => (
               <div>
                 <div className="flex items-center gap-4 flex-wrap">
-                  {Object.keys(ageGroupsOptions).map((key) => (
+                  {ageGroup.map((key) => (
                     <Label key={key}>
                       <Badge
                         className="cursor-pointer select-none"
                         size="lg"
                         variant={
-                          field.state.value[key as AgeGroupKey]
+                          field.state.value?.includes(key)
                             ? "default"
                             : "outline"
                         }
                       >
                         <Checkbox
-                          checked={field.state.value[key as AgeGroupKey]}
+                          checked={field.state.value?.includes(key)}
                           onCheckedChange={(e) =>
-                            field.handleChange((prev) => ({
-                              ...prev,
-                              [key]: e,
-                            }))
+                            field.handleChange((prev) =>
+                              e
+                                ? [...(prev ?? []), key]
+                                : prev?.filter((age) => age !== key),
+                            )
                           }
                         />
-                        {ageGroupsOptions[key as AgeGroupKey]}
+                        {ageGroupsOptions[key]}
                       </Badge>
                     </Label>
                   ))}
