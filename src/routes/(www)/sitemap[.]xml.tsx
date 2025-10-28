@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { renderToStaticMarkup } from "react-dom/server";
+import { SEO_META } from "@/config/seo_meta.ts";
 import { db } from "@/lib/db/db_middleware.ts";
 import { generateSitemap, type SitemapUrl } from "@/lib/utils/sitemap.tsx";
 
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/(www)/sitemap.xml")({
         });
 
         const urls: SitemapUrl[] = dayhomes.map((dayhome) => ({
-          loc: `https://discovercare.ca/directory/${dayhome.id}`,
+          loc: `${SEO_META.url}/directory/${dayhome.id}`,
           lastmod: dayhome.updatedAt?.toISOString().split("T")[0],
         }));
 

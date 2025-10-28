@@ -1,6 +1,6 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/blocks/nav/nav";
 import { LinkButton } from "@/components/ui/button";
-import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(www)/home")({
   component: RouteComponent,

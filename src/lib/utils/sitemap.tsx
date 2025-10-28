@@ -1,4 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server";
+import { SEO_META } from "@/config/seo_meta.ts";
 
 export type SitemapUrl = {
   loc: string;
@@ -22,13 +23,13 @@ function SitemapXml(props: { urls: SitemapUrl[] }) {
     /* @ts-expect-error */
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <UrlElement
-        loc="https://discovercare.ca/home"
+        loc={`${SEO_META.url}/home`}
         lastmod={undefined}
         changefreq="weekly"
       />
 
       <UrlElement
-        loc="https://discovercare.ca/map"
+        loc={`${SEO_META.url}/map`}
         changefreq="weekly"
         priority={1}
       />
