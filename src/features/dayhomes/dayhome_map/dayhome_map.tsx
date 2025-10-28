@@ -169,7 +169,7 @@ function InnerMap(props: {
               const targetZoom = map.getZoom();
               const targetPoint = map
                 .project(item.position, targetZoom)
-                .subtract([0, map.getSize().y / -4]);
+                .subtract([0, map.getSize().y / -3.5]);
               const targetLatLng = map.unproject(targetPoint, targetZoom);
               map.setView(targetLatLng, targetZoom);
             },
