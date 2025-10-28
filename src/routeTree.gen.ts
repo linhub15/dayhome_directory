@@ -1,7 +1,5 @@
 // biome-ignore-all lint: generated
 
-// biome-ignore-all assist: generated
-
 /* eslint-disable */
 
 // @ts-nocheck

@@ -35,8 +35,7 @@ function SitemapXml(props: { urls: SitemapUrl[] }) {
       />
 
       {props.urls.map((url) => (
-        // biome-ignore lint/correctness/useJsxKeyInIterable: It's XML
-        <UrlElement {...url} />
+        <UrlElement key={url.loc} {...url} />
       ))}
 
       {/* @ts-expect-error */}
@@ -51,11 +50,11 @@ function UrlElement({ loc, lastmod, changefreq, priority }: SitemapUrl) {
       {/* @ts-expect-error */}
       <loc>{loc}</loc>
       {/* @ts-expect-error */}
-      <lastmod>{lastmod}</lastmod>
+      {lastmod && <lastmod>{lastmod}</lastmod>}
       {/* @ts-expect-error */}
-      <changefreq>{changefreq}</changefreq>
+      {changefreq && <changefreq>{changefreq}</changefreq>}
       {/* @ts-expect-error */}
-      <priority>{priority}</priority>
+      {priority && <priority>{priority}</priority>}
       {/* @ts-expect-error */}
     </url>
   );
