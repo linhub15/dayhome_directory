@@ -105,8 +105,8 @@ function RouteComponent() {
   const initialCenter =
     (mapState
       && ({
-        latitude: mapState.latitude!,
-        longitude: mapState.longitude!,
+        latitude: mapState.latitude,
+        longitude: mapState.longitude,
       } satisfies LatLng))
     ?? defaultCenter;
 
@@ -116,6 +116,7 @@ function RouteComponent() {
         <DayhomeMap
           ref={mapRef}
           center={initialCenter}
+          zoom={mapState?.zoom}
           items={dayhomes ?? []}
           onMoveEnd={handleMoveEnd}
           onSelect={handleSelect}

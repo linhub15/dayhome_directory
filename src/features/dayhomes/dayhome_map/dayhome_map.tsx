@@ -22,12 +22,14 @@ type Props = {
     locate: () => void;
   }>;
   center: LatLng;
+  zoom?: number;
   items: ListDayhomesData;
   onMoveEnd: (data: MapState) => void;
   onSelect: (id: string) => void;
   onDragStart: () => void;
 };
 
+//todo: reduce props and pass in map state instead of so many different ones
 type MapState = {
   center: LatLng;
   zoom: number;
@@ -38,6 +40,7 @@ type MapState = {
 export function DayhomeMap({
   ref,
   center,
+  zoom,
   items,
   onMoveEnd,
   onSelect,
@@ -48,7 +51,7 @@ export function DayhomeMap({
       style={{ height: "100vh", width: "100%", isolation: "isolate" }}
       center={{ lat: center.latitude, lng: center.longitude }}
       // Zoom
-      zoom={11}
+      zoom={zoom ?? 11}
       zoomControl={false}
       zoomAnimation={true}
       markerZoomAnimation={true}
