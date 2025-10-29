@@ -8,13 +8,13 @@ export const Route = createFileRoute("/(www)/home")({
 
 function RouteComponent() {
   return (
-    <>
+    <div className="px-2">
       <Nav />
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="max-w-2xl">
           <div className="text-center">
             <h1 className="text-4xl font-light tracking-tight text-balance text-gray-900 sm:text-6xl">
-              Discover <em className="font-bold">Edmonton</em> Childcare
+              Find Childcare in <em className="font-bold">Edmonton</em>
             </h1>
             <p className="mt-8 text-lg text-pretty text-gray-500 sm:text-xl/8">
               Search from a curated list of dayhomes and daycares in Edmonton.
@@ -35,6 +35,6 @@ function RouteComponent() {
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
