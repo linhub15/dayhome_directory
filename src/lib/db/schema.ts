@@ -47,8 +47,6 @@ export const dayhome = pgTable("dayhome", {
   isLicensed: boolean("is_licensed").notNull().default(false),
   agencyName: text("agency_name"),
   ageGroups: ageGroup("age_groups").array(),
-  availableSpots: integer("available_spots"),
-  capacity: text("capacity"),
   ...defaultColumns,
 });
 

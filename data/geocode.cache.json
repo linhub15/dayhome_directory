@@ -186,5 +186,89 @@
   "11126 35 ave nw, edmonton, ab t6j 0a4": {
     "latitude": 53.46842,
     "longitude": -113.518245
+  },
+  "7240 180 st nw, edmonton, ab t5t 2h1": {
+    "latitude": 53.50631,
+    "longitude": -113.635384
+  },
+  "15108 76 ave nw, edmonton, ab t5r 2z9": {
+    "latitude": 53.509243,
+    "longitude": -113.581604
+  },
+  "7650 156 st nw, edmonton, ab t5r 4k7": {
+    "latitude": 53.509229,
+    "longitude": -113.591426
+  },
+  "15451 84 ave nw, edmonton, ab t5r 3y1": {
+    "latitude": 53.516258,
+    "longitude": -113.587784
+  },
+  "7608 154 st, edmonton, ab t5r 1r7": {
+    "latitude": 53.508839,
+    "longitude": -113.5868
+  },
+  "514 wolf willow rd nw, edmonton, ab t5t 1e4": {
+    "latitude": 53.506797,
+    "longitude": -113.606915
+  },
+  "6104 172 st nw #126, edmonton, ab t6m 1g9": {
+    "latitude": 53.49657,
+    "longitude": -113.622102
+  },
+  "11120 28 ave nw edmonton, ab t6j 4m2": {
+    "latitude": 53.460016,
+    "longitude": -113.518691
+  },
+  "1115 st. albert trail, #740, st. albert t8n 7x6": {
+    "latitude": 53.673289,
+    "longitude": -113.637674
+  },
+  "5503 chappelle road sw, edmonton ab, t6w 5l6": {
+    "latitude": 53.399335,
+    "longitude": -113.573602
+  },
+  "6936 ellerslie rd sw #200 edmonton ab t6x 1s4": {
+    "latitude": 53.425046,
+    "longitude": -113.446188
+  },
+  "1115 st albert trl #910, st. albert, ab t8n 7x6": {
+    "latitude": 53.673289,
+    "longitude": -113.637674
+  },
+  "10018 105 st nw #101, edmonton ab t5j 1c3": {
+    "latitude": 53.539436,
+    "longitude": -113.50161
+  },
+  "625 st albert trl suite 300, st. albert, ab t8n 3l3": {
+    "latitude": 53.655697,
+    "longitude": -113.628013
+  },
+  "6814 104 street nw, edmonton ab t6h 2l6": {
+    "latitude": 53.504843,
+    "longitude": -113.498052
+  },
+  "ledgeview business centre 9707 110 st nw suite 104, edmonton, ab t5k 2l9": {
+    "latitude": 53.534369,
+    "longitude": -113.509626
+  },
+  "kimberley homes 2359 90b st sw, edmonton, ab t6x 0p4": {
+    "latitude": 53.411461,
+    "longitude": -113.480034
+  },
+  "the enjoy centre, 100, 101 riel dr, st. albert, ab t8n 3x4": {
+    "latitude": 53.611771,
+    "longitude": -113.648397
+  },
+  "5962 gateway blvd #200, edmonton, ab t6h 2h6": {
+    "latitude": 53.49749,
+    "longitude": -113.492325
+  },
+  "10531 kingsway nw, edmonton, ab t5h 4k1": {
+    "latitude": 53.557382,
+    "longitude": -113.501912
+  },
+  "10538 111 st nw, edmonton, ab t5h 0m8": {
+    "latitude": 53.549,
+    "longitude": -113.512412
   }
 }

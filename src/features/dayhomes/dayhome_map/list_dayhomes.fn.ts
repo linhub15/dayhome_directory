@@ -3,6 +3,7 @@ import z from "@zod/zod";
 import { sql } from "drizzle-orm";
 import { db } from "@/lib/db/db_middleware";
 import { LatLngSchema } from "@/lib/geocoding/types";
+import { log } from "@/lib/observability/log_middleware.ts";
 
 const Request = z.object({
   name: z.string().optional(),
@@ -16,7 +17,7 @@ const Request = z.object({
 
 export const listDayhomesFn = createServerFn({ method: "GET" })
   .inputValidator(Request)
-  .middleware([db])
+  .middleware([log, db])
   .handler(async ({ data, context }) => {
     const { db } = context;
 
