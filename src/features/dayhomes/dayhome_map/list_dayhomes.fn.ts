@@ -22,6 +22,7 @@ export const listDayhomesFn = createServerFn({ method: "GET" })
 
     const result = await db.query.dayhome.findMany({
       limit: 100,
+      with: { vancancies: true },
       where: (dayhome, { and, ilike }) => {
         const searchName = data.name
           ? ilike(dayhome.name, `%${data.name}%`)

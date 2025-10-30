@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   check,
+  date,
   geometry,
   integer,
   pgEnum,
@@ -74,6 +75,7 @@ export const dayhomeOpenHours = pgTable(
 
 export const dayhomeRelations = relations(dayhome, ({ many }) => ({
   openHours: many(dayhomeOpenHours),
+  vancancies: many(dayhomeVacancy),
 }));
 
 export const dayhomeOpenHoursRelations = relations(
@@ -85,6 +87,26 @@ export const dayhomeOpenHoursRelations = relations(
     }),
   }),
 );
+
+export const dayhomeVacancy = pgTable(
+  "dayhomeVacancy",
+  {
+    dayhomeId: text("dayhome_id")
+      .references(() => dayhome.id, { onDelete: "cascade" })
+      .notNull(),
+    startOn: date("start_on").defaultNow().notNull(),
+    endOn: date("end_on").notNull(),
+    ...defaultColumns,
+  },
+  (table) => [primaryKey({ columns: [table.dayhomeId, table.startOn] })],
+);
+
+export const dayhomeVacancyRelations = relations(dayhomeVacancy, ({ one }) => ({
+  dayhome: one(dayhome, {
+    fields: [dayhomeVacancy.dayhomeId],
+    references: [dayhome.id],
+  }),
+}));
 
 export const geocodeCache = pgTable("geocode_cache", {
   query: text("query").notNull().primaryKey(),

@@ -1,4 +1,4 @@
-import { Icon } from "leaflet";
+import { DivIcon, Icon } from "leaflet";
 
 const circleIcon = `
     <svg
@@ -8,7 +8,7 @@ const circleIcon = `
       viewBox="0 0 24 24"
       fill="#2b7fff"
       stroke="white"
-      stroke-width="2"
+      stroke-width="2.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     >
@@ -19,9 +19,20 @@ const circleIcon = `
 const encodedSvg = encodeURIComponent(circleIcon);
 const svgUrl = `data:image/svg+xml,${encodedSvg}`;
 
+export const mapPinIcon = new DivIcon({
+  className: "", // deliberately empty to avoid default styles
+  html: `
+    <div class="relative flex items-center justify-center size-4">
+      <span class="absolute size-8 rounded-full bg-sky-500/30 animate-ping"></span>
+      <span class="relative size-3 rounded-full bg-primary ring-2 ring-white shadow"></span>
+    </div>`,
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
+});
+
 export const mapMarkerIcon = new Icon({
   className: "fill-background",
   iconUrl: svgUrl,
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
+  iconSize: [18, 18],
+  iconAnchor: [9, 9],
 });
