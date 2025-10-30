@@ -12,7 +12,10 @@ import {
 import type { MapRef } from "react-leaflet/MapContainer";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { pinClusterIcon } from "@/components/ui/map/pin_cluster_icon.ts";
-import { mapMarkerIcon, mapPinIcon } from "@/components/ui/map/pin_icon.ts";
+import {
+  mapAvailableIcon,
+  mapDefaultIcon,
+} from "@/components/ui/map/pin_icon.ts";
 import type { LatLng } from "@/lib/geocoding/types.ts";
 import type { ListDayhomesData } from "./use_list_dayhomes.ts";
 
@@ -163,7 +166,7 @@ function InnerMap(props: {
         <Marker
           key={item.id}
           position={item.position}
-          icon={item.hasVacancy ? mapPinIcon : mapMarkerIcon}
+          icon={item.hasVacancy ? mapAvailableIcon : mapDefaultIcon}
           title={item.name}
           autoPanOnFocus={false}
           eventHandlers={{
