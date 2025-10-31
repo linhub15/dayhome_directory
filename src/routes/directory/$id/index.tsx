@@ -109,7 +109,7 @@ function RouteComponent() {
           </div>
 
           <div className="py-4">
-            <OpenHours openHours={openHours} />
+            {openHours.length > 0 && <OpenHours openHours={openHours} />}
           </div>
         </CardContent>
       </Card>
