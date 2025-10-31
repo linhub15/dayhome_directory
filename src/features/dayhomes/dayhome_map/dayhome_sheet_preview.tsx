@@ -124,7 +124,7 @@ export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
 
                 {data.email && (
                   <div className="flex items-center justify-between py-4">
-                    <span className="overflow-scroll mr-1">{data.email}</span>
+                    <span className="overflow-auto mr-1">{data.email}</span>
 
                     <a
                       className={buttonVariants({

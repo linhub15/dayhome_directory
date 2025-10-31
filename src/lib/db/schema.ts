@@ -4,7 +4,6 @@ import {
   check,
   date,
   geometry,
-  integer,
   pgEnum,
   pgTable,
   primaryKey,
@@ -45,6 +44,7 @@ export const dayhome = pgTable("dayhome", {
   phone: text("phone"),
   email: text("email"),
   isLicensed: boolean("is_licensed").notNull().default(false),
+  licenseId: text("license_id").references(() => license.id),
   agencyName: text("agency_name"),
   ageGroups: ageGroup("age_groups").array(),
   ...defaultColumns,
@@ -71,7 +71,11 @@ export const dayhomeOpenHours = pgTable(
   ],
 );
 
-export const dayhomeRelations = relations(dayhome, ({ many }) => ({
+export const dayhomeRelations = relations(dayhome, ({ one, many }) => ({
+  license: one(license, {
+    fields: [dayhome.licenseId],
+    references: [license.id],
+  }),
   openHours: many(dayhomeOpenHours),
   vancancies: many(dayhomeVacancy),
 }));
@@ -104,6 +108,34 @@ export const dayhomeVacancyRelations = relations(dayhomeVacancy, ({ one }) => ({
     fields: [dayhomeVacancy.dayhomeId],
     references: [dayhome.id],
   }),
+}));
+
+export const license = pgTable("license", {
+  id: text("id").primaryKey().notNull(),
+  name: text("name").notNull(),
+  address: text("address").notNull(),
+  city: text("city").notNull(),
+  postalCode: text("postal_code").notNull(),
+  phoneNumber: text("phone_number"),
+  type: text("type", {
+    enum: [
+      "FACILITY-BASED PROGRAM",
+      "INNOVATIVE CHILD CARE PROGRAM",
+      "FAMILY DAY HOME",
+      "GROUP FAMILY CHILD CARE PROGRAM",
+    ],
+  }).notNull(),
+  hasDayCare: boolean("has_day_care").notNull().default(false),
+  hasOutOfSchoolCare: boolean("has_out_of_school_care")
+    .notNull()
+    .default(false),
+  hasPreschool: boolean("has_preschool").notNull().default(false),
+  capacity: smallint("capacity").notNull().default(0),
+  ...defaultColumns,
+});
+
+export const licenseRelations = relations(license, ({ many }) => ({
+  dayhomes: many(dayhome),
 }));
 
 export const geocodeCache = pgTable("geocode_cache", {

@@ -16,7 +16,7 @@ DATA_SPREADSHEET_ID=
 - Node.js
 - pnpm
 
-### Database things
+### Database Setep
 
 ```
 CREATE EXTENSION postgis;
@@ -28,3 +28,8 @@ CREATE EXTENSION postgis;
 - https://console.neon.tech
 - https://console.mapbox.com
 - https://us.posthog.com
+
+### Next Infra Improvements
+
+- test environment
+- database backups

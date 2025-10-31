@@ -1,5 +1,5 @@
 import "dotenv/config.js";
-import type { InferInsertModel } from "drizzle-orm";
+import { type InferInsertModel, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import * as schema from "../src/lib/db/schema.ts";
 import { saveCache } from "./geocode_cache.ts";
@@ -132,13 +132,32 @@ async function main() {
     }
   });
 
+  await db.execute(sql`UPDATE dayhome
+    SET location = ST_SetSRID(location, 4326)
+    WHERE ST_SRID(location) = 0;`);
+
+  await db.$client.end();
+
   await saveCache();
 
   console.info(`Used ${getGeocodeCount()} geocode calls`);
-
-  console.warn("REMEMBER TO SET ALL THE DAYHOME SRID AFTER INSERT");
-
-  process.exit();
 }
+/**
+ * Note to self:
+ * strategy to get parents on board is to have all the daycares and preschools
+ * this should get a solid traffic from parents
+ *
+ * Then dayhome agencies will see the traffic and want to be on board.
+ * They are the enterprise and can supply data for free listing.
+ *
+ *
+ * Facility Paid features
+ *  - vacancy notification
+ *  - waitlist notification
+ *  - profile page
+ *    - links
+ *    - photos
+ *    - files
+ */
 
 main();

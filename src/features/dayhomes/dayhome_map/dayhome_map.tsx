@@ -5,7 +5,6 @@ import {
   MapContainer,
   Marker,
   TileLayer,
-  Tooltip,
   useMap,
   useMapEvents,
 } from "react-leaflet";
@@ -172,7 +171,6 @@ function InnerMap(props: {
           eventHandlers={{
             click: () => {
               props.onSelect(item.id);
-
               const targetZoom = map.getZoom();
               const targetPoint = map
                 .project(item.position, targetZoom)
@@ -182,13 +180,13 @@ function InnerMap(props: {
             },
           }}
         >
-          {map.getZoom() >= 14 && (
+          {/* {map.getZoom() >= 14 && (
             <Tooltip permanent interactive>
-              <div className="text-base font-normal text-black px-2 text-shadow-md text-shadow-white">
+              <div className="text-base font-normal text-black px-2 text-shadow-md text-shadow-white capitalize">
                 {item.name}
               </div>
             </Tooltip>
-          )}
+          )} */}
         </Marker>
       ))}
     </MarkerClusterGroup>

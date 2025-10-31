@@ -19,7 +19,7 @@ const data = await response.text();
 
 const json = parse(data, {
   skipFirstRow: true,
-  strip: true,
+  trimLeadingSpace: true,
 });
 
 // Only keep rows with a name and address
