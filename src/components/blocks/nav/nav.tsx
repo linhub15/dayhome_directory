@@ -14,6 +14,13 @@ export function Nav() {
           </LinkButton>
           <LinkButton
             variant="ghost"
+            to="/info"
+            activeProps={{ className: "underline" }}
+          >
+            Info
+          </LinkButton>
+          <LinkButton
+            variant="ghost"
             to="/map"
             activeProps={{ className: "underline" }}
           >

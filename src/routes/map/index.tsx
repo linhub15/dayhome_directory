@@ -22,19 +22,6 @@ const searchParamSchema = z.object({
   filters: filterModalSearchSchema.optional(),
 });
 
-const zMapStateFromSearch = z
-  .string()
-  .optional()
-  .transform((s) => {
-    if (!s) return;
-    const [latitude, longitude, zoom] = s.split(",");
-    return {
-      latitude: Number(latitude),
-      longitude: Number(longitude),
-      zoom: Number(zoom),
-    };
-  });
-
 export const Route = createFileRoute("/map/")({
   ssr: "data-only",
   validateSearch: z.object({
@@ -98,7 +85,7 @@ function RouteComponent() {
 
         <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-4 max-w-lg w-full px-2">
           <div className="flex gap-4 justify-between">
-            <LinkButton to="/home" variant="outline">
+            <LinkButton to="/info" variant="outline">
               <InfoIcon />
             </LinkButton>
 

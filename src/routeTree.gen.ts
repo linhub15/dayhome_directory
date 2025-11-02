@@ -14,11 +14,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DirectoryRouteRouteImport } from './routes/directory/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MapIndexRouteImport } from './routes/map/index'
-import { Route as DirectoryNewRouteImport } from './routes/directory/new'
 import { Route as wwwSitemapDotxmlRouteImport } from './routes/(www)/sitemap[.]xml'
+import { Route as wwwInfoRouteImport } from './routes/(www)/info'
 import { Route as wwwHomeRouteImport } from './routes/(www)/home'
 import { Route as DirectoryIdIndexRouteImport } from './routes/directory/$id/index'
-import { Route as DirectoryIdEditRouteImport } from './routes/directory/$id/edit'
 
 const DirectoryRouteRoute = DirectoryRouteRouteImport.update({
   id: '/directory',
@@ -35,14 +34,14 @@ const MapIndexRoute = MapIndexRouteImport.update({
   path: '/map/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DirectoryNewRoute = DirectoryNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => DirectoryRouteRoute,
-} as any)
 const wwwSitemapDotxmlRoute = wwwSitemapDotxmlRouteImport.update({
   id: '/(www)/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const wwwInfoRoute = wwwInfoRouteImport.update({
+  id: '/(www)/info',
+  path: '/info',
   getParentRoute: () => rootRouteImport,
 } as any)
 const wwwHomeRoute = wwwHomeRouteImport.update({
@@ -55,30 +54,23 @@ const DirectoryIdIndexRoute = DirectoryIdIndexRouteImport.update({
   path: '/$id/',
   getParentRoute: () => DirectoryRouteRoute,
 } as any)
-const DirectoryIdEditRoute = DirectoryIdEditRouteImport.update({
-  id: '/$id/edit',
-  path: '/$id/edit',
-  getParentRoute: () => DirectoryRouteRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRouteRouteWithChildren
   '/home': typeof wwwHomeRoute
+  '/info': typeof wwwInfoRoute
   '/sitemap.xml': typeof wwwSitemapDotxmlRoute
-  '/directory/new': typeof DirectoryNewRoute
   '/map': typeof MapIndexRoute
-  '/directory/$id/edit': typeof DirectoryIdEditRoute
   '/directory/$id': typeof DirectoryIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRouteRouteWithChildren
   '/home': typeof wwwHomeRoute
+  '/info': typeof wwwInfoRoute
   '/sitemap.xml': typeof wwwSitemapDotxmlRoute
-  '/directory/new': typeof DirectoryNewRoute
   '/map': typeof MapIndexRoute
-  '/directory/$id/edit': typeof DirectoryIdEditRoute
   '/directory/$id': typeof DirectoryIdIndexRoute
 }
 export interface FileRoutesById {
@@ -86,10 +78,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRouteRouteWithChildren
   '/(www)/home': typeof wwwHomeRoute
+  '/(www)/info': typeof wwwInfoRoute
   '/(www)/sitemap.xml': typeof wwwSitemapDotxmlRoute
-  '/directory/new': typeof DirectoryNewRoute
   '/map/': typeof MapIndexRoute
-  '/directory/$id/edit': typeof DirectoryIdEditRoute
   '/directory/$id/': typeof DirectoryIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -98,30 +89,27 @@ export interface FileRouteTypes {
     | '/'
     | '/directory'
     | '/home'
+    | '/info'
     | '/sitemap.xml'
-    | '/directory/new'
     | '/map'
-    | '/directory/$id/edit'
     | '/directory/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/directory'
     | '/home'
+    | '/info'
     | '/sitemap.xml'
-    | '/directory/new'
     | '/map'
-    | '/directory/$id/edit'
     | '/directory/$id'
   id:
     | '__root__'
     | '/'
     | '/directory'
     | '/(www)/home'
+    | '/(www)/info'
     | '/(www)/sitemap.xml'
-    | '/directory/new'
     | '/map/'
-    | '/directory/$id/edit'
     | '/directory/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -129,6 +117,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DirectoryRouteRoute: typeof DirectoryRouteRouteWithChildren
   wwwHomeRoute: typeof wwwHomeRoute
+  wwwInfoRoute: typeof wwwInfoRoute
   wwwSitemapDotxmlRoute: typeof wwwSitemapDotxmlRoute
   MapIndexRoute: typeof MapIndexRoute
 }
@@ -156,18 +145,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MapIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/directory/new': {
-      id: '/directory/new'
-      path: '/new'
-      fullPath: '/directory/new'
-      preLoaderRoute: typeof DirectoryNewRouteImport
-      parentRoute: typeof DirectoryRouteRoute
-    }
     '/(www)/sitemap.xml': {
       id: '/(www)/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof wwwSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(www)/info': {
+      id: '/(www)/info'
+      path: '/info'
+      fullPath: '/info'
+      preLoaderRoute: typeof wwwInfoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(www)/home': {
@@ -184,25 +173,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DirectoryIdIndexRouteImport
       parentRoute: typeof DirectoryRouteRoute
     }
-    '/directory/$id/edit': {
-      id: '/directory/$id/edit'
-      path: '/$id/edit'
-      fullPath: '/directory/$id/edit'
-      preLoaderRoute: typeof DirectoryIdEditRouteImport
-      parentRoute: typeof DirectoryRouteRoute
-    }
   }
 }
 
 interface DirectoryRouteRouteChildren {
-  DirectoryNewRoute: typeof DirectoryNewRoute
-  DirectoryIdEditRoute: typeof DirectoryIdEditRoute
   DirectoryIdIndexRoute: typeof DirectoryIdIndexRoute
 }
 
 const DirectoryRouteRouteChildren: DirectoryRouteRouteChildren = {
-  DirectoryNewRoute: DirectoryNewRoute,
-  DirectoryIdEditRoute: DirectoryIdEditRoute,
   DirectoryIdIndexRoute: DirectoryIdIndexRoute,
 }
 
@@ -214,6 +192,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DirectoryRouteRoute: DirectoryRouteRouteWithChildren,
   wwwHomeRoute: wwwHomeRoute,
+  wwwInfoRoute: wwwInfoRoute,
   wwwSitemapDotxmlRoute: wwwSitemapDotxmlRoute,
   MapIndexRoute: MapIndexRoute,
 }
