@@ -1,16 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import z from "@zod/zod";
-import type { LatLngBounds, LatLngExpression } from "leaflet";
+import type { LatLngExpression } from "leaflet";
 import { InfoIcon, LocateFixedIcon } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Button, LinkButton } from "@/components/ui/button";
-import { DayhomeMap } from "@/features/dayhomes/dayhome_map/dayhome_map";
 import { DayhomeSheetPreview } from "@/features/dayhomes/dayhome_map/dayhome_sheet_preview";
 import {
   FilterModal,
   filterModalSearchSchema,
 } from "@/features/dayhomes/dayhome_map/filter_modal";
-import { useListDayhomes } from "@/features/dayhomes/dayhome_map/use_list_dayhomes";
+import { InnerMap, MapView } from "@/features/dayhomes/dayhome_map/map_view";
+import { MapViewProvider } from "@/features/dayhomes/dayhome_map/map_view_provider.tsx";
 import { EDMONTON } from "@/lib/geocoding/constant_data";
 import type { LatLng } from "@/lib/geocoding/types";
 
@@ -35,8 +35,6 @@ const zMapStateFromSearch = z
     };
   });
 
-const defaultCenter = { ...EDMONTON, zoom: 11 };
-
 export const Route = createFileRoute("/map/")({
   ssr: "data-only",
   validateSearch: z.object({
@@ -52,29 +50,25 @@ export const Route = createFileRoute("/map/")({
       },
     ],
   }),
+  loaderDeps: ({ search }) => search,
+  loader: ({ deps }) => {
+    const defaultCenter = { ...EDMONTON, zoom: 11 };
+    const initialMapPosition =
+      zMapStateFromSearch.parse(deps.l) ?? defaultCenter;
+    return { initialMapPosition };
+  },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { l, f, filters } = Route.useSearch();
   const navigate = Route.useNavigate();
 
-  const [bounds, _setBounds] = useState<LatLngBounds | null>(null);
   const sheetRef = useRef<{ open: () => void; close: () => void }>(null);
+
   const mapRef = useRef<{
     panTo: (latLng: LatLngExpression, zoom: number) => void;
     locate: () => void;
   }>(null);
-
-  const { data: dayhomes } = useListDayhomes({
-    boundingBox: bounds
-      ? {
-          min: { latitude: bounds.getSouth(), longitude: bounds.getWest() },
-          max: { latitude: bounds.getNorth(), longitude: bounds.getEast() },
-        }
-      : undefined,
-    filters: filters,
-  });
 
   const dismissSheet = () => {
     sheetRef.current?.close();
@@ -82,7 +76,9 @@ function RouteComponent() {
 
   const handleSelect = (id: string) => {
     sheetRef.current?.open();
-    navigate({ search: (prev) => ({ ...prev, f: id }) });
+    navigate({
+      search: (prev) => ({ ...prev, f: id }),
+    });
   };
 
   const handleMoveEnd = async ({
@@ -91,83 +87,66 @@ function RouteComponent() {
   }: {
     center: LatLng;
     zoom: number;
-    bounds: LatLngBounds;
   }) => {
-    // setBounds(bounds);
-    const atParam = `${center.latitude},${center.longitude},${zoom}`;
-    await navigate({
-      search: (prev) => ({ ...prev, l: atParam }),
-      replace: true,
-    });
+    const l = `${center.latitude},${center.longitude},${zoom}`;
+    navigate({ search: (prev) => ({ ...prev, l }) });
   };
 
-  const mapState = zMapStateFromSearch.parse(l);
-  const initialCenter =
-    (mapState
-      && ({
-        latitude: mapState.latitude,
-        longitude: mapState.longitude,
-      } satisfies LatLng))
-    ?? defaultCenter;
-
   return (
-    <div>
+    <MapViewProvider
+      selectMarker={handleSelect}
+      dismissSheet={dismissSheet}
+      onMoveEnd={handleMoveEnd}
+    >
       <div>
-        <DayhomeMap
-          ref={mapRef}
-          center={initialCenter}
-          zoom={mapState?.zoom}
-          items={dayhomes ?? []}
-          onMoveEnd={handleMoveEnd}
-          onSelect={handleSelect}
-          onDragStart={dismissSheet}
-        />
-      </div>
+        <MapView>
+          <InnerMap ref={mapRef} />
+        </MapView>
 
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-4 max-w-lg w-full px-2">
-        <div className="flex gap-4 justify-between">
-          <LinkButton to="/home" variant="outline">
-            <InfoIcon />
-          </LinkButton>
+        <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-4 max-w-lg w-full px-2">
+          <div className="flex gap-4 justify-between">
+            <LinkButton to="/home" variant="outline">
+              <InfoIcon />
+            </LinkButton>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => mapRef.current?.locate()}
-            >
-              <LocateFixedIcon />
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => mapRef.current?.locate()}
+              >
+                <LocateFixedIcon />
+              </Button>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                mapRef.current?.panTo(
-                  { lat: EDMONTON.latitude, lng: EDMONTON.longitude },
-                  12,
-                )
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  mapRef.current?.panTo(
+                    { lat: EDMONTON.latitude, lng: EDMONTON.longitude },
+                    12,
+                  )
+                }
+              >
+                Edmonton
+              </Button>
+            </div>
+
+            <FilterModal
+              onOpenStart={dismissSheet}
+              onFilterChange={(filters) =>
+                navigate({
+                  search: (prev) => ({ ...prev, filters }),
+                })
               }
-            >
-              Edmonton
-            </Button>
+            />
           </div>
+        </div>
 
-          <FilterModal
-            filters={filters}
-            onOpenStart={dismissSheet}
-            onFilterChange={(filters) =>
-              navigate({
-                search: (prev) => ({ ...prev, filters }),
-              })
-            }
-          />
+        <div className="fixed bottom-0 w-full mx-2">
+          <DayhomeSheetPreview ref={sheetRef} />
         </div>
       </div>
-
-      <div className="fixed bottom-0 w-full mx-2">
-        {f && <DayhomeSheetPreview ref={sheetRef} dayhomeId={f} />}
-      </div>
-    </div>
+    </MapViewProvider>
   );
 }

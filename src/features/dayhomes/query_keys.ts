@@ -14,5 +14,5 @@ export const dayhomeKeys = {
 
   details: () => [...dayhomeKeys.all, "detail"] as const,
 
-  detail: (id: string) => [...dayhomeKeys.details(), id] as const,
+  detail: (id?: string) => [...dayhomeKeys.details(), id] as const,
 };

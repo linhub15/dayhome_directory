@@ -13,16 +13,21 @@ import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome
 import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 import { useGetDayhome } from "@/features/dayhomes/get_dayhome/use_get_dayhome";
 import { googleDirections } from "@/lib/geocoding/constant_data";
+import { Route } from "@/routes/map/index.tsx";
 
 const snapPoints = [0, 40, 1];
 const maxSnap = snapPoints.length - 1;
 
 type Props = {
   ref: Ref<{ open: () => void; close: () => void }>;
-  dayhomeId: string;
 };
 
-export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
+export function DayhomeSheetPreview({ ref }: Props) {
+  const dayhomeId = Route.useSearch({
+    select: ({ f }) => f,
+    structuralSharing: true,
+  });
+
   const { data, isPending } = useGetDayhome(dayhomeId);
   const [snapPoint, setSnapPoint] = useState(1);
   const sheetRef = useRef<SheetRef>(null);
@@ -55,6 +60,10 @@ export function DayhomeSheetPreview({ ref, dayhomeId }: Props) {
       return expand();
     }
   }, [data, isPending, shrink, expand]);
+
+  if (!dayhomeId) {
+    return;
+  }
 
   return (
     <Sheet

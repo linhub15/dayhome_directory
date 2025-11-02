@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Route } from "@/routes/map/index.tsx";
 
 const ageGroup = [
   "infant",
@@ -48,18 +49,18 @@ const filterModalSearchSchema = z.object({
 type Filter = z.infer<typeof filterModalSearchSchema>;
 
 type Props = {
-  filters?: Filter;
   onOpenStart?: () => void;
   onFilterChange?: (filters?: Filter) => void;
 };
 
 function FilterModal(props: Props) {
+  const filters = Route.useSearch({ select: ({ filters }) => filters });
   const [open, setOpen] = useState(false);
 
   const form = useForm({
     defaultValues: {
-      onlyLicensed: props.filters?.onlyLicensed ?? false,
-      ageGroups: props.filters?.ageGroups ?? [],
+      onlyLicensed: filters?.onlyLicensed ?? false,
+      ageGroups: filters?.ageGroups ?? [],
     } satisfies Filter,
     onSubmit: ({ value }) => {
       if (!value.onlyLicensed && value.ageGroups?.length === 0) {
@@ -89,7 +90,7 @@ function FilterModal(props: Props) {
     >
       <DialogTrigger asChild>
         <div className="relative">
-          {props.filters && (
+          {filters && (
             <span className="absolute inline-flex size-2.5 -top-0.5 -right-0.5 rounded-full bg-sky-400 opacity-75"></span>
           )}
           <Button variant="outline">
