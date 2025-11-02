@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/map/pin_icon.ts";
 import { useMapView } from "@/features/dayhomes/dayhome_map/map_view_provider.tsx";
 import { useListDayhomes } from "@/features/dayhomes/dayhome_map/use_list_dayhomes.ts";
+import { EDMONTON } from "@/lib/geocoding/constant_data.ts";
 import type { LatLng } from "@/lib/geocoding/types.ts";
 import { Route } from "@/routes/map/index.tsx";
 
@@ -42,14 +43,20 @@ const zMapStateFromSearch = z.string().transform((s) => {
 });
 
 export function MapView({ children }: { children: React.ReactNode }) {
+  const defaultCenter = { ...EDMONTON, zoom: 11 };
+  // This is required to prevent map re-render when search params change
   const search = new URLSearchParams(window.location.search);
-  const initial = zMapStateFromSearch.parse(search.get("l"));
+  const { data } =
+    zMapStateFromSearch.safeParse(search.get("l")) ?? defaultCenter;
 
   return (
     <MapContainer
       style={{ height: "100vh", width: "100%", isolation: "isolate" }}
-      center={{ lat: initial.latitude, lng: initial.longitude }}
-      zoom={initial.zoom ?? 11}
+      center={{
+        lat: data?.latitude ?? defaultCenter.latitude,
+        lng: data?.longitude ?? defaultCenter.longitude,
+      }}
+      zoom={data?.zoom ?? defaultCenter.zoom}
       zoomControl={false}
       zoomAnimation={true}
       markerZoomAnimation={true}
@@ -98,16 +105,16 @@ export function InnerMap(props: InnerMapProps) {
 
   const markers = useMemo(
     () =>
-      items?.map((d) => ({
-        id: d.id,
-        name: d.name,
+      items?.map((item) => ({
+        id: item.id,
+        name: item.name,
         position: {
-          lat: d.location.y,
-          lng: d.location.x,
+          lat: item.location.y,
+          lng: item.location.x,
         } as LatLngExpression,
-        isLicensed: d.isLicensed,
-        ageGroups: d.ageGroups || [],
-        hasVacancy: d.vancancies.length > 0,
+        isLicensed: item.isLicensed,
+        ageGroups: item.ageGroups || [],
+        hasVacancy: item.vancancies.length > 0,
       })) ?? [],
     [items],
   );

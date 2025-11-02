@@ -50,13 +50,6 @@ export const Route = createFileRoute("/map/")({
       },
     ],
   }),
-  loaderDeps: ({ search }) => search,
-  loader: ({ deps }) => {
-    const defaultCenter = { ...EDMONTON, zoom: 11 };
-    const initialMapPosition =
-      zMapStateFromSearch.parse(deps.l) ?? defaultCenter;
-    return { initialMapPosition };
-  },
   component: RouteComponent,
 });
 
