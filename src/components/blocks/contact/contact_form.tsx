@@ -23,13 +23,18 @@ export function ContactForm() {
         <form
           method="POST"
           action="https://formowl.dev/api/@/x6Tytw"
-          onSubmit={() => {
+          onSubmit={(e) => {
+            if (submitting) {
+              e.preventDefault();
+              e.stopPropagation();
+              return;
+            }
             setSubmitting(true);
           }}
         >
           <input name="_honey_pot" style={{ display: "none" }} />
           <FieldGroup>
-            <FieldSet disabled={submitting}>
+            <FieldSet>
               <FieldLegend>Contact Us</FieldLegend>
               <FieldDescription>
                 How can make this better for you?
@@ -42,7 +47,7 @@ export function ContactForm() {
                       <Label htmlFor="parent">Parent</Label>
                     </div>
                     <div className="flex items-center gap-3">
-                      <RadioGroupItem value="comfortable" id="provider" />
+                      <RadioGroupItem value="provider" id="provider" />
                       <Label htmlFor="provider">Childcare Provider</Label>
                     </div>
                   </RadioGroup>
