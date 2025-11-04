@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import {
@@ -14,16 +15,24 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio_group.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 
 export function ContactForm() {
+  const [submitting, setSubmitting] = useState(false);
+
   return (
     <Card>
       <CardContent>
-        <form method="POST" action="https://formowl.dev/api/@/x6Tytw">
+        <form
+          method="POST"
+          action="https://formowl.dev/api/@/x6Tytw"
+          onSubmit={() => {
+            setSubmitting(true);
+          }}
+        >
           <input name="_honey_pot" style={{ display: "none" }} />
           <FieldGroup>
-            <FieldSet>
+            <FieldSet disabled={submitting}>
               <FieldLegend>Contact Us</FieldLegend>
               <FieldDescription>
-                How we can make ths better for you.
+                How can make this better for you?
               </FieldDescription>
               <FieldGroup>
                 <Field>
@@ -64,8 +73,8 @@ export function ContactForm() {
             </FieldSet>
 
             <Field orientation="horizontal">
-              <Button className="ml-auto" type="submit">
-                Submit
+              <Button className="ml-auto" type="submit" disabled={submitting}>
+                {submitting ? "Submitting..." : "Submit"}
               </Button>
             </Field>
           </FieldGroup>
