@@ -44,11 +44,13 @@ export function ContactForm() {
                   <RadioGroup defaultValue="parent" name="user_type">
                     <div className="flex items-center gap-3">
                       <RadioGroupItem value="parent" id="parent" />
-                      <Label htmlFor="parent">Parent</Label>
+                      <Label htmlFor="parent">I am a Parent</Label>
                     </div>
                     <div className="flex items-center gap-3">
                       <RadioGroupItem value="provider" id="provider" />
-                      <Label htmlFor="provider">Childcare Provider</Label>
+                      <Label htmlFor="provider">
+                        I am a Childcare Provider
+                      </Label>
                     </div>
                   </RadioGroup>
                 </Field>
