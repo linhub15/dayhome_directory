@@ -22,17 +22,15 @@ function SitemapXml(props: { urls: SitemapUrl[] }) {
   return (
     /* @ts-expect-error */
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      <UrlElement
-        loc={`${SEO_META.url}/home`}
-        lastmod={undefined}
-        changefreq="weekly"
-      />
+      <UrlElement loc={`${SEO_META.url}/home`} changefreq="weekly" />
 
       <UrlElement
         loc={`${SEO_META.url}/map`}
         changefreq="weekly"
         priority={1}
       />
+
+      <UrlElement loc={`${SEO_META.url}/info`} changefreq="monthly" />
 
       {props.urls.map((url) => (
         <UrlElement key={url.loc} {...url} />
