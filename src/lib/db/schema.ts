@@ -44,7 +44,9 @@ export const dayhome = pgTable("dayhome", {
   phone: text("phone"),
   email: text("email"),
   isLicensed: boolean("is_licensed").notNull().default(false),
-  licenseId: text("license_id").references(() => license.id),
+  licenseId: text("license_id").references(() => license.id, {
+    onUpdate: "cascade",
+  }),
   agencyName: text("agency_name"),
   ageGroups: ageGroup("age_groups").array(),
   ...defaultColumns,
