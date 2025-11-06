@@ -11,7 +11,15 @@ function RouteComponent() {
   return (
     <div className="px-2">
       <Nav />
-      <div className="flex flex-col items-center justify-center py-24">
+      <div className="flex flex-col gap-13 items-center justify-center py-24">
+        <img
+          className="w-full max-w-xl rounded-lg shadow-lg"
+          src="/banner.jpg"
+          alt="Discover Care"
+          width={768}
+          height={512}
+        />
+
         <div className="max-w-2xl">
           <div className="text-center">
             <h1 className="text-4xl font-light tracking-tight text-balance text-gray-900 sm:text-6xl">
@@ -24,7 +32,7 @@ function RouteComponent() {
           </div>
         </div>
 
-        <div className="text-center mt-10 max-w-md w-full mx-auto py-8 space-y-2">
+        <div className="text-center max-w-md w-full mx-autospace-y-2">
           <LinkButton variant="default" to="/map">
             See the Map
           </LinkButton>
