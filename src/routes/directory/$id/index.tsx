@@ -1,7 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
+import { ArrowLeftIcon, MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants, LinkButton } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -35,6 +35,7 @@ export const Route = createFileRoute("/directory/$id/")({
 
 function RouteComponent() {
   const {
+    id,
     name,
     location,
     address,
@@ -47,7 +48,17 @@ function RouteComponent() {
   } = Route.useLoaderData();
 
   return (
-    <div className="max-w-xl mx-auto py-8 space-y-6">
+    <div className="max-w-xl mx-auto py-4 space-y-6">
+      <div>
+        <LinkButton
+          variant="outline"
+          to="/map"
+          search={{ f: id, l: `${location.y},${location.x},16` }}
+        >
+          <ArrowLeftIcon />
+          View in Map
+        </LinkButton>
+      </div>
       <Card className="overflow-clip">
         <CardHeader>
           <div className="flex justify-between items-center">

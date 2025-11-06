@@ -12,7 +12,7 @@ function RouteComponent() {
         <div className="z-10 bg-background w-full h-15">
           <Nav />
         </div>
-        <div className="md:pt-15">
+        <div className="md:pt-8">
           <Outlet />
         </div>
       </div>
