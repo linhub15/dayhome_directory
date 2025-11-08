@@ -14,6 +14,7 @@ export function useListDayhomes({
   boundingBox?: { min: LatLng; max: LatLng };
   /** Client-side filters */
   filters?: {
+    hasVacancy?: boolean;
     onlyLicensed?: boolean;
     ageGroups?: Array<AgeGroupKey>;
   };
@@ -37,6 +38,10 @@ export function useListDayhomes({
 
   result.data = result.data
     ?.filter((item) => {
+      if (!filters) return true;
+      return filters.hasVacancy ? (item.vancancies?.length ?? 0) > 0 : true;
+    })
+    .filter((item) => {
       if (!filters) return true;
       return filters.onlyLicensed ? item.isLicensed : true;
     })

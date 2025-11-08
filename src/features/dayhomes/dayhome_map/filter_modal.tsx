@@ -32,6 +32,7 @@ const ageGroupsOptions: Record<AgeGroupKey, string> = {
 };
 
 const filterModalSearchSchema = z.object({
+  hasVacancy: z.boolean().optional(),
   onlyLicensed: z.boolean().optional(),
   ageGroups: z
     .array(
@@ -59,19 +60,25 @@ function FilterModal(props: Props) {
 
   const form = useForm({
     defaultValues: {
+      hasVacancy: filters?.hasVacancy ?? false,
       onlyLicensed: filters?.onlyLicensed ?? false,
       ageGroups: filters?.ageGroups ?? [],
     } satisfies Filter,
     onSubmit: ({ value }) => {
-      if (!value.onlyLicensed && value.ageGroups?.length === 0) {
+      if (
+        !value.hasVacancy
+        && !value.onlyLicensed
+        && value.ageGroups?.length === 0
+      ) {
         props.onFilterChange?.();
         setOpen(false);
         return;
       }
 
       props.onFilterChange?.({
-        onlyLicensed: value.onlyLicensed ?? undefined,
-        ageGroups: value.ageGroups?.length ? value.ageGroups : undefined,
+        hasVacancy: !value.hasVacancy ? undefined : value.hasVacancy,
+        onlyLicensed: !value.onlyLicensed ? undefined : value.onlyLicensed,
+        ageGroups: !value.ageGroups?.length ? undefined : value.ageGroups,
       });
       setOpen(false);
     },
@@ -124,6 +131,28 @@ function FilterModal(props: Props) {
             form.handleSubmit();
           }}
         >
+          <form.Field name="hasVacancy">
+            {(field) => (
+              <div className="flex items-center gap-3">
+                <Label className="hover:bg-accent/50 flex items-center gap-3 rounded-lg border p-3 has-aria-checked:border-primary has-aria-checked:bg-blue-50">
+                  <Checkbox
+                    checked={field.state.value}
+                    onCheckedChange={(e) => field.setValue(!!e)}
+                    defaultChecked
+                  />
+                  <div className="grid gap-1.5 font-normal">
+                    <p className="text-sm leading-none font-medium">
+                      Has vacancy
+                    </p>
+                    <p className="text-muted-foreground text-sm">
+                      Currently looking to fill a vacancy
+                    </p>
+                  </div>
+                </Label>
+              </div>
+            )}
+          </form.Field>
+
           <form.Field name="onlyLicensed">
             {(field) => (
               <div className="flex items-center gap-3">
