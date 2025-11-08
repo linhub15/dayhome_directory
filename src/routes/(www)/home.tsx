@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ArrowDownIcon, MapPinnedIcon } from "lucide-react";
 import { ContactForm } from "@/components/blocks/contact/contact_form.tsx";
 import { Nav } from "@/components/blocks/nav/nav";
 import { LinkButton } from "@/components/ui/button";
@@ -32,10 +33,18 @@ function RouteComponent() {
           </div>
         </div>
 
-        <div className="text-center max-w-md w-full mx-autospace-y-2">
-          <LinkButton variant="default" to="/map">
+        <div className="text-center max-w-xl w-full mx-auto space-y-3">
+          <div className="rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+            <p>Looking for childcare nearby?</p>
+          </div>
+          <ArrowDownIcon className="mx-auto h-6 w-6 text-gray-400 animate-bounce" />
+          <LinkButton variant="default" size="lg" to="/map">
+            <MapPinnedIcon />
             See the Map
           </LinkButton>
+          <p className="text-muted-foreground text-sm">
+            We have over 800 daycares and dayhomes listed
+          </p>
         </div>
       </div>
 

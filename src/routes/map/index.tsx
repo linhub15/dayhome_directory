@@ -33,7 +33,7 @@ export const Route = createFileRoute("/map/")({
       {
         name: "description",
         content:
-          "Find and contact Edmonton daycares, dayhomes, and out-of-school care facilities.",
+          "Find Edmonton daycares, dayhomes, and out-of-school care facilities.",
       },
     ],
   }),
@@ -78,6 +78,7 @@ function RouteComponent() {
       dismissSheet={dismissSheet}
       onMoveEnd={handleMoveEnd}
     >
+      <h1 className="sr-only">Edmonton's Childcare Map</h1>
       <div>
         <MapView>
           <InnerMap ref={mapRef} />

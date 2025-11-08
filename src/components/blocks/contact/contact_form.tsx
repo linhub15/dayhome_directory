@@ -37,7 +37,8 @@ export function ContactForm() {
             <FieldSet>
               <FieldLegend>Contact Us</FieldLegend>
               <FieldDescription>
-                How can make this better for you?
+                <p>Hey parents, what information do you want to see?</p>
+                <p>Are you a childcare provider? Let's get you listed.</p>
               </FieldDescription>
               <FieldGroup>
                 <Field>
