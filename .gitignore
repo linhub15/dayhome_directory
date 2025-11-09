@@ -4,8 +4,11 @@ dist
 dist-ssr
 *.local
 .env*
+!.env.example
+!.env.local
 .nitro
 .tanstack
 .output
 .vinxi
 .wrangler
+.postgresql/

@@ -9,7 +9,10 @@
     "serve": "vite preview",
     "drizzle": "drizzle-kit",
     "data:load": "tsx ./data/load.ts",
-    "lint": "oxlint"
+    "lint": "oxlint",
+    "deps:up": "docker compose up -d --wait postgres",
+    "deps:status": "docker compose ps --format 'table {{.Service}}\t{{.Status}}\t{{.Ports}}'",
+    "deps:down": "docker compose down"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.14.0",

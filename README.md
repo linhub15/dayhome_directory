@@ -1,35 +1,28 @@
-## Setup
+# Discover Care Repository
 
-```sh
-# .env file
-DATABASE_URL=
-MAPBOX_TOKEN=
-VITE_PUBLIC_POSTHOG_KEY=phc_cw4CYjQyJ6NHJSXZtGmZdxu8CSZF7c9u6f283fkKAJ4
-VITE_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+This is a React application built with the Tanstack Start framework.
 
-# dev local only
-DATA_SPREADSHEET_ID=
-```
+## Developer Onboarding
 
-### Install Tools
+### Install dependencies
+- Node.js v22.20.0+
+- pnpm v10.18.0+
+- docker
 
-- Node.js
-- pnpm
-
-### Database Setep
+### Setup local development environment
 
 ```
-CREATE EXTENSION postgis;
+pnpm deps:up && pnpm drizzle push
 ```
 
-### Services
+## 3rd Party Services
 
 - https://dash.cloudflare.com
 - https://console.neon.tech
 - https://console.mapbox.com
 - https://us.posthog.com
 
-### Next Infra Improvements
+## Production Setup
 
-- test environment
-- database backups
+- Setup the environment variables
+- Install postgis: `CREATE EXTENSION postgis;`
