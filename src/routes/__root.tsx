@@ -2,6 +2,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
   HeadContent,
+  Navigate,
   Scripts,
 } from "@tanstack/react-router";
 import leafletCss from "leaflet/dist/leaflet.css?url";
@@ -37,6 +38,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     ],
   }),
   shellComponent: RootDocument,
+  notFoundComponent: () => <Navigate to="/" replace />,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
