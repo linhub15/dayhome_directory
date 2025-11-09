@@ -18,7 +18,6 @@ const config = defineConfig({
     tanstackStart({
       router: {
         routeTreeFileHeader: [
-          "// biome-ignore-all lint: generated",
           "/* eslint-disable */",
           "// @ts-nocheck",
           "// noinspection JSUnusedGlobalSymbols",

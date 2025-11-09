@@ -1,15 +1,16 @@
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit"
+    "source.organizeImports": "explicit",
+    "source.fixAll.oxc": "explicit",
   },
-  "editor.defaultFormatter": "biomejs.biome",
+  "oxc.fmt.experimental": true,
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "typescript.preferences.preferTypeOnlyAutoImports": true,
   "typescript.preferences.autoImportFileExcludePatterns": [
     "lucide-react",
     "@radix-ui"
   ],
-
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifierEnding": "js",
   "files.watcherExclude": {
@@ -19,7 +20,8 @@
     "**/routeTree.gen.ts": true
   },
   "files.readonlyInclude": {
-    "**/routeTree.gen.ts": true
+    "**/routeTree.gen.ts": true,
+    "pnpm-lock.yaml": true,
   },
   "tailwindCSS.classFunctions": ["cva", "clsx", "cn", "cx"]
 }

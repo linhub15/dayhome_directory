@@ -1,7 +1,3 @@
-import { useForm } from "@tanstack/react-form";
-import z from "@zod/zod";
-import { Settings2Icon } from "lucide-react";
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,6 +10,10 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Route } from "@/routes/map/index.tsx";
+import { useForm } from "@tanstack/react-form";
+import z from "@zod/zod";
+import { Settings2Icon } from "lucide-react";
+import { useState } from "react";
 
 const ageGroup = [
   "infant",
@@ -66,9 +66,9 @@ function FilterModal(props: Props) {
     } satisfies Filter,
     onSubmit: ({ value }) => {
       if (
-        !value.hasVacancy
-        && !value.onlyLicensed
-        && value.ageGroups?.length === 0
+        !value.hasVacancy &&
+        !value.onlyLicensed &&
+        value.ageGroups?.length === 0
       ) {
         props.onFilterChange?.();
         setOpen(false);
@@ -98,7 +98,8 @@ function FilterModal(props: Props) {
       <DialogTrigger asChild>
         <div className="relative">
           {filters && (
-            <span className="absolute inline-flex size-3 -top-0.5 -right-0.5 rounded-full bg-sky-400 opacity-75 ring-white ring"></span>
+            <span className="absolute inline-flex size-3 -top-0.5 -right-0.5 rounded-full bg-sky-400 opacity-75 ring-white ring">
+            </span>
           )}
           <Button variant="outline">
             <Settings2Icon /> Filter
@@ -188,11 +189,9 @@ function FilterModal(props: Props) {
                       <Badge
                         className="cursor-pointer select-none"
                         size="lg"
-                        variant={
-                          field.state.value?.includes(key)
-                            ? "default"
-                            : "outline"
-                        }
+                        variant={field.state.value?.includes(key)
+                          ? "default"
+                          : "outline"}
                       >
                         <Checkbox
                           checked={field.state.value?.includes(key)}
@@ -200,9 +199,8 @@ function FilterModal(props: Props) {
                             field.handleChange((prev) =>
                               e
                                 ? [...(prev ?? []), key]
-                                : prev?.filter((age) => age !== key),
-                            )
-                          }
+                                : prev?.filter((age) => age !== key)
+                            )}
                         />
                         {ageGroupsOptions[key]}
                       </Badge>

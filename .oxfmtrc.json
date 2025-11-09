@@ -1,0 +1,9 @@
+{
+    "$schema": "./node_modules/oxfmt/configuration_schema.json",
+    "tabWidth": 2,
+    "printWidth": 80,
+    "experimentalOperatorPosition": "start",
+    "ignorePatterns": [
+        "*.gen.ts"
+    ]
+}

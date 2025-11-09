@@ -1,5 +1,3 @@
-// biome-ignore-all lint: generated
-
 /* eslint-disable */
 
 // @ts-nocheck
