@@ -1,3 +1,4 @@
+import { nanoid } from "@/lib/utils/nanoid.ts";
 import { relations, sql } from "drizzle-orm";
 import {
   boolean,
@@ -13,7 +14,6 @@ import {
   timestamp,
   unique,
 } from "drizzle-orm/pg-core";
-import { nanoid } from "@/lib/utils/nanoid.ts";
 
 /// Helpers
 export const defaultColumns = {
@@ -93,7 +93,7 @@ export const dayhomeOpenHoursRelations = relations(
 );
 
 export const dayhomeVacancy = pgTable(
-  "dayhomeVacancy",
+  "dayhome_vacancy",
   {
     dayhomeId: text("dayhome_id")
       .references(() => dayhome.id, { onDelete: "cascade" })
