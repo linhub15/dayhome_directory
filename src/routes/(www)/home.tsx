@@ -1,8 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDownIcon, MapPinnedIcon } from "lucide-react";
 import { ContactForm } from "@/components/blocks/contact/contact_form.tsx";
+import { Faq } from "@/components/blocks/faq/faq.tsx";
 import { Nav } from "@/components/blocks/nav/nav";
 import { LinkButton } from "@/components/ui/button";
+import { createFileRoute } from "@tanstack/react-router";
+import { ArrowDownIcon, MapPinnedIcon } from "lucide-react";
 
 export const Route = createFileRoute("/(www)/home")({
   component: RouteComponent,
@@ -47,6 +48,8 @@ function RouteComponent() {
           </p>
         </div>
       </div>
+
+      <Faq />
 
       <div className="max-w-lg mx-auto mb-24" id="contact">
         <ContactForm />
