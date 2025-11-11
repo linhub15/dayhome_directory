@@ -11,9 +11,10 @@ This is a React application built with the Tanstack Start framework.
 
 ### Setup local development environment
 
-```
-pnpm deps:up && pnpm drizzle push
-```
+- `pnpm install`
+- `cp .env.example .env`
+- `pnpm deps:up && pnpm drizzle push`
+
 
 ## 3rd Party Services
 
