@@ -17,8 +17,8 @@ async function main() {
   });
 
   if (DRY_RUN) {
-    console.info("DRY RUN - not inserting into database");
-    console.info(`Inserting - ${dayhomeFromGoogleSheets.length}`);
+    console.info("load: DRY RUN - not inserting into database");
+    console.info(`load: Inserting - ${dayhomeFromGoogleSheets.length}`);
     return;
   }
 
@@ -35,6 +35,7 @@ async function main() {
           phone: item.Phone,
           email: item.Email,
           agencyName: item["Agency Name"],
+          licenseId: item.license_id,
           ageGroups: item["Age Groups"],
           isLicensed: item["Is Licensed"] ?? false,
         })
@@ -42,7 +43,7 @@ async function main() {
           dayhomeId: schema.dayhome.id,
         });
 
-      console.info(`inserting dayhome ${item.Name}...`);
+      console.info(`load: inserting dayhome ${item.Name}...`);
 
       const [{ dayhomeId }] = inserted;
 
@@ -140,7 +141,7 @@ async function main() {
 
   await saveCache();
 
-  console.info(`Used ${getGeocodeCount()} geocode calls`);
+  console.info(`load: Used ${getGeocodeCount()} geocode calls`);
 }
 /**
  * Note to self:

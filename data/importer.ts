@@ -5,7 +5,7 @@ import type { ageGroup as ageGroupEnum } from "../src/lib/db/schema.ts";
 import { hoursToTimeString } from "./utils.ts";
 
 const spreadsheetId = process.env.DATA_SPREADSHEET_ID;
-console.info({ SpreadsheetId: spreadsheetId });
+console.info(`importer: ${spreadsheetId}`);
 const sheetName = "directory";
 const url = new URL(
   `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq`,
@@ -22,12 +22,24 @@ const json = parse(data, {
   trimLeadingSpace: true,
 });
 
-// Only keep rows with a name and address
-const toParse = json.filter(
-  (row) => !!row.Name && !!row.Address && !row.loaded_to_db_on,
-);
+const controlSchema = z.object({
+  Name: z.string().trim().optional(),
+  Address: z.string().trim().optional(),
+  loaded_to_db_on: z.string().optional(),
+  ready_to_load: z.stringbool().optional(),
+});
 
-console.info(`Imported ${json.length} rows from Google Sheets`);
+const toParse = json.filter((row) => {
+  const checkRow = controlSchema.parse(row);
+  return (
+    !!checkRow.Name &&
+    !!checkRow.Address &&
+    !checkRow.loaded_to_db_on &&
+    checkRow.ready_to_load
+  );
+});
+
+console.info(`importer: Imported ${json.length} rows from Google Sheets`);
 
 const safeString = z
   .string()
@@ -57,6 +69,7 @@ const sheetSchema = z.object({
     .transform((x) => x || undefined),
   Email: safeString,
   "Agency Name": safeString.optional(),
+  license_id: safeString.optional(),
   "Age Groups": safeString
     .transform((x) => x?.split(",").map((s) => s.trim()))
     .pipe(z.array(ageGroup).default([]))
@@ -76,9 +89,8 @@ const sheetSchema = z.object({
   "Su▶️": timeNumber,
   "Su🛑": timeNumber,
   "Is Licensed": z.stringbool(),
-  "Is Agency": z.stringbool(),
 });
 
 export const dayhomeFromGoogleSheets = z.array(sheetSchema).parse(toParse);
 
-console.info(`Zod Parsed ${dayhomeFromGoogleSheets.length} rows`);
+console.info(`importer: Zod Parsed ${dayhomeFromGoogleSheets.length} rows`);

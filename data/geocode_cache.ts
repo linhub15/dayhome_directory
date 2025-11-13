@@ -14,7 +14,7 @@ let newCacheKeys = 0;
 
 const cache = geocodeCacheFileSchema.parse(geocodeCache);
 
-console.info(`Loaded ${Object.keys(cache).length} cached geocodes`);
+console.info(`cache: Loaded ${Object.keys(cache).length} cached geocodes`);
 
 function getGeocode(query: string) {
   return cache[query.trim().toLowerCase()];
@@ -35,7 +35,7 @@ async function saveCache() {
   );
 
   console.info(
-    `${newCacheKeys} new geocodes cached; Cache total ${
+    `cache: ${newCacheKeys} new geocodes cached; Cache total ${
       Object.keys(cache).length
     }`,
   );
