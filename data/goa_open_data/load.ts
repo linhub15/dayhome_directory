@@ -1,10 +1,11 @@
 import "dotenv/config.js";
+
+import * as schema from "@/lib/db/schema.ts";
 import { readTextFile } from "@std/fs/unstable-read-text-file";
 import z from "@zod/zod";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { createInsertSchema } from "drizzle-zod";
-import * as schema from "@/lib/db/schema.ts";
 
 const text = await readTextFile(
   `${import.meta.dirname}/edmonton_licenses.json`,

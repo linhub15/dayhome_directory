@@ -1,10 +1,10 @@
+import { serverEnv } from "@/config/server_env.ts";
+import type { LatLng } from "@/lib/geocoding/types.ts";
 import type {
   GeocodingOptions,
   LngLatBoundsLike,
 } from "@mapbox/search-js-core";
 import z from "@zod/zod";
-import { serverEnv } from "@/config/server_env.ts";
-import type { LatLng } from "@/lib/geocoding/types.ts";
 
 class Geocoder {
   #accessToken: string;

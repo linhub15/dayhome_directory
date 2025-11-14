@@ -13,8 +13,13 @@ This is a React application built with the Tanstack Start framework.
 
 - `pnpm install`
 - `cp .env.example .env`
-- `pnpm deps:up && pnpm drizzle push`
+- `pnpm db:up && pnpm drizzle push`
 
+#### Seeding Database
+
+```
+pnpm db:seed
+```
 
 ## 3rd Party Services
 
