@@ -72,7 +72,7 @@ const geocoder = new Geocoder({ accessToken: serverEnv.MAPBOX_TOKEN });
 
 /**
  * ISO 3166 Alpha 2 country codes
- * @link https://www.iban.com/country-codes
+ * [Country Codes](https://www.iban.com/country-codes)
  */
 const COUNTRY_CODES = {
   CANADA: "CA",

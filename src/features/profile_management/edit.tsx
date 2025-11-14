@@ -1,8 +1,3 @@
-import { useForm, useStore } from "@tanstack/react-form";
-import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
-import { toast } from "sonner";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,6 +11,11 @@ import { dayhomeKeys } from "@/features/dayhomes/query_keys";
 import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome/update_dayhome.fn";
 import { weekdayIso } from "@/lib/constants/weekday";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
+import { useForm, useStore } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
 
 const weekdays = [1, 2, 3, 4, 5, 6, 7] as const;
 const ageGroups = [
@@ -149,7 +149,7 @@ function RouteComponent() {
                   </Label>
                   <div className="flex gap-4 flex-wrap md:flex-nowrap">
                     <div className="flex items-center space-x-1 w-full">
-                      <label>Lat</label>
+                      <label htmlFor={field.name}>Lat</label>
                       <Input
                         id={field.name}
                         type="number"
@@ -165,7 +165,7 @@ function RouteComponent() {
                     </div>
 
                     <div className="flex items-center space-x-1 w-full">
-                      <label>Lng</label>
+                      <label htmlFor={field.name}>Lng</label>
                       <Input
                         id={field.name}
                         type="number"

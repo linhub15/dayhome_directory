@@ -6,6 +6,12 @@
   },
   "oxc.fmt.experimental": true,
   "editor.defaultFormatter": "oxc.oxc-vscode",
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
   "typescript.preferences.preferTypeOnlyAutoImports": true,
   "typescript.preferences.autoImportFileExcludePatterns": [
     "lucide-react",
@@ -23,5 +29,10 @@
     "**/routeTree.gen.ts": true,
     "pnpm-lock.yaml": true,
   },
-  "tailwindCSS.classFunctions": ["cva", "clsx", "cn", "cx"]
+  "tailwindCSS.classFunctions": [
+    "cva",
+    "clsx",
+    "cn",
+    "cx"
+  ]
 }
