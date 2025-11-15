@@ -1,3 +1,10 @@
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants, LinkButton } from "@/components/ui/button";
+import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
+import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
+import { useGetDayhome } from "@/features/dayhomes/get_dayhome/use_get_dayhome";
+import { googleDirections } from "@/lib/geocoding/constant_data";
+import { Route } from "@/routes/map/index.tsx";
 import {
   type Ref,
   useCallback,
@@ -7,13 +14,6 @@ import {
   useState,
 } from "react";
 import { Sheet, type SheetRef } from "react-modal-sheet";
-import { Badge } from "@/components/ui/badge";
-import { buttonVariants, LinkButton } from "@/components/ui/button";
-import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
-import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
-import { useGetDayhome } from "@/features/dayhomes/get_dayhome/use_get_dayhome";
-import { googleDirections } from "@/lib/geocoding/constant_data";
-import { Route } from "@/routes/map/index.tsx";
 
 const snapPoints = [0, 40, 1];
 const maxSnap = snapPoints.length - 1;
@@ -84,7 +84,15 @@ export function DayhomeSheetPreview({ ref }: Props) {
           {!data ? undefined : (
             <div className="px-6 isolate">
               <div className="flex justify-between items-start pb-4 gap-4">
-                <DayhomeTitle name={data.name} agencyName={data.agencyName} />
+                <DayhomeTitle
+                  name={data.name}
+                  agencyName={data.agencyName}
+                  type={
+                    data.license?.type === "FAMILY DAY HOME"
+                      ? "dayhome"
+                      : "facility"
+                  }
+                />
                 <LicensedBadge isLicensed={data.isLicensed} />
               </div>
 
