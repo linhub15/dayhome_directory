@@ -10,6 +10,7 @@
     "drizzle": "drizzle-kit",
     "data:load": "tsx ./data/load.ts",
     "lint": "oxlint",
+    "ci": "pnpm lint && pnpm tsc && pnpm build",
     "db:up": "docker compose up -d --wait postgres",
     "db:status": "docker compose ps --format 'table {{.Service}}\t{{.Status}}\t{{.Ports}}'",
     "db:down": "docker compose down",

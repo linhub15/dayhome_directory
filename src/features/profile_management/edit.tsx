@@ -5,19 +5,15 @@ import { Field } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PinnedMap } from "@/components/ui/pinned_map";
-import { useDeleteDayhome } from "@/features/dayhomes/delete_dayhome/use_delete_dayhome";
-import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
 import { dayhomeKeys } from "@/features/dayhomes/query_keys";
-import { updateDayhomeFn } from "@/features/dayhomes/update_dayhome/update_dayhome.fn";
-import { weekdayIso } from "@/lib/constants/weekday";
+import * as schema from "@/lib/db/schema";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
+import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
-const weekdays = [1, 2, 3, 4, 5, 6, 7] as const;
+// const weekdays = [1, 2, 3, 4, 5, 6, 7] as const;
 const ageGroups = [
   { label: "Infant", value: "infant" },
   { label: "Toddler", value: "toddler" },
@@ -26,29 +22,14 @@ const ageGroups = [
   { label: "Grade School", value: "grade_school" },
 ] as const;
 
-export const Route = createFileRoute("/directory/$id/edit")({
-  ssr: "data-only",
-  component: RouteComponent,
-  loader: async ({ params }) => {
-    const dayhome = await getDayhomeFn({ data: { id: params.id } });
-
-    if (!dayhome) {
-      throw notFound();
-    }
-
-    return dayhome;
-  },
-});
-
-function RouteComponent() {
+export function EditProfile() {
   const navigate = useNavigate();
-  const dayhome = Route.useLoaderData();
+  const dayhome = {} as typeof schema.dayhome.$inferSelect;
   const queryClient = useQueryClient();
-  const updateDayhome = useServerFn(updateDayhomeFn);
-  const deleteDayhome = useDeleteDayhome();
+  // const updateDayhome = useServerFn(updateDayhomeFn);
 
   const handleDeleteDayhome = async () => {
-    await deleteDayhome.mutateAsync(dayhome.id);
+    // await deleteDayhome.mutateAsync(dayhome.id);
     await navigate({ to: "/directory" });
   };
 
@@ -62,33 +43,33 @@ function RouteComponent() {
       isLicensed: dayhome.isLicensed ?? false,
       agencyName: dayhome.agencyName,
       ageGroups: new Set(dayhome.ageGroups),
-      openHours: dayhome.openHours.map((hour) => ({
-        ...hour,
-        openAt: hour.openAt.slice(0, 5),
-        closeAt: hour.closeAt.slice(0, 5),
-      })),
+      // openHours: dayhome.open.map((hour) => ({
+      //   ...hour,
+      //   openAt: hour.openAt.slice(0, 5),
+      //   closeAt: hour.closeAt.slice(0, 5),
+      // })),
     },
-    onSubmit: async ({ value }) => {
-      await updateDayhome({
-        data: {
-          id: dayhome.id,
-          name: value.name ? value.name.trim() : "",
-          address: value.address ? value.address.trim() : "",
-          location: geocode && {
-            x: geocode.longitude,
-            y: geocode.latitude,
-          },
-          phone: value.phone ?? null,
-          email: value.email ?? null,
-          isLicensed: value.isLicensed,
-          agencyName: value.agencyName ? value.agencyName.trim() : null,
-          ageGroups: Array.from(value.ageGroups),
-          openHours: value.openHours.map((hour) => ({
-            ...hour,
-            dayhomeId: dayhome.id,
-          })),
-        },
-      });
+    onSubmit: async () => {
+      // await updateDayhome({
+      //   data: {
+      //     id: dayhome.id,
+      //     name: value.name ? value.name.trim() : "",
+      //     address: value.address ? value.address.trim() : "",
+      //     location: geocode && {
+      //       x: geocode.longitude,
+      //       y: geocode.latitude,
+      //     },
+      //     phone: value.phone ?? null,
+      //     email: value.email ?? null,
+      //     isLicensed: value.isLicensed,
+      //     agencyName: value.agencyName ? value.agencyName.trim() : null,
+      //     ageGroups: Array.from(value.ageGroups),
+      //     // openHours: value.openHours.map((hour) => ({
+      //     //   ...hour,
+      //     //   dayhomeId: dayhome.id,
+      //     // })),
+      //   },
+      // });
 
       toast.success("Saved");
 
@@ -268,7 +249,7 @@ function RouteComponent() {
               )}
             </form.Field>
 
-            <form.Field name="openHours">
+            {/* <form.Field name="openHours">
               {(field) => (
                 <Field>
                   <Label htmlFor={field.name}>Open Hours</Label>
@@ -307,7 +288,7 @@ function RouteComponent() {
                   </div>
                 </Field>
               )}
-            </form.Field>
+            </form.Field> */}
 
             <form.Field name="isLicensed">
               {(field) => (
@@ -345,38 +326,38 @@ function RouteComponent() {
   );
 }
 
-function OpenHourInput({
-  weekday,
-  value,
-  onChange,
-}: {
-  weekday: 1 | 2 | 3 | 4 | 5 | 6 | 7;
-  value: { openAt: string; closeAt: string } | undefined;
-  onChange: (value: { openAt: string; closeAt: string }) => void;
-}) {
-  return (
-    <div className="grid grid-cols-3">
-      <span>{weekdayIso[weekday]}</span>
-      <Input
-        type="time"
-        value={value?.openAt}
-        onChange={(e) =>
-          onChange({
-            openAt: e.currentTarget.value,
-            closeAt: value?.closeAt || "",
-          })
-        }
-      />
-      <Input
-        type="time"
-        value={value?.closeAt}
-        onChange={(e) =>
-          onChange({
-            openAt: value?.openAt || "",
-            closeAt: e.currentTarget.value,
-          })
-        }
-      />
-    </div>
-  );
-}
+// function OpenHourInput({
+//   weekday,
+//   value,
+//   onChange,
+// }: {
+//   weekday: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+//   value: { openAt: string; closeAt: string } | undefined;
+//   onChange: (value: { openAt: string; closeAt: string }) => void;
+// }) {
+//   return (
+//     <div className="grid grid-cols-3">
+//       <span>{weekdayIso[weekday]}</span>
+//       <Input
+//         type="time"
+//         value={value?.openAt}
+//         onChange={(e) =>
+//           onChange({
+//             openAt: e.currentTarget.value,
+//             closeAt: value?.closeAt || "",
+//           })
+//         }
+//       />
+//       <Input
+//         type="time"
+//         value={value?.closeAt}
+//         onChange={(e) =>
+//           onChange({
+//             openAt: value?.openAt || "",
+//             closeAt: e.currentTarget.value,
+//           })
+//         }
+//       />
+//     </div>
+//   );
+// }

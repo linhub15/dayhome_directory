@@ -9,15 +9,11 @@ import {
 } from "@/features/dayhomes/create_dayhome/create_dayhome.fn";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
 import { useForm, useStore } from "@tanstack/react-form";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/directory/new")({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
+export function NewProfile() {
   const navigate = useNavigate();
   const createDayhome = useServerFn(createDayhomeFn);
 

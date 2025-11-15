@@ -1,8 +1,8 @@
+import { db } from "@/lib/db/db_middleware";
+import { dayhome } from "@/lib/db/schema";
 import { createServerFn } from "@tanstack/react-start";
 import type z from "@zod/zod";
 import { createInsertSchema } from "drizzle-zod";
-import { db } from "@/lib/db/db_middleware";
-import { dayhome } from "@/lib/db/schema";
 
 const requestSchema = createInsertSchema(dayhome);
 

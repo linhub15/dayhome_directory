@@ -1,9 +1,9 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useNavigate } from "@tanstack/react-router";
 import z from "@zod/zod";
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 export const filterSearchParams = z.object({
   postalCode: z.string().trim().max(6).optional(),
@@ -20,7 +20,7 @@ export function DayhomeSearch(props: { value?: string }) {
   const onSubmit = () => {
     navigate({
       to: ".",
-      search: { postalCode: value?.trim() },
+      search: {},
     });
   };
 
