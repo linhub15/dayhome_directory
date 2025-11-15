@@ -1,7 +1,7 @@
-import { createServerFn } from "@tanstack/react-start";
-import z from "@zod/zod";
 import { db } from "@/lib/db/db_middleware";
 import { pattern } from "@/lib/utils/nanoid";
+import { createServerFn } from "@tanstack/react-start";
+import z from "@zod/zod";
 
 const GetDayhomeRequest = z.object({
   id: z.nanoid({ pattern }),
@@ -25,6 +25,11 @@ export const getDayhomeFn = createServerFn({ method: "GET" })
             weekday: true,
             openAt: true,
             closeAt: true,
+          },
+        },
+        license: {
+          columns: {
+            type: true,
           },
         },
       },
