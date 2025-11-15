@@ -31,11 +31,11 @@ async function seedDb() {
       createDayhome({
         agencyName: type === "FAMILY DAY HOME" ? name : undefined,
         licenseId: id,
-      }),
+      })
     );
 
   const dayhomeOpenHourSets = dayhomes.map(({ id }) =>
-    createDayhomeOpenHoursSet(id),
+    createDayhomeOpenHoursSet(id)
   );
 
   await db.insert(license).values(licenses);
@@ -47,6 +47,7 @@ SET location = ST_SetSRID(location, 4326)
 WHERE ST_SRID(location) = 0;`);
 
   await db.$client.end();
+  process.exit(0);
 }
 
 const confirm = createInterface({
