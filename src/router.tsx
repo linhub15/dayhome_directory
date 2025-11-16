@@ -1,7 +1,7 @@
+import * as PostHog from "@/lib/analytics/posthog_provider";
+import * as TanstackQuery from "@/lib/tanstack_query/tanstack_query_provider";
 import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
-import * as PostHog from "@/integrations/posthog/posthog_provider";
-import * as TanstackQuery from "@/integrations/tanstack_query/tanstack_query_provider";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";

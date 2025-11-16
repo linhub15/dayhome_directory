@@ -1,8 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
-import z from "@zod/zod";
-import type { LatLngExpression } from "leaflet";
-import { InfoIcon, LocateFixedIcon } from "lucide-react";
-import { useRef } from "react";
 import { Button, LinkButton } from "@/components/ui/button";
 import { DayhomeSheetPreview } from "@/features/dayhomes/dayhome_map/dayhome_sheet_preview";
 import {
@@ -11,8 +6,14 @@ import {
 } from "@/features/dayhomes/dayhome_map/filter_modal";
 import { InnerMap, MapView } from "@/features/dayhomes/dayhome_map/map_view";
 import { MapViewProvider } from "@/features/dayhomes/dayhome_map/map_view_provider.tsx";
+import { ProfileAvatar } from "@/lib/auth/avatar.tsx";
 import { EDMONTON } from "@/lib/geocoding/constant_data";
 import type { LatLng } from "@/lib/geocoding/types";
+import { createFileRoute } from "@tanstack/react-router";
+import z from "@zod/zod";
+import type { LatLngExpression } from "leaflet";
+import { InfoIcon, LocateFixedIcon } from "lucide-react";
+import { useRef } from "react";
 
 const searchParamSchema = z.object({
   /** Location details */
@@ -69,7 +70,7 @@ function RouteComponent() {
     zoom: number;
   }) => {
     const l = `${center.latitude},${center.longitude},${zoom}`;
-    navigate({ search: (prev) => ({ ...prev, l }) });
+    await navigate({ search: (prev) => ({ ...prev, l }) });
   };
 
   return (
@@ -84,11 +85,15 @@ function RouteComponent() {
           <InnerMap ref={mapRef} />
         </MapView>
 
-        <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-4 max-w-lg w-full px-2">
-          <div className="flex gap-4 justify-between">
-            <LinkButton to="/info" variant="outline">
-              <InfoIcon />
-            </LinkButton>
+        <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-3 max-w-lg w-full px-2">
+          <div className="flex gap-4 justify-between items-center">
+            <div className="flex items-center rounded-full bg-white py-0.5 px-0.75 gap-1.5">
+              <LinkButton className="rounded-full" to="/info" variant="ghost">
+                <InfoIcon />
+              </LinkButton>
+
+              <ProfileAvatar navigate />
+            </div>
 
             <div className="flex items-center gap-2">
               <Button

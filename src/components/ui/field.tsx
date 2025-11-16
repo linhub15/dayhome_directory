@@ -1,8 +1,8 @@
-import { cva, type VariantProps } from "cva";
-import { useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils/cn";
+import { cva, type VariantProps } from "cva";
+import { useMemo } from "react";
 
 function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
   return (
@@ -192,7 +192,7 @@ function FieldError({
     }
 
     if (!errors?.length) {
-      return null;
+      return;
     }
 
     const uniqueErrors = [
@@ -214,7 +214,7 @@ function FieldError({
   }, [children, errors]);
 
   if (!content) {
-    return null;
+    return;
   }
 
   return (

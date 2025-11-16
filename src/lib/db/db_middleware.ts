@@ -1,5 +1,5 @@
+import { getDb } from "@/lib/db/database.ts";
 import { createMiddleware } from "@tanstack/react-start";
-import { getDb } from "./database";
 
 export const db = createMiddleware({ type: "request" }).server(
   async ({ next }) => {

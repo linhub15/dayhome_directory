@@ -98,11 +98,10 @@ function FilterModal(props: Props) {
       <DialogTrigger asChild>
         <div className="relative">
           {filters && (
-            <span className="absolute inline-flex size-3 -top-0.5 -right-0.5 rounded-full bg-sky-400 opacity-75 ring-white ring">
-            </span>
+            <span className="absolute inline-flex size-3 -top-0.5 -right-0.5 rounded-full bg-sky-400 opacity-75 ring-white ring"></span>
           )}
-          <Button variant="outline">
-            <Settings2Icon /> Filter
+          <Button className="text-sm" variant="outline" size="sm">
+            <Settings2Icon /> Filters
           </Button>
         </div>
       </DialogTrigger>
@@ -189,9 +188,11 @@ function FilterModal(props: Props) {
                       <Badge
                         className="cursor-pointer select-none"
                         size="lg"
-                        variant={field.state.value?.includes(key)
-                          ? "default"
-                          : "outline"}
+                        variant={
+                          field.state.value?.includes(key)
+                            ? "default"
+                            : "outline"
+                        }
                       >
                         <Checkbox
                           checked={field.state.value?.includes(key)}
@@ -199,8 +200,9 @@ function FilterModal(props: Props) {
                             field.handleChange((prev) =>
                               e
                                 ? [...(prev ?? []), key]
-                                : prev?.filter((age) => age !== key)
-                            )}
+                                : prev?.filter((age) => age !== key),
+                            )
+                          }
                         />
                         {ageGroupsOptions[key]}
                       </Badge>
@@ -222,4 +224,4 @@ function FilterModal(props: Props) {
   );
 }
 
-export { type AgeGroupKey, FilterModal, filterModalSearchSchema };
+export { FilterModal, filterModalSearchSchema, type AgeGroupKey };
