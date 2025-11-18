@@ -100,8 +100,8 @@ export const dayhomeVacancy = pgTable(
     dayhomeId: text("dayhome_id")
       .references(() => dayhome.id, { onDelete: "cascade" })
       .notNull(),
-    startOn: date("start_on").defaultNow().notNull(),
-    endOn: date("end_on").notNull(),
+    startOn: date("start_on", { mode: "date" }).defaultNow().notNull(),
+    endOn: date("end_on", { mode: "date" }).notNull(),
     ...defaultColumns,
   },
   (table) => [primaryKey({ columns: [table.dayhomeId, table.startOn] })],

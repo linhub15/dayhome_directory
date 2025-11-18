@@ -43,11 +43,7 @@ export function ClaimListingButton({ dayhomeId }: Props) {
   );
 
   if (hasClaimedThisListing) {
-    return (
-      <Button disabled title="coming soon...">
-        Post Vacancy Notice
-      </Button>
-    );
+    return;
   }
 
   const hasAtLeastOneListingClaimed = claims && claims?.length > 0;

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card.tsx";
 import { RevokeClaimButton } from "@/features/claim_listing/revoke_claim_button";
 import { useListingClaims } from "@/features/claim_listing/use_listing_claims";
+import { CreateVacancyButton } from "@/features/show_vacancy/create_vacancy_button.tsx";
 import { ProfileAvatar } from "@/lib/auth/avatar.tsx";
 import { authClient } from "@/lib/auth/better_auth_client.ts";
 import { createFileRoute, Navigate, useNavigate } from "@tanstack/react-router";
@@ -39,7 +40,7 @@ function RouteComponent() {
     return <Navigate to="/login" />;
   }
 
-  if (!data) return null; // Skeleton loader
+  if (!data) return; // Skeleton loader
 
   const { user } = data;
 
@@ -65,7 +66,7 @@ function RouteComponent() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Claimed Childcare Listings</CardTitle>
+            <CardTitle>Manage your listings</CardTitle>
           </CardHeader>
           <CardContent>
             {listingClaims?.map((claim) => (
@@ -82,6 +83,7 @@ function RouteComponent() {
                   >
                     View
                   </LinkButton>
+                  <CreateVacancyButton dayhomeId={claim.dayhomeId} />
                   <RevokeClaimButton dayhomeId={claim.dayhomeId} />
                 </div>
               </div>

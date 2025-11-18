@@ -8,13 +8,14 @@ import {
 } from "@/components/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
 import { ClaimListingButton } from "@/features/claim_listing/claim_listing_button";
-import { ClaimedListingBadge } from "@/features/claim_listing/claimed_badge";
+import { ClaimedListingBadge } from "@/features/claim_listing/claimed_listing_badge";
 import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
 import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 import {
   type GetDayhomeResponse,
   getDayhomeFn,
 } from "@/features/dayhomes/get_dayhome.fn";
+import { VancancyNotice } from "@/features/show_vacancy/vacancy_notice.tsx";
 import { weekdayIso } from "@/lib/constants/weekday";
 import { googleDirections } from "@/lib/geocoding/constant_data";
 import { createFileRoute, notFound } from "@tanstack/react-router";
@@ -51,33 +52,28 @@ function RouteComponent() {
 
   return (
     <div className="max-w-xl mx-2 sm:mx-auto py-4 space-y-6">
-      <div className="flex justify-between">
-        <LinkButton
-          variant="outline"
-          to="/map"
-          search={{ f: id, l: `${location.y},${location.x},16` }}
-        >
-          <ArrowLeftIcon />
-          View in Map
-        </LinkButton>
+      <LinkButton
+        variant="outline"
+        to="/map"
+        search={{ f: id, l: `${location.y},${location.x},16` }}
+      >
+        <ArrowLeftIcon />
+        View in Map
+      </LinkButton>
 
-        <ClaimListingButton dayhomeId={id} />
-      </div>
-
-      <div className="space-y-2">
-        <div className="ml-2">
-          <ClaimedListingBadge dayhomeId={id} />
-        </div>
-
-        <Card className="overflow-clip">
-          <CardHeader>
-            <div className="flex justify-between items-center">
-              <DayhomeTitle name={name} agencyName={agencyName} />
+      <Card className="overflow-clip">
+        <CardHeader>
+          <VancancyNotice dayhomeId={id} />
+          <div className="flex justify-between items-center">
+            <DayhomeTitle name={name} agencyName={agencyName} />
+            <div>
               <LicensedBadge isLicensed={isLicensed} />
             </div>
-          </CardHeader>
+          </div>
+        </CardHeader>
 
-          <CardContent>
+        <CardContent>
+          <div className="flex flex-col gap-4">
             <div className="space-x-2">
               {ageGroups?.map((ageGroup) => (
                 <Badge
@@ -89,9 +85,6 @@ function RouteComponent() {
                 </Badge>
               ))}
             </div>
-          </CardContent>
-
-          <CardFooter>
             <div className="flex gap-3 overflow-scroll no-scrollbar">
               {phone && (
                 <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
@@ -106,9 +99,16 @@ function RouteComponent() {
                 </div>
               )}
             </div>
-          </CardFooter>
-        </Card>
-      </div>
+          </div>
+        </CardContent>
+
+        <hr />
+
+        <CardFooter>
+          <ClaimListingButton dayhomeId={id} />
+          <ClaimedListingBadge dayhomeId={id} />
+        </CardFooter>
+      </Card>
 
       <Card>
         <CardHeader>

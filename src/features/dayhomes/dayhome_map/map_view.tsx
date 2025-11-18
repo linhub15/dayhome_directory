@@ -9,7 +9,6 @@ import { EDMONTON } from "@/lib/geocoding/constant_data.ts";
 import type { LatLng } from "@/lib/geocoding/types.ts";
 import { Route } from "@/routes/map/index.tsx";
 import { debounce } from "@tanstack/react-pacer";
-import { useRouter } from "@tanstack/react-router";
 import z from "@zod/zod";
 import type { LatLngExpression } from "leaflet";
 import {
@@ -87,7 +86,6 @@ type InnerMapProps = {
 
 export function InnerMap(props: InnerMapProps) {
   const map = useMap();
-  const router = useRouter();
   const { onMoveEnd, dismissSheet, selectMarker } = useMapView();
   const filters = Route.useSearch({ select: ({ filters }) => filters });
   const { data: items } = useListDayhomes({
