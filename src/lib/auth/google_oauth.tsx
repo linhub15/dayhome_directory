@@ -2,11 +2,17 @@ import { Button } from "@/components/ui/button.tsx";
 import { authClient } from "@/lib/auth/better_auth_client.ts";
 import type { FileRoutesByTo } from "@/routeTree.gen.ts";
 
-export function GoogleOAuth() {
+type Props = {
+  redirect?: keyof FileRoutesByTo;
+};
+
+export function GoogleOAuth(props: Props) {
+  const defaultRedirect = "/profile" satisfies keyof FileRoutesByTo;
+
   const signIn = async () => {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/profile" satisfies keyof FileRoutesByTo,
+      callbackURL: props.redirect ?? defaultRedirect,
     });
   };
 

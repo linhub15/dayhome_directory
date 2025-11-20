@@ -1,3 +1,6 @@
+import { Toaster } from "@/components/ui/toaster";
+import { SEO_META } from "@/config/seo_meta";
+import appCss from "@/styles.css?url";
 import type { QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
@@ -6,9 +9,6 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import leafletCss from "leaflet/dist/leaflet.css?url";
-import { Toaster } from "@/components/ui/toaster";
-import { SEO_META } from "@/config/seo_meta";
-import appCss from "@/styles.css?url";
 
 interface RouterContext {
   queryClient: QueryClient;

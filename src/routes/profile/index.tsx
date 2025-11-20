@@ -11,16 +11,25 @@ import { useListingClaims } from "@/features/claim_listing/use_listing_claims";
 import { CreateVacancyButton } from "@/features/show_vacancy/create_vacancy_button.tsx";
 import { ProfileAvatar } from "@/lib/auth/avatar.tsx";
 import { authClient } from "@/lib/auth/better_auth_client.ts";
-import { createFileRoute, Navigate, useNavigate } from "@tanstack/react-router";
+import { getSessionFn } from "@/lib/auth/get_session_fn.ts";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/profile/")({
   component: RouteComponent,
+  beforeLoad: async () => {
+    // implement this at the top level of protected routest
+    // https://tanstack.com/start/latest/docs/framework/solid/guide/authentication#4-route-protection
+    const { user } = await getSessionFn();
+    if (!user) {
+      throw redirect({ to: "/login", search: { redirect: "/profile" } });
+    }
+  },
 });
 
 function RouteComponent() {
   const navigate = useNavigate();
 
-  const { data, isPending } = authClient.useSession();
+  const { data } = authClient.useSession();
 
   const { data: listingClaims } = useListingClaims();
 
@@ -35,10 +44,6 @@ function RouteComponent() {
         },
       },
     });
-
-  if (!data && !isPending) {
-    return <Navigate to="/login" />;
-  }
 
   if (!data) return; // Skeleton loader
 
