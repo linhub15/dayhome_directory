@@ -1,4 +1,4 @@
-import { Nav } from "@/components/blocks/nav/nav.tsx";
+import { AppLayout } from "@/components/blocks/layouts/app_layout";
 import { Button, LinkButton } from "@/components/ui/button.tsx";
 import {
   Card,
@@ -6,19 +6,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card.tsx";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover.tsx";
 import { RevokeClaimButton } from "@/features/claim_listing/revoke_claim_button";
 import { useListingClaims } from "@/features/claim_listing/use_listing_claims";
 import { CreateVacancyButton } from "@/features/show_vacancy/create_vacancy_button.tsx";
-import { ProfileAvatar } from "@/lib/auth/avatar.tsx";
+import { VacancyNotice } from "@/features/show_vacancy/vacancy_notice.tsx";
 import { authClient } from "@/lib/auth/better_auth_client.ts";
 import { getSessionFn } from "@/lib/auth/get_session_fn.ts";
+import { ProfileAvatar } from "@/lib/auth/profile_avatar";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { EllipsisVerticalIcon, MapPinnedIcon } from "lucide-react";
 
 export const Route = createFileRoute("/profile/")({
   component: RouteComponent,
   beforeLoad: async () => {
-    // implement this at the top level of protected routest
-    // https://tanstack.com/start/latest/docs/framework/solid/guide/authentication#4-route-protection
     const { user } = await getSessionFn();
     if (!user) {
       throw redirect({ to: "/login", search: { redirect: "/profile" } });
@@ -50,10 +55,8 @@ function RouteComponent() {
   const { user } = data;
 
   return (
-    <>
-      <Nav />
-
-      <div className="mx-2 sm:mx-auto max-w-lg py-16 space-y-8">
+    <AppLayout>
+      <div className="space-y-8">
         <Card>
           <CardContent>
             <div className="flex gap-4 items-center">
@@ -71,15 +74,27 @@ function RouteComponent() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Manage your listings</CardTitle>
+            <CardTitle>My claimed listings</CardTitle>
           </CardHeader>
           <CardContent>
+            {listingClaims?.length === 0 && (
+              <div className="flex justify-between items-center">
+                <span>Find and claim your childcare program from the map.</span>
+                <LinkButton to="/map" variant="outline">
+                  <MapPinnedIcon />
+                  Map
+                </LinkButton>
+              </div>
+            )}
             {listingClaims?.map((claim) => (
               <div
                 key={claim.dayhomeId}
                 className="flex items-center justify-between"
               >
-                <div>{claim.dayhome?.name}</div>
+                <div className="flex flex-col">
+                  <VacancyNotice dayhomeId={claim.dayhomeId} />
+                  <div>{claim.dayhome?.name}</div>
+                </div>
                 <div className="flex gap-2">
                   <LinkButton
                     variant="outline"
@@ -89,7 +104,18 @@ function RouteComponent() {
                     View
                   </LinkButton>
                   <CreateVacancyButton dayhomeId={claim.dayhomeId} />
-                  <RevokeClaimButton dayhomeId={claim.dayhomeId} />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline">
+                        <EllipsisVerticalIcon />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-fit">
+                      <div>
+                        <RevokeClaimButton dayhomeId={claim.dayhomeId} />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </div>
             ))}
@@ -102,6 +128,6 @@ function RouteComponent() {
           </Button>
         </div>
       </div>
-    </>
+    </AppLayout>
   );
 }

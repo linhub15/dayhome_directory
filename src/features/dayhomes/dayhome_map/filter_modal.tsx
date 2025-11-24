@@ -146,10 +146,10 @@ function FilterModal(props: Props) {
                   />
                   <div className="grid gap-1.5 font-normal">
                     <p className="text-sm leading-none font-medium">
-                      Has vacancy
+                      Has openings
                     </p>
                     <p className="text-muted-foreground text-sm">
-                      Currently looking to fill a vacancy
+                      Currently looking to fill an opening
                     </p>
                   </div>
                 </Label>

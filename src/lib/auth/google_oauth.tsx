@@ -16,5 +16,9 @@ export function GoogleOAuth(props: Props) {
     });
   };
 
-  return <Button onClick={signIn}>Continue with Google</Button>;
+  return (
+    <Button className="w-full" onClick={signIn}>
+      Continue with Google
+    </Button>
+  );
 }

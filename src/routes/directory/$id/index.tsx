@@ -1,21 +1,15 @@
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants, LinkButton } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
-import { ClaimListingButton } from "@/features/claim_listing/claim_listing_button";
-import { ClaimedListingBadge } from "@/features/claim_listing/claimed_listing_badge";
+import { ClaimedCard } from "@/features/claim_listing/claimed_card.tsx";
 import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
 import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 import {
   type GetDayhomeResponse,
   getDayhomeFn,
 } from "@/features/dayhomes/get_dayhome.fn";
-import { VancancyNotice } from "@/features/show_vacancy/vacancy_notice.tsx";
+import { VacancyNotice } from "@/features/show_vacancy/vacancy_notice.tsx";
 import { weekdayIso } from "@/lib/constants/weekday";
 import { googleDirections } from "@/lib/geocoding/constant_data";
 import { createFileRoute, notFound } from "@tanstack/react-router";
@@ -51,7 +45,7 @@ function RouteComponent() {
   } = Route.useLoaderData();
 
   return (
-    <div className="max-w-xl mx-2 sm:mx-auto py-4 space-y-6">
+    <div className="space-y-6">
       <LinkButton
         variant="outline"
         to="/map"
@@ -61,9 +55,11 @@ function RouteComponent() {
         View in Map
       </LinkButton>
 
+      <ClaimedCard dayhomeId={id} />
+
       <Card className="overflow-clip">
         <CardHeader>
-          <VancancyNotice dayhomeId={id} />
+          <VacancyNotice dayhomeId={id} />
           <div className="flex justify-between items-center">
             <DayhomeTitle name={name} agencyName={agencyName} />
             <div>
@@ -101,13 +97,6 @@ function RouteComponent() {
             </div>
           </div>
         </CardContent>
-
-        <hr />
-
-        <CardFooter>
-          <ClaimListingButton dayhomeId={id} />
-          <ClaimedListingBadge dayhomeId={id} />
-        </CardFooter>
       </Card>
 
       <Card>

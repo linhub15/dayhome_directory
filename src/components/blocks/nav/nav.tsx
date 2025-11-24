@@ -1,10 +1,13 @@
 import { LinkButton } from "@/components/ui/button";
+import { authClient } from "@/lib/auth/better_auth_client.ts";
+import { ProfileAvatar } from "@/lib/auth/profile_avatar";
 
 export function Nav() {
+  const { data: session } = authClient.useSession();
   return (
-    <div className="mx-auto w-fit">
-      <nav>
-        <div className="flex gap-4 py-2">
+    <nav className="mt-3 px-2 sm:mx-auto max-w-xl">
+      <div className="flex justify-between items-center w-full">
+        <div className="flex gap-4 w-fit">
           <LinkButton
             variant="ghost"
             to="/home"
@@ -27,7 +30,12 @@ export function Nav() {
             Map
           </LinkButton>
         </div>
-      </nav>
-    </div>
+
+        <div>
+          {!session && <LinkButton to="/login">Login</LinkButton>}
+          <ProfileAvatar />
+        </div>
+      </div>
+    </nav>
   );
 }

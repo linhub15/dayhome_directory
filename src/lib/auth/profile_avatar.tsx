@@ -4,7 +4,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar.tsx";
 import { authClient } from "@/lib/auth/better_auth_client.ts";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 
 export function ProfileAvatar({
   className,
@@ -13,11 +13,16 @@ export function ProfileAvatar({
   className?: string;
   navigate?: boolean;
 }) {
+  const location = useLocation();
   const { data } = authClient.useSession();
 
-  if (!data) return;
+  if (!data) {
+    return;
+  }
 
   const { user } = data;
+
+  const renderAsLink = navigate || location.pathname !== "/profile";
 
   const component = (
     <Avatar className={className}>
@@ -26,14 +31,11 @@ export function ProfileAvatar({
     </Avatar>
   );
 
-  return navigate ? (
-    <Link
-      className="rounded-full hover:bg-accent p-1.25 size-fit box-content"
-      to={"/profile"}
-    >
+  return renderAsLink ? (
+    <Link className="block rounded-full hover:bg-accent p-1" to={"/profile"}>
       {component}
     </Link>
   ) : (
-    component
+    <div className="rounded-full p-1">{component}</div>
   );
 }

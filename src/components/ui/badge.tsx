@@ -1,7 +1,7 @@
+import { cn } from "@/lib/utils/cn";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "cva";
 import type { ComponentProps } from "react";
-import { cn } from "@/lib/utils/cn";
 
 const badgeVariants = cva({
   base: "inline-flex items-center justify-center rounded-md border font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
@@ -18,7 +18,7 @@ const badgeVariants = cva({
     },
     size: {
       sm: "px-1.5 py-0.5 text-xs [&>svg]:size-3 gap-1",
-      base: "px-2 py-0.5 text-xs [&>svg]:size-3 gap-1",
+      base: "px-2 py-0.75 text-xs [&>svg]:size-3.5 gap-1",
       lg: "px-3 py-1 text-sm [&>svg]:size-4 gap-2",
     },
   },

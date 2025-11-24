@@ -6,7 +6,7 @@ import {
 } from "@/features/dayhomes/dayhome_map/filter_modal";
 import { InnerMap, MapView } from "@/features/dayhomes/dayhome_map/map_view";
 import { MapViewProvider } from "@/features/dayhomes/dayhome_map/map_view_provider.tsx";
-import { ProfileAvatar } from "@/lib/auth/avatar.tsx";
+import { ProfileAvatar } from "@/lib/auth/profile_avatar";
 import { EDMONTON } from "@/lib/geocoding/constant_data";
 import type { LatLng } from "@/lib/geocoding/types";
 import { createFileRoute } from "@tanstack/react-router";

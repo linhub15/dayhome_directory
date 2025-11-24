@@ -1,8 +1,8 @@
+import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Link } from "@tanstack/react-router";
 import { useRef } from "react";
 import { Sheet, type SheetRef } from "react-modal-sheet";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader } from "@/components/ui/card";
 
 const snapPoints = [0, 60, 0.5, 1];
 
@@ -31,7 +31,7 @@ export function DayhomeList({ items }: Props) {
           <div className="space-y-7 py-4">
             {items?.map((item) => (
               <Link
-                className="block max-w-lg sm:mx-auto px-2"
+                className="block max-w-xl sm:mx-auto px-2"
                 to="/directory/$id"
                 params={{ id: item.id }}
                 key={item.name}
