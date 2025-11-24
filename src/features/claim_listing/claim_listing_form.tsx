@@ -50,7 +50,7 @@ export function ClaimListingForm(props: Props) {
       email: dayhome?.email ?? auth?.user.email,
     },
     validators: {
-      onSubmit: (values) => {
+      onSubmit: (_values) => {
         // todo
       },
     },

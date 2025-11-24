@@ -9,7 +9,6 @@ import {
   type GetDayhomeResponse,
   getDayhomeFn,
 } from "@/features/dayhomes/get_dayhome.fn";
-import { VacancyNotice } from "@/features/show_vacancy/vacancy_notice.tsx";
 import { weekdayIso } from "@/lib/constants/weekday";
 import { googleDirections } from "@/lib/geocoding/constant_data";
 import { createFileRoute, notFound } from "@tanstack/react-router";
@@ -59,9 +58,8 @@ function RouteComponent() {
 
       <Card className="overflow-clip">
         <CardHeader>
-          <VacancyNotice dayhomeId={id} />
           <div className="flex justify-between items-center">
-            <DayhomeTitle name={name} agencyName={agencyName} />
+            <DayhomeTitle name={name} agencyName={agencyName} dayhomeId={id} />
             <div>
               <LicensedBadge isLicensed={isLicensed} />
             </div>

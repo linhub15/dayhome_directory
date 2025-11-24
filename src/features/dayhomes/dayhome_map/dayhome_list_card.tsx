@@ -4,6 +4,7 @@ import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome
 import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 
 export type Props = {
+  id: string;
   name: string;
   address: string;
   phone: string | null;
@@ -21,7 +22,11 @@ export function DayhomeListCard(props: Props) {
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center gap-3">
-          <DayhomeTitle name={props.name} agencyName={props.agencyName} />
+          <DayhomeTitle
+            name={props.name}
+            agencyName={props.agencyName}
+            dayhomeId={props.id}
+          />
           <LicensedBadge isLicensed={props.isLicensed} />
         </div>
         <div>
