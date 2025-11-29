@@ -1,5 +1,5 @@
-import { Badge } from "@/components/ui/badge";
 import { buttonVariants, LinkButton } from "@/components/ui/button";
+import { AgeGroupBadge } from "@/features/dayhomes/dayhome_map/components/age_group_badge.tsx";
 import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
 import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 import { useGetDayhome } from "@/features/dayhomes/get_dayhome/use_get_dayhome";
@@ -100,13 +100,7 @@ export function DayhomeSheetPreview({ ref }: Props) {
 
               <div className="flex gap-2 flex-wrap">
                 {data.ageGroups?.map((ageGroup) => (
-                  <Badge
-                    className="capitalize"
-                    variant="secondary"
-                    key={ageGroup}
-                  >
-                    {ageGroup.replace("_", " ")}
-                  </Badge>
+                  <AgeGroupBadge key={ageGroup} ageGroup={ageGroup} />
                 ))}
               </div>
 

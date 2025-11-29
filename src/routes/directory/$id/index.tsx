@@ -1,8 +1,8 @@
-import { Badge } from "@/components/ui/badge";
 import { buttonVariants, LinkButton } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
 import { ClaimedCard } from "@/features/claim_listing/claimed_card.tsx";
+import { AgeGroupBadge } from "@/features/dayhomes/dayhome_map/components/age_group_badge.tsx";
 import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
 import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 import {
@@ -70,13 +70,7 @@ function RouteComponent() {
           <div className="flex flex-col gap-4">
             <div className="space-x-2">
               {ageGroups?.map((ageGroup) => (
-                <Badge
-                  className="capitalize"
-                  variant="secondary"
-                  key={ageGroup}
-                >
-                  {ageGroup.replace("_", " ")}
-                </Badge>
+                <AgeGroupBadge key={ageGroup} ageGroup={ageGroup} />
               ))}
             </div>
             <div className="flex gap-3 overflow-scroll no-scrollbar">
