@@ -18,6 +18,7 @@ export const auth = createMiddleware({ type: "request" }).server(
     if ("error" in result && isRedirect(result.error)) {
       throw result.error;
     }
+
     return result;
   },
 );

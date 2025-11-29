@@ -11,7 +11,7 @@ export const createVacancyFn = createServerFn({ method: "POST" })
     const { user, db } = context;
 
     if (!user) {
-      throw new Error("401 Forbidden");
+      throw new Error("401 Unauthorized");
     }
 
     const today = new Date();
