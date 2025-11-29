@@ -13,14 +13,14 @@ import {
 } from "@/components/ui/popover.tsx";
 import { RevokeClaimButton } from "@/features/claim_listing/revoke_claim_button";
 import { useListingClaims } from "@/features/claim_listing/use_listing_claims";
-import { CreateVacancyButton } from "@/features/show_vacancy/create_vacancy_button.tsx";
+import { ToggleVacancyButton } from "@/features/show_vacancy/toggle_vacancy_button";
 import { VacancyNotice } from "@/features/show_vacancy/vacancy_notice.tsx";
 import { authClient } from "@/lib/auth/better_auth_client.ts";
 import { getSessionFn } from "@/lib/auth/get_session_fn.ts";
 import { ProfileAvatar } from "@/lib/auth/profile_avatar";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
-import { EllipsisVerticalIcon, MapPinnedIcon } from "lucide-react";
+import { EllipsisVerticalIcon, EyeIcon, MapPinnedIcon } from "lucide-react";
 
 export const Route = createFileRoute("/profile/")({
   component: RouteComponent,
@@ -100,14 +100,7 @@ function RouteComponent() {
                   <div>{claim.dayhome?.name}</div>
                 </div>
                 <div className="flex gap-2">
-                  <LinkButton
-                    variant="outline"
-                    to="/directory/$id"
-                    params={{ id: claim.dayhomeId }}
-                  >
-                    View
-                  </LinkButton>
-                  <CreateVacancyButton dayhomeId={claim.dayhomeId} />
+                  <ToggleVacancyButton dayhomeId={claim.dayhomeId} />
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline">
@@ -115,7 +108,15 @@ function RouteComponent() {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-fit">
-                      <div>
+                      <div className="flex flex-col gap-2">
+                        <LinkButton
+                          variant="outline"
+                          to="/directory/$id"
+                          params={{ id: claim.dayhomeId }}
+                        >
+                          <EyeIcon />
+                          View
+                        </LinkButton>
                         <RevokeClaimButton dayhomeId={claim.dayhomeId} />
                       </div>
                     </PopoverContent>
