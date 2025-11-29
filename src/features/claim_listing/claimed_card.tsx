@@ -64,18 +64,22 @@ function ClaimedOtherListingBadge() {
 }
 
 function ClaimedThisListingBadge() {
-  const helpText = "Managers of the listing can post vacancy notices";
+  const helpText =
+    "Managers of the listing can post vacancy notices. If you want to change your info, please contact us.";
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Badge variant="outline">
-          <ShieldCheckIcon />
-          You claimed this listing
+        <Badge className="border-green-300 bg-green-300" variant="outline">
+          <ShieldCheckIcon className="" />
+          You manage this listing
         </Badge>
       </PopoverTrigger>
       <PopoverContent>
         <p>{helpText}</p>
+        <a className="underline hover:text-primary" href="/home#contact">
+          Contact form.
+        </a>
       </PopoverContent>
     </Popover>
   );
@@ -83,7 +87,7 @@ function ClaimedThisListingBadge() {
 
 function ManageMyListingsButton() {
   return (
-    <LinkButton variant="outline" to="/profile">
+    <LinkButton variant="secondary" to="/profile">
       Manage
     </LinkButton>
   );
@@ -92,7 +96,7 @@ function ManageMyListingsButton() {
 function ClaimListingButton({ dayhomeId }: { dayhomeId: string }) {
   return (
     <LinkButton
-      variant="outline"
+      variant="secondary"
       to="/directory/$id/claim"
       params={{ id: dayhomeId }}
     >

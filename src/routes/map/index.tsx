@@ -85,15 +85,16 @@ function RouteComponent() {
           <InnerMap ref={mapRef} />
         </MapView>
 
-        <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-3 max-w-lg w-full px-2">
+        <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-3 max-w-xl w-full px-2">
           <div className="flex gap-4 justify-between items-center">
-            <div className="flex items-center rounded-full bg-white py-0.5 px-0.75 gap-1.5">
-              <LinkButton className="rounded-full" to="/info" variant="ghost">
-                <InfoIcon />
-              </LinkButton>
-
-              <ProfileAvatar navigate />
-            </div>
+            <FilterModal
+              onOpenStart={dismissSheet}
+              onFilterChange={(filters) =>
+                navigate({
+                  search: (prev) => ({ ...prev, filters }),
+                })
+              }
+            />
 
             <div className="flex items-center gap-2">
               <Button
@@ -118,14 +119,13 @@ function RouteComponent() {
               </Button>
             </div>
 
-            <FilterModal
-              onOpenStart={dismissSheet}
-              onFilterChange={(filters) =>
-                navigate({
-                  search: (prev) => ({ ...prev, filters }),
-                })
-              }
-            />
+            <div className="flex items-center rounded-full bg-white py-0.5 px-0.75 gap-1.5">
+              <LinkButton className="rounded-full" to="/info" variant="ghost">
+                <InfoIcon />
+              </LinkButton>
+
+              <ProfileAvatar navigate />
+            </div>
           </div>
         </div>
 

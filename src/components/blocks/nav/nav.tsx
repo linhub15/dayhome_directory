@@ -1,9 +1,13 @@
 import { LinkButton } from "@/components/ui/button";
 import { authClient } from "@/lib/auth/better_auth_client.ts";
 import { ProfileAvatar } from "@/lib/auth/profile_avatar";
+import { useLocation } from "@tanstack/react-router";
 
 export function Nav() {
   const { data: session } = authClient.useSession();
+  const location = useLocation();
+  const onLoginPage = location.pathname.includes("/login");
+
   return (
     <nav className="mt-3 px-2 sm:mx-auto max-w-xl">
       <div className="flex justify-between items-center w-full">
@@ -32,7 +36,9 @@ export function Nav() {
         </div>
 
         <div>
-          {!session && <LinkButton to="/login">Login</LinkButton>}
+          {!onLoginPage && !session && (
+            <LinkButton to="/login">Login</LinkButton>
+          )}
           <ProfileAvatar />
         </div>
       </div>

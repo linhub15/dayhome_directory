@@ -18,6 +18,7 @@ import { VacancyNotice } from "@/features/show_vacancy/vacancy_notice.tsx";
 import { authClient } from "@/lib/auth/better_auth_client.ts";
 import { getSessionFn } from "@/lib/auth/get_session_fn.ts";
 import { ProfileAvatar } from "@/lib/auth/profile_avatar";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { EllipsisVerticalIcon, MapPinnedIcon } from "lucide-react";
 
@@ -32,13 +33,14 @@ export const Route = createFileRoute("/profile/")({
 });
 
 function RouteComponent() {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const { data } = authClient.useSession();
 
   const { data: listingClaims } = useListingClaims();
 
-  const signout = () =>
+  const signout = () => {
     authClient.signOut({
       fetchOptions: {
         onSuccess: async () => {
@@ -49,6 +51,8 @@ function RouteComponent() {
         },
       },
     });
+    queryClient.clear();
+  };
 
   if (!data) return; // Skeleton loader
 
