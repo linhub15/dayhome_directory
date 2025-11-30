@@ -81,7 +81,7 @@ export const dayhomeRelations = relations(dayhome, ({ one, many }) => ({
   }),
   openHours: many(dayhomeOpenHours),
   vancancies: many(dayhomeVacancy),
-  claimers: many(user),
+  claims: many(listingClaim),
 }));
 
 export const dayhomeOpenHoursRelations = relations(
