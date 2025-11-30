@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
 import type { AgeGroupKey } from "@/features/dayhomes/dayhome_map/filter_modal.tsx";
 import { dayhomeKeys } from "@/features/dayhomes/query_keys.ts";
 import type { LatLng } from "@/lib/geocoding/types";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { listDayhomesFn } from "./list_dayhomes.fn.ts";
 
 export type ListDayhomesData = Awaited<ReturnType<typeof listDayhomesFn>>;
@@ -34,6 +34,8 @@ export function useListDayhomes({
         },
       });
     },
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   result.data = result.data
