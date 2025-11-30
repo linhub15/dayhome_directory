@@ -1,16 +1,20 @@
+import { VacancyNotice } from "@/features/show_vacancy/vacancy_notice.tsx";
 import { Building2Icon, HouseHeartIcon } from "lucide-react";
 
 export function DayhomeTitle({
+  dayhomeId,
   name,
   agencyName,
   type,
 }: {
+  dayhomeId: string;
   name: string;
   agencyName?: string | null;
   type?: "dayhome" | "facility";
 }) {
   return (
     <div className="flex flex-col">
+      <VacancyNotice dayhomeId={dayhomeId} />
       <div className="flex gap-2 items-center">
         {type === "dayhome" ? (
           <div title="Dayhome">

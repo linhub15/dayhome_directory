@@ -11,11 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DirectoryRouteRouteImport } from './routes/directory/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfileIndexRouteImport } from './routes/profile/index'
 import { Route as MapIndexRouteImport } from './routes/map/index'
 import { Route as wwwSitemapDotxmlRouteImport } from './routes/(www)/sitemap[.]xml'
+import { Route as wwwPrivacyRouteImport } from './routes/(www)/privacy'
+import { Route as wwwLoginRouteImport } from './routes/(www)/login'
 import { Route as wwwInfoRouteImport } from './routes/(www)/info'
 import { Route as wwwHomeRouteImport } from './routes/(www)/home'
 import { Route as DirectoryIdIndexRouteImport } from './routes/directory/$id/index'
+import { Route as DirectoryIdClaimRouteImport } from './routes/directory/$id/claim'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const DirectoryRouteRoute = DirectoryRouteRouteImport.update({
   id: '/directory',
@@ -27,6 +32,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileIndexRoute = ProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MapIndexRoute = MapIndexRouteImport.update({
   id: '/map/',
   path: '/map/',
@@ -35,6 +45,16 @@ const MapIndexRoute = MapIndexRouteImport.update({
 const wwwSitemapDotxmlRoute = wwwSitemapDotxmlRouteImport.update({
   id: '/(www)/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const wwwPrivacyRoute = wwwPrivacyRouteImport.update({
+  id: '/(www)/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const wwwLoginRoute = wwwLoginRouteImport.update({
+  id: '/(www)/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const wwwInfoRoute = wwwInfoRouteImport.update({
@@ -52,14 +72,29 @@ const DirectoryIdIndexRoute = DirectoryIdIndexRouteImport.update({
   path: '/$id/',
   getParentRoute: () => DirectoryRouteRoute,
 } as any)
+const DirectoryIdClaimRoute = DirectoryIdClaimRouteImport.update({
+  id: '/$id/claim',
+  path: '/$id/claim',
+  getParentRoute: () => DirectoryRouteRoute,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRouteRouteWithChildren
   '/home': typeof wwwHomeRoute
   '/info': typeof wwwInfoRoute
+  '/login': typeof wwwLoginRoute
+  '/privacy': typeof wwwPrivacyRoute
   '/sitemap.xml': typeof wwwSitemapDotxmlRoute
   '/map': typeof MapIndexRoute
+  '/profile': typeof ProfileIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/directory/$id/claim': typeof DirectoryIdClaimRoute
   '/directory/$id': typeof DirectoryIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -67,8 +102,13 @@ export interface FileRoutesByTo {
   '/directory': typeof DirectoryRouteRouteWithChildren
   '/home': typeof wwwHomeRoute
   '/info': typeof wwwInfoRoute
+  '/login': typeof wwwLoginRoute
+  '/privacy': typeof wwwPrivacyRoute
   '/sitemap.xml': typeof wwwSitemapDotxmlRoute
   '/map': typeof MapIndexRoute
+  '/profile': typeof ProfileIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/directory/$id/claim': typeof DirectoryIdClaimRoute
   '/directory/$id': typeof DirectoryIdIndexRoute
 }
 export interface FileRoutesById {
@@ -77,8 +117,13 @@ export interface FileRoutesById {
   '/directory': typeof DirectoryRouteRouteWithChildren
   '/(www)/home': typeof wwwHomeRoute
   '/(www)/info': typeof wwwInfoRoute
+  '/(www)/login': typeof wwwLoginRoute
+  '/(www)/privacy': typeof wwwPrivacyRoute
   '/(www)/sitemap.xml': typeof wwwSitemapDotxmlRoute
   '/map/': typeof MapIndexRoute
+  '/profile/': typeof ProfileIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/directory/$id/claim': typeof DirectoryIdClaimRoute
   '/directory/$id/': typeof DirectoryIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -88,8 +133,13 @@ export interface FileRouteTypes {
     | '/directory'
     | '/home'
     | '/info'
+    | '/login'
+    | '/privacy'
     | '/sitemap.xml'
     | '/map'
+    | '/profile'
+    | '/api/auth/$'
+    | '/directory/$id/claim'
     | '/directory/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -97,8 +147,13 @@ export interface FileRouteTypes {
     | '/directory'
     | '/home'
     | '/info'
+    | '/login'
+    | '/privacy'
     | '/sitemap.xml'
     | '/map'
+    | '/profile'
+    | '/api/auth/$'
+    | '/directory/$id/claim'
     | '/directory/$id'
   id:
     | '__root__'
@@ -106,8 +161,13 @@ export interface FileRouteTypes {
     | '/directory'
     | '/(www)/home'
     | '/(www)/info'
+    | '/(www)/login'
+    | '/(www)/privacy'
     | '/(www)/sitemap.xml'
     | '/map/'
+    | '/profile/'
+    | '/api/auth/$'
+    | '/directory/$id/claim'
     | '/directory/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -116,8 +176,12 @@ export interface RootRouteChildren {
   DirectoryRouteRoute: typeof DirectoryRouteRouteWithChildren
   wwwHomeRoute: typeof wwwHomeRoute
   wwwInfoRoute: typeof wwwInfoRoute
+  wwwLoginRoute: typeof wwwLoginRoute
+  wwwPrivacyRoute: typeof wwwPrivacyRoute
   wwwSitemapDotxmlRoute: typeof wwwSitemapDotxmlRoute
   MapIndexRoute: typeof MapIndexRoute
+  ProfileIndexRoute: typeof ProfileIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -136,6 +200,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile/': {
+      id: '/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/map/': {
       id: '/map/'
       path: '/map'
@@ -148,6 +219,20 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof wwwSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(www)/privacy': {
+      id: '/(www)/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof wwwPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(www)/login': {
+      id: '/(www)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof wwwLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(www)/info': {
@@ -171,14 +256,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DirectoryIdIndexRouteImport
       parentRoute: typeof DirectoryRouteRoute
     }
+    '/directory/$id/claim': {
+      id: '/directory/$id/claim'
+      path: '/$id/claim'
+      fullPath: '/directory/$id/claim'
+      preLoaderRoute: typeof DirectoryIdClaimRouteImport
+      parentRoute: typeof DirectoryRouteRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface DirectoryRouteRouteChildren {
+  DirectoryIdClaimRoute: typeof DirectoryIdClaimRoute
   DirectoryIdIndexRoute: typeof DirectoryIdIndexRoute
 }
 
 const DirectoryRouteRouteChildren: DirectoryRouteRouteChildren = {
+  DirectoryIdClaimRoute: DirectoryIdClaimRoute,
   DirectoryIdIndexRoute: DirectoryIdIndexRoute,
 }
 
@@ -191,8 +292,12 @@ const rootRouteChildren: RootRouteChildren = {
   DirectoryRouteRoute: DirectoryRouteRouteWithChildren,
   wwwHomeRoute: wwwHomeRoute,
   wwwInfoRoute: wwwInfoRoute,
+  wwwLoginRoute: wwwLoginRoute,
+  wwwPrivacyRoute: wwwPrivacyRoute,
   wwwSitemapDotxmlRoute: wwwSitemapDotxmlRoute,
   MapIndexRoute: MapIndexRoute,
+  ProfileIndexRoute: ProfileIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

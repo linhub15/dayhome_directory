@@ -1,3 +1,4 @@
+import { user } from "@/lib/db/auth_schema.ts";
 import { nanoid } from "@/lib/utils/nanoid.ts";
 import { relations, sql } from "drizzle-orm";
 import {
@@ -80,6 +81,7 @@ export const dayhomeRelations = relations(dayhome, ({ one, many }) => ({
   }),
   openHours: many(dayhomeOpenHours),
   vancancies: many(dayhomeVacancy),
+  claims: many(listingClaim),
 }));
 
 export const dayhomeOpenHoursRelations = relations(
@@ -98,8 +100,8 @@ export const dayhomeVacancy = pgTable(
     dayhomeId: text("dayhome_id")
       .references(() => dayhome.id, { onDelete: "cascade" })
       .notNull(),
-    startOn: date("start_on").defaultNow().notNull(),
-    endOn: date("end_on").notNull(),
+    startOn: date("start_on", { mode: "date" }).defaultNow().notNull(),
+    endOn: date("end_on", { mode: "date" }).notNull(),
     ...defaultColumns,
   },
   (table) => [primaryKey({ columns: [table.dayhomeId, table.startOn] })],
@@ -138,6 +140,27 @@ export const license = pgTable("license", {
 
 export const licenseRelations = relations(license, ({ many }) => ({
   dayhomes: many(dayhome),
+}));
+
+export const listingClaim = pgTable("listing_claim", {
+  dayhomeId: text("dayhome_id")
+    .notNull()
+    .references(() => dayhome.id),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id),
+  ...defaultColumns,
+});
+
+export const listClaimRelations = relations(listingClaim, ({ one }) => ({
+  dayhome: one(dayhome, {
+    fields: [listingClaim.dayhomeId],
+    references: [dayhome.id],
+  }),
+  user: one(user, {
+    fields: [listingClaim.userId],
+    references: [user.id],
+  }),
 }));
 
 export const geocodeCache = pgTable("geocode_cache", {

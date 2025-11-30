@@ -28,17 +28,17 @@ export function DayhomeSheetPreview({ ref }: Props) {
     structuralSharing: true,
   });
 
-  const { data, isPending } = useGetDayhome(dayhomeId);
+  const { data, isLoading, isSuccess } = useGetDayhome(dayhomeId);
   const [snapPoint, setSnapPoint] = useState(1);
   const sheetRef = useRef<SheetRef>(null);
 
-  const expand = useCallback(() => {
-    sheetRef.current?.snapTo(maxSnap);
-  }, []);
+  const expand = useCallback(async () => {
+    return data ? sheetRef.current?.snapTo(maxSnap) : undefined;
+  }, [data]);
 
   const shrink = useCallback(() => {
-    sheetRef.current?.snapTo(1);
-  }, []);
+    return data ? sheetRef.current?.snapTo(1) : undefined;
+  }, [data]);
 
   useImperativeHandle(ref, () => {
     return {
@@ -52,18 +52,18 @@ export function DayhomeSheetPreview({ ref }: Props) {
   }, [shrink, expand]);
 
   useEffect(() => {
-    if (isPending) {
-      return shrink();
-    }
+    const promise = async () => {
+      if (isLoading) {
+        return await shrink();
+      }
 
-    if (data && !isPending) {
-      return expand();
-    }
-  }, [data, isPending, shrink, expand]);
+      if (isSuccess) {
+        return await expand();
+      }
+    };
 
-  if (!dayhomeId) {
-    return;
-  }
+    promise();
+  }, [data, isLoading, isSuccess, shrink, expand]);
 
   return (
     <Sheet
@@ -77,6 +77,7 @@ export function DayhomeSheetPreview({ ref }: Props) {
       snapPoints={snapPoints}
       onSnap={(snap) => setSnapPoint(snap)}
       disableDismiss
+      disableDrag={!data}
     >
       <Sheet.Container className="max-h-[65vh]">
         <Sheet.Header onClick={expand} />
@@ -85,6 +86,7 @@ export function DayhomeSheetPreview({ ref }: Props) {
             <div className="px-6 isolate">
               <div className="flex justify-between items-start pb-4 gap-4">
                 <DayhomeTitle
+                  dayhomeId={data.id}
                   name={data.name}
                   agencyName={data.agencyName}
                   type={

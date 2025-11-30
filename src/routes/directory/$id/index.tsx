@@ -1,14 +1,8 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowLeftIcon, MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants, LinkButton } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
+import { ClaimedCard } from "@/features/claim_listing/claimed_card.tsx";
 import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
 import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
 import {
@@ -17,6 +11,8 @@ import {
 } from "@/features/dayhomes/get_dayhome.fn";
 import { weekdayIso } from "@/lib/constants/weekday";
 import { googleDirections } from "@/lib/geocoding/constant_data";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { ArrowLeftIcon, MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 
 export const Route = createFileRoute("/directory/$id/")({
   ssr: "data-only",
@@ -48,51 +44,57 @@ function RouteComponent() {
   } = Route.useLoaderData();
 
   return (
-    <div className="max-w-xl mx-auto py-4 space-y-6">
-      <div>
-        <LinkButton
-          variant="outline"
-          to="/map"
-          search={{ f: id, l: `${location.y},${location.x},16` }}
-        >
-          <ArrowLeftIcon />
-          View in Map
-        </LinkButton>
-      </div>
+    <div className="space-y-6">
+      <LinkButton
+        variant="outline"
+        to="/map"
+        search={{ f: id, l: `${location.y},${location.x},16` }}
+      >
+        <ArrowLeftIcon />
+        View in Map
+      </LinkButton>
+
+      <ClaimedCard dayhomeId={id} />
+
       <Card className="overflow-clip">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <DayhomeTitle name={name} agencyName={agencyName} />
-            <LicensedBadge isLicensed={isLicensed} />
+            <DayhomeTitle name={name} agencyName={agencyName} dayhomeId={id} />
+            <div>
+              <LicensedBadge isLicensed={isLicensed} />
+            </div>
           </div>
         </CardHeader>
 
         <CardContent>
-          <div className="space-x-2">
-            {ageGroups?.map((ageGroup) => (
-              <Badge className="capitalize" variant="secondary" key={ageGroup}>
-                {ageGroup.replace("_", " ")}
-              </Badge>
-            ))}
+          <div className="flex flex-col gap-4">
+            <div className="space-x-2">
+              {ageGroups?.map((ageGroup) => (
+                <Badge
+                  className="capitalize"
+                  variant="secondary"
+                  key={ageGroup}
+                >
+                  {ageGroup.replace("_", " ")}
+                </Badge>
+              ))}
+            </div>
+            <div className="flex gap-3 overflow-scroll no-scrollbar">
+              {phone && (
+                <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
+                  <PhoneIcon className="size-4" />
+                  <span>{phone}</span>
+                </div>
+              )}
+              {email && (
+                <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
+                  <MailIcon className="size-4" />
+                  <span className="text-nowrap">{email}</span>
+                </div>
+              )}
+            </div>
           </div>
         </CardContent>
-
-        <CardFooter>
-          <div className="flex gap-3 overflow-scroll no-scrollbar">
-            {phone && (
-              <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
-                <PhoneIcon className="size-4" />
-                <span>{phone}</span>
-              </div>
-            )}
-            {email && (
-              <div className="flex items-center gap-2 rounded-md border px-4 py-2 text-sm">
-                <MailIcon className="size-4" />
-                <span className="text-nowrap">{email}</span>
-              </div>
-            )}
-          </div>
-        </CardFooter>
       </Card>
 
       <Card>

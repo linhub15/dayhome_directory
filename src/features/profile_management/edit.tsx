@@ -82,7 +82,7 @@ export function EditProfile() {
   const { data: geocode } = useGeocode(address);
 
   return (
-    <div className="max-w-lg mx-auto my-8">
+    <div className="max-w-xl mx-auto my-8">
       <Card>
         <CardContent>
           <form

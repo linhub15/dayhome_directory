@@ -16,6 +16,8 @@ declare global {
     interface ProcessEnv {
       readonly DATABASE_URL: string;
       readonly MAPBOX_TOKEN: string;
+      readonly GOOGLE_OAUTH_CLIENT_ID: string;
+      readonly GOOGLE_OAUTH_CLIENT_SECRET: string;
       readonly NODE_ENV: "development" | "production" | "test";
     }
   }

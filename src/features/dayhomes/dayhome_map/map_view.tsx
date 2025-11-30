@@ -1,3 +1,13 @@
+import { pinClusterIcon } from "@/components/ui/map/pin_cluster_icon.ts";
+import {
+  mapAvailableIcon,
+  mapDefaultIcon,
+} from "@/components/ui/map/pin_icon.ts";
+import { useMapView } from "@/features/dayhomes/dayhome_map/map_view_provider.tsx";
+import { useListDayhomes } from "@/features/dayhomes/dayhome_map/use_list_dayhomes.ts";
+import { EDMONTON } from "@/lib/geocoding/constant_data.ts";
+import type { LatLng } from "@/lib/geocoding/types.ts";
+import { Route } from "@/routes/map/index.tsx";
 import { debounce } from "@tanstack/react-pacer";
 import z from "@zod/zod";
 import type { LatLngExpression } from "leaflet";
@@ -16,16 +26,6 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { pinClusterIcon } from "@/components/ui/map/pin_cluster_icon.ts";
-import {
-  mapAvailableIcon,
-  mapDefaultIcon,
-} from "@/components/ui/map/pin_icon.ts";
-import { useMapView } from "@/features/dayhomes/dayhome_map/map_view_provider.tsx";
-import { useListDayhomes } from "@/features/dayhomes/dayhome_map/use_list_dayhomes.ts";
-import { EDMONTON } from "@/lib/geocoding/constant_data.ts";
-import type { LatLng } from "@/lib/geocoding/types.ts";
-import { Route } from "@/routes/map/index.tsx";
 
 type MapState = {
   center: LatLng;
@@ -123,7 +123,7 @@ export function InnerMap(props: InnerMapProps) {
     (data: MapState) => {
       onMoveEnd(data);
     },
-    { wait: 500 },
+    { wait: 0 }, // don't debounce here, debounce on the server call to prevent navigating then setting the map position back
   );
 
   useMapEvents({

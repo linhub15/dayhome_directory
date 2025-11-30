@@ -1,10 +1,17 @@
 import { LinkButton } from "@/components/ui/button";
+import { authClient } from "@/lib/auth/better_auth_client.ts";
+import { ProfileAvatar } from "@/lib/auth/profile_avatar";
+import { useLocation } from "@tanstack/react-router";
 
 export function Nav() {
+  const { data: session } = authClient.useSession();
+  const location = useLocation();
+  const onLoginPage = location.pathname.includes("/login");
+
   return (
-    <div className="mx-auto w-fit">
-      <nav>
-        <div className="flex gap-4 py-2">
+    <nav className="mt-3 px-2 sm:mx-auto max-w-xl">
+      <div className="flex justify-between items-center w-full">
+        <div className="flex gap-4 w-fit">
           <LinkButton
             variant="ghost"
             to="/home"
@@ -27,7 +34,14 @@ export function Nav() {
             Map
           </LinkButton>
         </div>
-      </nav>
-    </div>
+
+        <div>
+          {!onLoginPage && !session && (
+            <LinkButton to="/login">Login</LinkButton>
+          )}
+          <ProfileAvatar />
+        </div>
+      </div>
+    </nav>
   );
 }
