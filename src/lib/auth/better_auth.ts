@@ -1,7 +1,7 @@
 import { getDb } from "@/lib/db/database.ts";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { reactStartCookies } from "better-auth/react-start";
+import { tanstackStartCookies } from "better-auth/tanstack-start";
 
 export function getAuth() {
   const db = getDb();
@@ -15,7 +15,7 @@ export function getAuth() {
        * Handle setting cookies for signInEmail
        * https://www.better-auth.com/docs/integrations/tanstack#usage-tips
        */
-      reactStartCookies(),
+      tanstackStartCookies(),
     ],
     advanced: {
       cookiePrefix: "auth",
