@@ -3290,5 +3290,9 @@
   "11012 105 ave nw": {
     "latitude": 53.548411,
     "longitude": -113.510801
+  },
+  "13621 163 st nw, edmonton, ab": {
+    "latitude": 53.598906,
+    "longitude": -113.602017
   }
 }
