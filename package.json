@@ -39,7 +39,6 @@
     "@tanstack/react-router-ssr-query": "^1.166.12",
     "@tanstack/react-start": "^1.167.64",
     "@tanstack/router-plugin": "^1.167.34",
-    "@zod/zod": "jsr:^4.4.3",
     "better-auth": "^1.6.9",
     "clsx": "^2.1.1",
     "cva": "1.0.0-beta.4",
@@ -59,7 +58,8 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.4",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.4.0",

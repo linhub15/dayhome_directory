@@ -9,7 +9,7 @@ import { EDMONTON } from "@/lib/geocoding/constant_data.ts";
 import type { LatLng } from "@/lib/geocoding/types.ts";
 import { Route } from "@/routes/map/index.tsx";
 import { debounce } from "@tanstack/react-pacer";
-import z from "@zod/zod";
+import z from "zod";
 import type { LatLngExpression } from "leaflet";
 import {
   memo,

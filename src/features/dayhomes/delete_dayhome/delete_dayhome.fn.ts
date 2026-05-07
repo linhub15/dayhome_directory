@@ -1,7 +1,7 @@
 import { db } from "@/lib/db/db_middleware";
 import { dayhome } from "@/lib/db/schema";
 import { createServerFn } from "@tanstack/react-start";
-import z from "@zod/zod";
+import z from "zod";
 import { eq } from "drizzle-orm";
 
 export const deleteDayhomeFn = createServerFn({ method: "POST" })

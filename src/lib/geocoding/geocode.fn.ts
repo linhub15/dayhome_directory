@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import z from "@zod/zod";
+import z from "zod";
 import { db } from "@/lib/db/db_middleware";
 import { geocodeCache } from "@/lib/db/schema";
 import { forwardGeocode } from "./mapbox";

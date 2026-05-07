@@ -1,7 +1,7 @@
 import { db } from "@/lib/db/db_middleware";
 import { pattern } from "@/lib/utils/nanoid";
 import { createServerFn } from "@tanstack/react-start";
-import z from "@zod/zod";
+import z from "zod";
 
 const GetDayhomeRequest = z.object({
   id: z.nanoid({ pattern }),

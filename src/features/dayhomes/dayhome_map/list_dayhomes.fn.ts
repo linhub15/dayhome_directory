@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import z from "@zod/zod";
+import z from "zod";
 import { sql } from "drizzle-orm";
 import { db } from "@/lib/db/db_middleware";
 import { LatLngSchema } from "@/lib/geocoding/types";

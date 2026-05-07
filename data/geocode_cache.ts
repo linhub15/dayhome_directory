@@ -1,5 +1,5 @@
 import { writeTextFile } from "@std/fs/unstable-write-text-file";
-import z from "@zod/zod";
+import z from "zod";
 import geocodeCache from "./geocode.cache.json" with { type: "json" };
 
 const geocodeCacheFileSchema = z.record(

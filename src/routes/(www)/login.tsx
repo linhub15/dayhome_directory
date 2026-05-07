@@ -11,7 +11,7 @@ import { authClient } from "@/lib/auth/better_auth_client.ts";
 import { GoogleOAuth } from "@/lib/auth/google_oauth.tsx";
 import type { FileRoutesByTo } from "@/routeTree.gen.ts";
 import { createFileRoute, Link, Navigate } from "@tanstack/react-router";
-import z from "@zod/zod";
+import z from "zod";
 import { InfoIcon } from "lucide-react";
 
 const searchParams = z.object({

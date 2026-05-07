@@ -1,7 +1,7 @@
 import { parse } from "@std/csv";
 import { readTextFile } from "@std/fs/unstable-read-text-file";
 import { writeTextFile } from "@std/fs/unstable-write-text-file";
-import z from "@zod/zod";
+import z from "zod";
 
 const file = await readTextFile(`${import.meta.dirname}/raw.csv`);
 

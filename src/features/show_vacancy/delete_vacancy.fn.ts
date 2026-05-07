@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth/auth_middleware.ts";
 import { db } from "@/lib/db/db_middleware.ts";
 import { dayhomeVacancy } from "@/lib/db/schema.ts";
 import { createServerFn } from "@tanstack/react-start";
-import z from "@zod/zod";
+import z from "zod";
 import { eq } from "drizzle-orm";
 
 export const deleteVacancyFn = createServerFn({ method: "POST" })

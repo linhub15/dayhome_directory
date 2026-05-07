@@ -3,7 +3,7 @@ import { db } from "@/lib/db/db_middleware.ts";
 import { listingClaim } from "@/lib/db/schema.ts";
 import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import z from "@zod/zod";
+import z from "zod";
 import { and, eq } from "drizzle-orm";
 
 const Request = z.object({

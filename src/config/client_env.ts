@@ -1,4 +1,4 @@
-import z from "@zod/zod";
+import z from "zod";
 
 const clientEnvSchema = z.object({
   VITE_PUBLIC_POSTHOG_HOST: z.url().optional(),

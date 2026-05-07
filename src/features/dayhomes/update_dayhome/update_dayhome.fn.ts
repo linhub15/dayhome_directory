@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import z from "@zod/zod";
+import z from "zod";
 import { eq } from "drizzle-orm";
 import { createUpdateSchema } from "drizzle-zod";
 import { db } from "@/lib/db/db_middleware";

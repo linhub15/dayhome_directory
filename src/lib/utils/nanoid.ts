@@ -1,4 +1,4 @@
-import z from "@zod/zod";
+import z from "zod";
 import { customAlphabet } from "nanoid";
 
 export const pattern = /^[0-9A-Za-z]+$/;

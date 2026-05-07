@@ -68,9 +68,6 @@ importers:
       '@tanstack/router-plugin':
         specifier: ^1.167.34
         version: 1.167.34(@tanstack/react-router@1.169.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(vite@8.0.10(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0))
-      '@zod/zod':
-        specifier: jsr:^4.4.3
-        version: '@jsr/zod__zod@4.4.3'
       better-auth:
         specifier: ^1.6.9
         version: 1.6.9(@opentelemetry/api@1.9.1)(@tanstack/react-start@1.167.64(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vite@8.0.10(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)))(drizzle-kit@0.31.10)(drizzle-orm@0.45.2(@opentelemetry/api@1.9.1)(kysely@0.28.17)(postgres@3.4.9))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -131,6 +128,9 @@ importers:
       vaul:
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@faker-js/faker':
         specifier: ^10.4.0
@@ -1239,9 +1239,6 @@ packages:
 
   '@jsr/std__streams@1.1.0':
     resolution: {integrity: sha512-0yP/bIRAgcpdIg1o/XSYnVmCs3a7rtfKfhPPiKo7GFEtvF2qngWKJ80u8xN+D8o3otsrf/Ta90XiNj5WZJfFgg==}
-
-  '@jsr/zod__zod@4.4.3':
-    resolution: {integrity: sha512-MSBpUXksX0So5K6mU8QCt1kNBZ8Dkd6IoTMCqrra8ED0U2RM9eqRrM7IJMgcVJMYoDMaZyhOIPgY+ZVEJI5Y9w==}
 
   '@mapbox/search-js-core@1.5.1':
     resolution: {integrity: sha512-aXv9LoN8FvTkMhOOWxIEwFsh8aZFMid1xZfGD71nxWGEWG+TufjCdMCExOI/q7XI49xR1+kEc3ONI21X484uow==}
@@ -4342,8 +4339,6 @@ snapshots:
   '@jsr/std__streams@1.1.0':
     dependencies:
       '@jsr/std__bytes': 1.0.6
-
-  '@jsr/zod__zod@4.4.3': {}
 
   '@mapbox/search-js-core@1.5.1':
     dependencies:

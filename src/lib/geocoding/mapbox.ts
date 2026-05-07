@@ -4,7 +4,7 @@ import type {
   GeocodingOptions,
   LngLatBoundsLike,
 } from "@mapbox/search-js-core";
-import z from "@zod/zod";
+import z from "zod";
 
 class Geocoder {
   #accessToken: string;

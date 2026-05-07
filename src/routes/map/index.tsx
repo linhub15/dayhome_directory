@@ -10,7 +10,7 @@ import { ProfileAvatar } from "@/lib/auth/profile_avatar";
 import { EDMONTON } from "@/lib/geocoding/constant_data";
 import type { LatLng } from "@/lib/geocoding/types";
 import { createFileRoute } from "@tanstack/react-router";
-import z from "@zod/zod";
+import z from "zod";
 import type { LatLngExpression } from "leaflet";
 import { InfoIcon, LocateFixedIcon } from "lucide-react";
 import { useRef } from "react";

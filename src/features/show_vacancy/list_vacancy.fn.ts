@@ -1,6 +1,6 @@
 import { db } from "@/lib/db/db_middleware.ts";
 import { createServerFn } from "@tanstack/react-start";
-import z from "@zod/zod";
+import z from "zod";
 
 const Request = z.object({
   dayhomeId: z.string(),

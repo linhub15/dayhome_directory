@@ -1,5 +1,5 @@
 import { parse } from "@std/csv";
-import * as z from "@zod/zod";
+import * as z from "zod";
 import type { InferEnum } from "drizzle-orm";
 import type { ageGroup as ageGroupEnum } from "../src/lib/db/schema.ts";
 import { hoursToTimeString } from "./utils.ts";

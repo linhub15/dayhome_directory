@@ -11,7 +11,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Route } from "@/routes/map/index.tsx";
 import { useForm } from "@tanstack/react-form";
-import z from "@zod/zod";
+import z from "zod";
 import { Settings2Icon } from "lucide-react";
 import { useState } from "react";
 
