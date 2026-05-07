@@ -92,16 +92,20 @@ export function InnerMap(props: InnerMapProps) {
     filters: filters,
   });
 
-  useImperativeHandle(props.ref, () => {
-    return {
-      panTo: (latLng: LatLngExpression, zoom: number) => {
-        map.setView(latLng, zoom, { animate: true });
-      },
-      locate: () => {
-        map.locate({ setView: true, enableHighAccuracy: true, maxZoom: 14 });
-      },
-    };
-  }, [map]);
+  useImperativeHandle(
+    props.ref,
+    () => {
+      return {
+        panTo: (latLng: LatLngExpression, zoom: number) => {
+          map.setView(latLng, zoom, { animate: true });
+        },
+        locate: () => {
+          map.locate({ setView: true, enableHighAccuracy: true, maxZoom: 14 });
+        },
+      };
+    },
+    [map],
+  );
 
   const markers = useMemo(
     () =>

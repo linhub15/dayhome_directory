@@ -54,7 +54,7 @@ export function ToggleVacancyButton({ dayhomeId }: { dayhomeId: string }) {
   };
 
   const isPending = createPending || deletePending;
-  const hasVacancy = data?.length && data.length > 0 || false;
+  const hasVacancy = (data?.length && data.length > 0) || false;
 
   return (
     <Toggle
@@ -65,9 +65,11 @@ export function ToggleVacancyButton({ dayhomeId }: { dayhomeId: string }) {
       onPressedChange={toggleVacancy}
       disabled={isPending}
     >
-      {isPending
-        ? <LoaderCircleIcon className="animate-spin" />
-        : <Checkbox checked={hasVacancy} />}
+      {isPending ? (
+        <LoaderCircleIcon className="animate-spin" />
+      ) : (
+        <Checkbox checked={hasVacancy} />
+      )}
       Has openings
     </Toggle>
   );

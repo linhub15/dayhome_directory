@@ -1,7 +1,7 @@
-import type { MarkerCluster } from "leaflet";
+import "leaflet.markercluster";
 import L from "leaflet";
 
-export function pinClusterIcon(cluster: MarkerCluster) {
+export function pinClusterIcon(cluster: L.MarkerCluster) {
   return L.divIcon({
     html: `<div><span>${cluster.getChildCount()}</span></div>`,
     className:

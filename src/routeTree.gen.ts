@@ -91,11 +91,11 @@ export interface FileRoutesByFullPath {
   '/login': typeof wwwLoginRoute
   '/privacy': typeof wwwPrivacyRoute
   '/sitemap.xml': typeof wwwSitemapDotxmlRoute
-  '/map': typeof MapIndexRoute
-  '/profile': typeof ProfileIndexRoute
+  '/map/': typeof MapIndexRoute
+  '/profile/': typeof ProfileIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/directory/$id/claim': typeof DirectoryIdClaimRoute
-  '/directory/$id': typeof DirectoryIdIndexRoute
+  '/directory/$id/': typeof DirectoryIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -136,11 +136,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/sitemap.xml'
-    | '/map'
-    | '/profile'
+    | '/map/'
+    | '/profile/'
     | '/api/auth/$'
     | '/directory/$id/claim'
-    | '/directory/$id'
+    | '/directory/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -203,14 +203,14 @@ declare module '@tanstack/react-router' {
     '/profile/': {
       id: '/profile/'
       path: '/profile'
-      fullPath: '/profile'
+      fullPath: '/profile/'
       preLoaderRoute: typeof ProfileIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/map/': {
       id: '/map/'
       path: '/map'
-      fullPath: '/map'
+      fullPath: '/map/'
       preLoaderRoute: typeof MapIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -252,7 +252,7 @@ declare module '@tanstack/react-router' {
     '/directory/$id/': {
       id: '/directory/$id/'
       path: '/$id'
-      fullPath: '/directory/$id'
+      fullPath: '/directory/$id/'
       preLoaderRoute: typeof DirectoryIdIndexRouteImport
       parentRoute: typeof DirectoryRouteRoute
     }

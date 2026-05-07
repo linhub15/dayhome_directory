@@ -29,7 +29,7 @@ export const deleteVacancyFn = createServerFn({ method: "POST" })
       throw new Error("403 Unauthorized");
     }
 
-    await db.delete(dayhomeVacancy).where(
-      eq(dayhomeVacancy.dayhomeId, data.dayhomeId),
-    );
+    await db
+      .delete(dayhomeVacancy)
+      .where(eq(dayhomeVacancy.dayhomeId, data.dayhomeId));
   });

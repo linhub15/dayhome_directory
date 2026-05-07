@@ -14,7 +14,7 @@ import {
   createDayhome,
   createDayhomeOpenHoursSet,
   createLicense,
-} from "scripts/seed_db/factories.ts";
+} from "#/scripts/seed_db/factories.ts";
 
 async function seedDb() {
   const db = getDb();
@@ -31,11 +31,11 @@ async function seedDb() {
       createDayhome({
         agencyName: type === "FAMILY DAY HOME" ? name : undefined,
         licenseId: id,
-      })
+      }),
     );
 
   const dayhomeOpenHourSets = dayhomes.map(({ id }) =>
-    createDayhomeOpenHoursSet(id)
+    createDayhomeOpenHoursSet(id),
   );
 
   await db.insert(license).values(licenses);

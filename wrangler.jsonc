@@ -2,17 +2,15 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "dayhome-directory",
   "compatibility_date": "2025-09-24",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
   "vars": {
     "VITE_PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com",
     "VITE_PUBLIC_POSTHOG_KEY": "phc_cw4CYjQyJ6NHJSXZtGmZdxu8CSZF7c9u6f283fkKAJ4",
     "BETTER_AUTH_URL": "https://discovercare.ca",
     "GOOGLE_OAUTH_CLIENT_ID": "397134968728-00mq4789jnorl56gsqsabmdlhh9gvvb5.apps.googleusercontent.com",
-  }
+  },
 }

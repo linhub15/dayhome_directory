@@ -2,7 +2,7 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit",
-    "source.fixAll.oxc": "explicit",
+    "source.fixAll.oxc": "explicit"
   },
   "oxc.fmt.experimental": true,
   "editor.defaultFormatter": "oxc.oxc-vscode",
@@ -27,12 +27,7 @@
   },
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true,
-    "pnpm-lock.yaml": true,
+    "pnpm-lock.yaml": true
   },
-  "tailwindCSS.classFunctions": [
-    "cva",
-    "clsx",
-    "cn",
-    "cx"
-  ]
+  "tailwindCSS.classFunctions": ["cva", "clsx", "cn", "cx"]
 }

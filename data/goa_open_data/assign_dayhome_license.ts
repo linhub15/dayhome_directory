@@ -1,7 +1,7 @@
 import "dotenv/config";
 import type z from "@zod/zod";
-import { saveCache } from "data/geocode_cache.ts";
-import { geocodeAddress } from "data/mapbox_geocode.ts";
+import { saveCache } from "#/data/geocode_cache.ts";
+import { geocodeAddress } from "#/data/mapbox_geocode.ts";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { createInsertSchema } from "drizzle-zod";
