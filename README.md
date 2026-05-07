@@ -13,7 +13,7 @@ Uses Tailwind CSS for styling, and PostgreSQL as database.
 ### Install dependencies
 
 - Node.js v24.20.0+ (Tip: use `nvm` or `fnm` to manage your node version)
-- pnpm v11.0.6+ (Tip: use `brew` or `winget` instead of installing it with npm)
+- pnpm v11.0.8+ (Tip: use `brew` or `winget` instead of installing it with npm)
 - docker
 
 ### Setup developer environment
