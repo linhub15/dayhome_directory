@@ -29,7 +29,14 @@ export const getDayhomeFn = createServerFn({ method: "GET" })
         },
         license: {
           columns: {
+            name: true,
             type: true,
+            city: true,
+            postalCode: true,
+            hasDayCare: true,
+            hasOutOfSchoolCare: true,
+            hasPreschool: true,
+            capacity: true,
           },
         },
       },

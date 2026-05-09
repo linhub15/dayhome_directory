@@ -19,7 +19,7 @@
     "auth:gen-schema": "pnpx @better-auth/cli generate --config ./src/lib/auth/better_auth.ts --output ./src/lib/auth/auth_schema.gen.ts"
   },
   "dependencies": {
-    "@cloudflare/vite-plugin": "^1.36.0",
+    "@cloudflare/vite-plugin": "^1.36.3",
     "@mapbox/search-js-core": "^1.5.1",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-checkbox": "^1.3.3",
@@ -37,8 +37,8 @@
     "@tanstack/react-query": "^5.100.9",
     "@tanstack/react-router": "^1.169.2",
     "@tanstack/react-router-ssr-query": "^1.166.12",
-    "@tanstack/react-start": "^1.167.64",
-    "@tanstack/router-plugin": "^1.167.34",
+    "@tanstack/react-start": "^1.167.65",
+    "@tanstack/router-plugin": "^1.167.35",
     "better-auth": "^1.6.9",
     "clsx": "^2.1.1",
     "cva": "1.0.0-beta.4",
@@ -49,7 +49,7 @@
     "lucide-react": "^1.14.0",
     "nanoid": "^5.1.11",
     "postgres": "^3.4.9",
-    "posthog-js": "^1.372.9",
+    "posthog-js": "^1.372.10",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-leaflet": "^5.0.0",
@@ -67,7 +67,7 @@
     "@std/fs": "jsr:^1.0.23",
     "@types/leaflet": "^1.9.21",
     "@types/leaflet.markercluster": "^1.5.6",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.6.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
@@ -79,7 +79,7 @@
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3",
-    "vite": "^8.0.10",
-    "wrangler": "^4.88.0"
+    "vite": "^8.0.11",
+    "wrangler": "^4.90.0"
   }
 }
