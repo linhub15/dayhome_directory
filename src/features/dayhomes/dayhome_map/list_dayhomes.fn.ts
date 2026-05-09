@@ -38,7 +38,7 @@ export const listDayhomesFn = createServerFn({ method: "GET" })
           : undefined;
 
         const boundingBox = data.boundingBox
-          ? sql`ST_Within(${dayhome.location}, ST_MakeEnvelope(
+          ? sql`ST_Within(ST_SetSRID(${dayhome.location}, 4326), ST_MakeEnvelope(
               ${data.boundingBox.min.longitude},
               ${data.boundingBox.min.latitude},
               ${data.boundingBox.max.longitude},

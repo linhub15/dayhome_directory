@@ -1,5 +1,5 @@
 import { Button, LinkButton } from "@/components/ui/button";
-import { Field } from "@/components/ui/fieldset";
+import { FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PinnedMap } from "@/components/ui/pinned_map";
@@ -55,7 +55,7 @@ export function NewProfile() {
       >
         <form.Field name="name">
           {(field) => (
-            <Field>
+            <FieldSet>
               <Label htmlFor={field.name}>Name</Label>
               <Input
                 id={field.name}
@@ -63,13 +63,13 @@ export function NewProfile() {
                 value={field.state.value}
                 onChange={(e) => field.setValue(e.currentTarget.value)}
               />
-            </Field>
+            </FieldSet>
           )}
         </form.Field>
 
         <form.Field name="address">
           {(field) => (
-            <Field>
+            <FieldSet>
               <Label htmlFor={field.name}>Address</Label>
               <Input
                 id={field.name}
@@ -78,11 +78,11 @@ export function NewProfile() {
                 onChange={(e) => field.setValue(e.currentTarget.value)}
                 onBlur={(e) => field.setValue(e.currentTarget.value.trim())}
               />
-            </Field>
+            </FieldSet>
           )}
         </form.Field>
 
-        <Field>
+        <FieldSet>
           <PinnedMap
             location={
               geocode && {
@@ -91,7 +91,7 @@ export function NewProfile() {
               }
             }
           />
-        </Field>
+        </FieldSet>
 
         <div className="flex justify-between">
           <LinkButton variant="secondary" to="..">

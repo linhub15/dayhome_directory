@@ -49,22 +49,7 @@ class Geocoder {
 
     const json = await response.json();
 
-    const responseSchema = z.object({
-      url: z.string().optional(),
-      type: z.literal("FeatureCollection"),
-      features: z.array(
-        z.object({
-          type: z.literal("Feature"),
-          geometry: z.object({
-            type: z.literal("Point"),
-            coordinates: z.tuple([z.number(), z.number()]),
-          }),
-        }),
-      ),
-      attribution: z.string(),
-    });
-
-    return responseSchema.parse(json);
+    return mapboxResponseSchema.parse(json);
   }
 }
 
@@ -85,6 +70,28 @@ const CANADA_BOUNDING_BOX: LngLatBoundsLike = [
 ];
 
 const validQuery = z.string().nonempty();
+
+const mapboxFeatureSchema = z.object({
+  type: z.literal("Feature"),
+  geometry: z.object({
+    type: z.literal("Point"),
+    coordinates: z.tuple([z.number(), z.number()]),
+  }),
+  properties: z
+    .object({
+      full_address: z.string().optional(),
+      name: z.string().optional(),
+      place_formatted: z.string().optional(),
+    })
+    .optional(),
+});
+
+const mapboxResponseSchema = z.object({
+  url: z.string().optional(),
+  type: z.literal("FeatureCollection"),
+  features: z.array(mapboxFeatureSchema),
+  attribution: z.string(),
+});
 
 export async function forwardGeocode(query: string) {
   if (!validQuery.safeParse(query).success) {
@@ -113,4 +120,47 @@ export async function forwardGeocode(query: string) {
   };
 
   return latLng;
+}
+
+export async function forwardAutocomplete(query: string) {
+  if (!validQuery.safeParse(query).success) {
+    return [];
+  }
+
+  const response = await geocoder.forward(query, {
+    autocomplete: true,
+    limit: 5,
+    country: COUNTRY_CODES.CANADA,
+    permanent: false,
+    proximity: undefined,
+    bbox: CANADA_BOUNDING_BOX,
+    language: "en",
+  });
+
+  return response.features
+    .map((feature) => {
+      const [longitude, latitude] = feature.geometry.coordinates;
+      const label =
+        feature.properties?.full_address ??
+        [feature.properties?.name, feature.properties?.place_formatted]
+          .filter(Boolean)
+          .join(", ")
+          .trim();
+
+      if (!label) {
+        return null;
+      }
+
+      return {
+        address: label,
+        latitude,
+        longitude,
+      };
+    })
+    .filter(
+      (
+        item,
+      ): item is { address: string; latitude: number; longitude: number } =>
+        Boolean(item),
+    );
 }

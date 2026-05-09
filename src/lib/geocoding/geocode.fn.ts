@@ -2,18 +2,21 @@ import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { db } from "@/lib/db/db_middleware";
 import { geocodeCache } from "@/lib/db/schema";
+import { sql } from "drizzle-orm";
 import { forwardGeocode } from "./mapbox";
 
 export const geocodeFn = createServerFn({ method: "GET" })
   .inputValidator(z.object({ query: z.string().trim().optional() }))
   .middleware([db])
   .handler(async ({ data, context: { db } }) => {
-    if (!data.query) {
+    const normalizedQuery = data.query?.trim().toLowerCase();
+
+    if (!normalizedQuery) {
       return null;
     }
 
     const fromCache = await db.query.geocodeCache.findFirst({
-      where: (cache, { eq }) => eq(cache.query, data.query!),
+      where: (cache) => sql`lower(${cache.query}) = ${normalizedQuery}`,
     });
 
     if (fromCache) {
@@ -23,11 +26,11 @@ export const geocodeFn = createServerFn({ method: "GET" })
       };
     }
 
-    const result = await forwardGeocode(data.query);
+    const result = await forwardGeocode(normalizedQuery);
 
     if (result) {
       await db.insert(geocodeCache).values({
-        query: data.query,
+        query: normalizedQuery,
         geometry: {
           x: result.longitude,
           y: result.latitude,

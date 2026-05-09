@@ -13,6 +13,7 @@ import { Route as DirectoryRouteRouteImport } from './routes/directory/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProfileIndexRouteImport } from './routes/profile/index'
 import { Route as MapIndexRouteImport } from './routes/map/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as wwwSitemapDotxmlRouteImport } from './routes/(www)/sitemap[.]xml'
 import { Route as wwwPrivacyRouteImport } from './routes/(www)/privacy'
 import { Route as wwwLoginRouteImport } from './routes/(www)/login'
@@ -40,6 +41,11 @@ const ProfileIndexRoute = ProfileIndexRouteImport.update({
 const MapIndexRoute = MapIndexRouteImport.update({
   id: '/map/',
   path: '/map/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const wwwSitemapDotxmlRoute = wwwSitemapDotxmlRouteImport.update({
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof wwwLoginRoute
   '/privacy': typeof wwwPrivacyRoute
   '/sitemap.xml': typeof wwwSitemapDotxmlRoute
+  '/admin/': typeof AdminIndexRoute
   '/map/': typeof MapIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -105,6 +112,7 @@ export interface FileRoutesByTo {
   '/login': typeof wwwLoginRoute
   '/privacy': typeof wwwPrivacyRoute
   '/sitemap.xml': typeof wwwSitemapDotxmlRoute
+  '/admin': typeof AdminIndexRoute
   '/map': typeof MapIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -120,6 +128,7 @@ export interface FileRoutesById {
   '/(www)/login': typeof wwwLoginRoute
   '/(www)/privacy': typeof wwwPrivacyRoute
   '/(www)/sitemap.xml': typeof wwwSitemapDotxmlRoute
+  '/admin/': typeof AdminIndexRoute
   '/map/': typeof MapIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/sitemap.xml'
+    | '/admin/'
     | '/map/'
     | '/profile/'
     | '/api/auth/$'
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/sitemap.xml'
+    | '/admin'
     | '/map'
     | '/profile'
     | '/api/auth/$'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/(www)/login'
     | '/(www)/privacy'
     | '/(www)/sitemap.xml'
+    | '/admin/'
     | '/map/'
     | '/profile/'
     | '/api/auth/$'
@@ -179,6 +191,7 @@ export interface RootRouteChildren {
   wwwLoginRoute: typeof wwwLoginRoute
   wwwPrivacyRoute: typeof wwwPrivacyRoute
   wwwSitemapDotxmlRoute: typeof wwwSitemapDotxmlRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   MapIndexRoute: typeof MapIndexRoute
   ProfileIndexRoute: typeof ProfileIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       path: '/map'
       fullPath: '/map/'
       preLoaderRoute: typeof MapIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(www)/sitemap.xml': {
@@ -295,6 +315,7 @@ const rootRouteChildren: RootRouteChildren = {
   wwwLoginRoute: wwwLoginRoute,
   wwwPrivacyRoute: wwwPrivacyRoute,
   wwwSitemapDotxmlRoute: wwwSitemapDotxmlRoute,
+  AdminIndexRoute: AdminIndexRoute,
   MapIndexRoute: MapIndexRoute,
   ProfileIndexRoute: ProfileIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,

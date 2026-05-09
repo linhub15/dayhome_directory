@@ -1,5 +1,6 @@
 import { db } from "@/lib/db/db_middleware";
 import { dayhome } from "@/lib/db/schema";
+import { sql } from "drizzle-orm";
 import { createServerFn } from "@tanstack/react-start";
 import type z from "zod";
 import { createInsertSchema } from "drizzle-zod";
@@ -17,6 +18,6 @@ export const createDayhomeFn = createServerFn({ method: "POST" })
     await db.insert(dayhome).values({
       name: data.name,
       address: data.address,
-      location: data.location,
+      location: sql`ST_SetSRID(ST_MakePoint(${data.location.x}, ${data.location.y}), 4326)`,
     });
   });

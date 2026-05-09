@@ -1,7 +1,7 @@
 import { Button, LinkButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Field } from "@/components/ui/fieldset";
+import { FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PinnedMap } from "@/components/ui/pinned_map";
@@ -95,7 +95,7 @@ export function EditProfile() {
           >
             <form.Field name="name">
               {(field) => (
-                <Field>
+                <FieldSet>
                   <Label htmlFor={field.name}>Name</Label>
                   <Input
                     id={field.name}
@@ -103,13 +103,13 @@ export function EditProfile() {
                     value={field.state.value}
                     onChange={(e) => field.setValue(e.currentTarget.value)}
                   />
-                </Field>
+                </FieldSet>
               )}
             </form.Field>
 
             <form.Field name="address">
               {(field) => (
-                <Field>
+                <FieldSet>
                   <Label htmlFor={field.name}>Address</Label>
                   <Input
                     id={field.name}
@@ -118,13 +118,13 @@ export function EditProfile() {
                     onChange={(e) => field.setValue(e.currentTarget.value)}
                     onBlur={(e) => field.setValue(e.currentTarget.value.trim())}
                   />
-                </Field>
+                </FieldSet>
               )}
             </form.Field>
 
             <form.Field name="location">
               {(field) => (
-                <Field>
+                <FieldSet>
                   <Label htmlFor={field.name}>
                     Location (Latitude, Longitude)
                   </Label>
@@ -171,13 +171,13 @@ export function EditProfile() {
                       }
                     />
                   </div>
-                </Field>
+                </FieldSet>
               )}
             </form.Field>
 
             <form.Field name="phone">
               {(field) => (
-                <Field>
+                <FieldSet>
                   <Label htmlFor={field.name}>Phone</Label>
                   <Input
                     id={field.name}
@@ -185,13 +185,13 @@ export function EditProfile() {
                     value={field.state.value || ""}
                     onChange={(e) => field.setValue(e.currentTarget.value)}
                   />
-                </Field>
+                </FieldSet>
               )}
             </form.Field>
 
             <form.Field name="email">
               {(field) => (
-                <Field>
+                <FieldSet>
                   <Label htmlFor={field.name}>Email</Label>
                   <Input
                     id={field.name}
@@ -199,13 +199,13 @@ export function EditProfile() {
                     value={field.state.value || ""}
                     onChange={(e) => field.setValue(e.currentTarget.value)}
                   />
-                </Field>
+                </FieldSet>
               )}
             </form.Field>
 
             <form.Field name="agencyName">
               {(field) => (
-                <Field>
+                <FieldSet>
                   <Label htmlFor={field.name}>Agency Name</Label>
                   <Input
                     id={field.name}
@@ -213,13 +213,13 @@ export function EditProfile() {
                     value={field.state.value || ""}
                     onChange={(e) => field.setValue(e.currentTarget.value)}
                   />
-                </Field>
+                </FieldSet>
               )}
             </form.Field>
 
             <form.Field name="ageGroups">
               {(field) => (
-                <Field>
+                <FieldSet>
                   <Label htmlFor={field.name}>Age Groups</Label>
                   <div className="space-y-2">
                     {ageGroups.map((ageGroup) => (
@@ -245,13 +245,13 @@ export function EditProfile() {
                       </div>
                     ))}
                   </div>
-                </Field>
+                </FieldSet>
               )}
             </form.Field>
 
             {/* <form.Field name="openHours">
               {(field) => (
-                <Field>
+                <FieldSet>
                   <Label htmlFor={field.name}>Open Hours</Label>
                   <div>
                     {weekdays.map((weekday) => (
@@ -286,13 +286,13 @@ export function EditProfile() {
                       />
                     ))}
                   </div>
-                </Field>
+                </FieldSet>
               )}
             </form.Field> */}
 
             <form.Field name="isLicensed">
               {(field) => (
-                <Field>
+                <FieldSet>
                   <Label htmlFor={field.name}>Is Licensed</Label>
                   <Input
                     id={field.name}
@@ -300,7 +300,7 @@ export function EditProfile() {
                     checked={field.state.value}
                     onChange={(e) => field.setValue(e.currentTarget.checked)}
                   />
-                </Field>
+                </FieldSet>
               )}
             </form.Field>
 
