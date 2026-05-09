@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/directory/$id/")({
-  ssr: "data-only",
+  ssr: true,
   loader: async ({ params }) => {
     const dayhome = await getDayhomeFn({ data: { id: params.id } });
     if (!dayhome) {

@@ -2,6 +2,7 @@ import type { LatLngExpression } from "leaflet";
 import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { mapDefaultIcon } from "./map/pin_icon";
+import { ClientOnly } from "@tanstack/react-router";
 
 const EDMONTON = [53.5462, -113.4937] as LatLngExpression;
 
@@ -16,25 +17,27 @@ export function PinnedMap({ location, label }: Props) {
   ];
 
   return (
-    <MapContainer
-      className="rounded-md"
-      style={{ height: 200, isolation: "isolate" }}
-      center={center || EDMONTON}
-      zoom={13}
-      zoomControl={false}
-      doubleClickZoom={false}
-      dragging={false}
-      scrollWheelZoom={false}
-      fadeAnimation={true}
-      attributionControl={false}
-      touchZoom={false}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <InnerMap center={center} label={label} />
-    </MapContainer>
+    <ClientOnly>
+      <MapContainer
+        className="rounded-md"
+        style={{ height: 200, isolation: "isolate" }}
+        center={center || EDMONTON}
+        zoom={13}
+        zoomControl={false}
+        doubleClickZoom={false}
+        dragging={false}
+        scrollWheelZoom={false}
+        fadeAnimation={true}
+        attributionControl={false}
+        touchZoom={false}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <InnerMap center={center} label={label} />
+      </MapContainer>
+    </ClientOnly>
   );
 }
 
