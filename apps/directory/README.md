@@ -12,8 +12,8 @@ Uses Tailwind CSS for styling, and PostgreSQL as database.
 
 ### Install dependencies
 
-- Node.js v24.20.0+ (Tip: use `nvm` or `fnm` to manage your node version)
-- pnpm v11.20.0+ (Tip: use `brew` or `winget` instead of installing it with npm)
+- Node.js v24.20.0+
+- pnpm
 - docker
 
 ### Setup developer environment
@@ -30,6 +30,12 @@ Uses Tailwind CSS for styling, and PostgreSQL as database.
 
 - Setup the environment variables `.env.example`
 - Ensure the postgres server has postgis extension: `CREATE EXTENSION postgis;`
+
+## Deployment
+
+Deploy from local using wrangler, secrets are managed on Cloudflare directly
+
+- `pnpm run build && pnpm run deploy`
 
 ### Services
 

@@ -14,7 +14,7 @@ export const mapAvailableIcon = new DivIcon({
 export const mapDefaultIcon = new DivIcon({
   className: "", // deliberately empty to avoid default styles
   html: `
-      <span class="block size-3.5 rounded-full bg-primary ring-2 ring-white shadow"></span>
+      <span class="block size-3.5 rounded-full bg-blue-500 ring-2 ring-white shadow"></span>
     `,
   iconSize: [24, 24],
   iconAnchor: [12, 12],

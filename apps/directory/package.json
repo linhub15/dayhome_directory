@@ -17,7 +17,8 @@
     "db:status": "docker compose -f ../../docker-compose.yml ps --format 'table {{.Service}}\t{{.Status}}\t{{.Ports}}'",
     "db:down": "docker compose -f ../../docker-compose.yml down",
     "db:seed": "tsx scripts/seed_db/main.ts",
-    "auth:gen-schema": "pnpx @better-auth/cli generate --config ./src/lib/auth/better_auth.ts --output ./src/lib/auth/auth_schema.gen.ts"
+    "auth:gen-schema": "pnpx @better-auth/cli generate --config ./src/lib/auth/better_auth.ts --output ./src/lib/auth/auth_schema.gen.ts",
+    "deploy": "pnpm build && wrangler deploy"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.50.0",
