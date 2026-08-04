@@ -2,5 +2,5 @@
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "tabWidth": 2,
   "printWidth": 80,
-  "ignorePatterns": ["*.gen.ts"]
+  "ignorePatterns": ["*.gen.ts", "packages/db/drizzle"]
 }

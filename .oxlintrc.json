@@ -13,5 +13,6 @@
     "jsx-a11y"
   ],
   "jsPlugins": [],
+  "ignorePatterns": ["packages/db/drizzle"],
   "rules": {}
 }

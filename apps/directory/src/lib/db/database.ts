@@ -1,7 +1,5 @@
 import { serverEnv } from "@/config/server_env";
-import * as authSchema from "@/lib/db/auth_schema.ts";
-import * as schema from "@/lib/db/schema";
-import { drizzle } from "drizzle-orm/postgres-js";
+import { createDatabase } from "@dayhome/db/client";
 
 /**
  * db was wrapped in a function because at one point
@@ -11,10 +9,5 @@ import { drizzle } from "drizzle-orm/postgres-js";
  *
  */
 export function getDb() {
-  return drizzle({
-    schema: { ...schema, ...authSchema },
-    connection: {
-      url: serverEnv.DATABASE_URL,
-    },
-  });
+  return createDatabase(serverEnv.DATABASE_URL);
 }

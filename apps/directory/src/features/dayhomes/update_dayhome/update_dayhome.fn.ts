@@ -3,7 +3,7 @@ import z from "zod";
 import { eq, sql } from "drizzle-orm";
 import { db } from "@/lib/db/db_middleware";
 import { admin } from "@/lib/auth/admin_middleware";
-import { dayhome } from "@/lib/db/schema";
+import { dayhome } from "@dayhome/db/schema";
 import { pattern } from "@/lib/utils/nanoid";
 
 const ageGroupSchema = z.enum([

@@ -6,7 +6,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./client": "./src/client.ts",
-    "./server": "./src/server.ts"
+    "./server": "./src/server.ts",
+    "./components": "./src/components.tsx"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -16,13 +17,18 @@
     "check": "pnpm typecheck && pnpm lint && pnpm fmt:check"
   },
   "dependencies": {
+    "@dayhome/ui": "workspace:*",
     "better-auth": "^1.6.25",
-    "drizzle-orm": "^0.45.2"
+    "drizzle-orm": "^0.45.2",
+    "react": "19.2.8"
   },
   "devDependencies": {
     "@types/react": "19.2.18",
     "oxfmt": "0.61.0",
     "oxlint": "1.76.0",
     "typescript": "7.0.2"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
   }
 }

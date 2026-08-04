@@ -1,6 +1,6 @@
 import "dotenv/config.js";
 
-import * as schema from "@/lib/db/schema.ts";
+import * as schema from "@dayhome/db/schema";
 import { readTextFile } from "@std/fs/unstable-read-text-file";
 import z from "zod";
 import { sql } from "drizzle-orm";

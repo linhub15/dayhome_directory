@@ -10,12 +10,14 @@ This pnpm monorepo contains products serving Alberta dayhome families and agenci
 ## Shared packages
 
 - [`@dayhome/core`](./packages/core) — framework-independent business schemas, types, and logic
+- [`@dayhome/db`](./packages/db) — canonical Drizzle schema, database client, and migrations
 - [`@dayhome/auth`](./packages/auth) — shared Better Auth server and client factories
 - [`@dayhome/ui`](./packages/ui) — reusable React components and styling utilities
 
 Apps should import public package exports (for example,
-`@dayhome/core/inquiry`) rather than reaching into another app. Database schemas,
-environment access, and route middleware remain owned by the app that runs them.
+`@dayhome/core/inquiry` and `@dayhome/db/schema`) rather than reaching into
+another app. Runtime environment access and route middleware remain owned by
+the app that runs them.
 
 ## Development
 
@@ -46,4 +48,23 @@ For the existing Cloudflare directory deployment, use `apps/directory` as the
 application root. Its production build can also be run from the repository root
 with `pnpm build:directory`.
 
-The existing directory database and data commands remain available from the repository root, including `pnpm db:up`, `pnpm drizzle push`, and `pnpm db:seed`.
+## Database
+
+Copy the root `.env.example` to `.env`, then run all schema and migration
+commands from the repository root:
+
+```sh
+pnpm db:up
+pnpm db:status
+pnpm db:generate
+pnpm db:migrate
+pnpm db:push
+pnpm db:studio
+pnpm db:down
+```
+
+These commands target `@dayhome/db`. `pnpm db:seed` remains a directory data
+command, but it uses the shared schema.
+
+Use `db:generate` and commit the generated migration for production changes.
+`db:push` is intended for local prototyping.

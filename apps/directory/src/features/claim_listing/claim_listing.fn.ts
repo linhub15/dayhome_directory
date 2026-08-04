@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth/auth_middleware.ts";
 import { db } from "@/lib/db/db_middleware.ts";
-import { dayhome, listingClaim } from "@/lib/db/schema.ts";
+import { dayhome, listingClaim } from "@dayhome/db/schema";
 import { notFound, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";

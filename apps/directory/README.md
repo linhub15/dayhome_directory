@@ -19,10 +19,10 @@ Uses Tailwind CSS for styling, and PostgreSQL as database.
 ### Setup developer environment
 
 - `pnpm install`
-- From the repository root, `cp apps/directory/.env.example apps/directory/.env`
-  and fill your secrets in `apps/directory/.env`
+- From the repository root, copy `.env.example` to `.env` for database commands,
+  and copy `apps/directory/.env.example` to `apps/directory/.env` for the app
 - `pnpm db:up` starts the docker postgresql on port `5432`. If you have postgres running on `:5432` you will get auth errors
-- `pnpm drizzle push` applies the database schema
+- `pnpm db:migrate` applies committed database migrations
 - `pnpm db:seed` deletes all data and seeds with new random data
 - From the repository root, `pnpm dev:directory` starts the local dev server
 

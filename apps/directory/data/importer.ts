@@ -1,7 +1,7 @@
 import { parse } from "@std/csv";
+import type { ageGroup as ageGroupEnum } from "@dayhome/db/schema";
 import * as z from "zod";
 import type { InferEnum } from "drizzle-orm";
-import type { ageGroup as ageGroupEnum } from "../src/lib/db/schema.ts";
 import { hoursToTimeString } from "./utils.ts";
 
 const spreadsheetId = process.env.DATA_SPREADSHEET_ID;

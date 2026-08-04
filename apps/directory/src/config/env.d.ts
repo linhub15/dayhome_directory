@@ -18,6 +18,9 @@ declare global {
       readonly MAPBOX_TOKEN: string;
       readonly GOOGLE_OAUTH_CLIENT_ID: string;
       readonly GOOGLE_OAUTH_CLIENT_SECRET: string;
+      readonly BETTER_AUTH_SECRET: string;
+      readonly BETTER_AUTH_TRUSTED_ORIGINS: string;
+      readonly BETTER_AUTH_COOKIE_DOMAIN: string;
       readonly NODE_ENV: "development" | "production" | "test";
     }
   }

@@ -6,7 +6,7 @@ import {
   dayhomeOpenHours,
   dayhomeVacancy,
   license,
-} from "@/lib/db/schema.ts";
+} from "@dayhome/db/schema";
 import { sql } from "drizzle-orm";
 import { reset } from "drizzle-seed";
 import { createInterface } from "readline";

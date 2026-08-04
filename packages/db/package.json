@@ -1,0 +1,39 @@
+{
+  "name": "@dayhome/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./schema": "./src/schema/index.ts"
+  },
+  "scripts": {
+    "drizzle": "drizzle-kit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:up": "docker compose -f ../../docker-compose.yml up -d --wait postgres",
+    "db:status": "docker compose -f ../../docker-compose.yml ps --format 'table {{.Service}}\\t{{.Status}}\\t{{.Ports}}'",
+    "db:down": "docker compose -f ../../docker-compose.yml down",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "check": "pnpm typecheck && pnpm lint && pnpm fmt:check"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "nanoid": "^6.0.0",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.2",
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.31.10",
+    "oxfmt": "0.61.0",
+    "oxlint": "1.76.0",
+    "typescript": "7.0.2"
+  }
+}

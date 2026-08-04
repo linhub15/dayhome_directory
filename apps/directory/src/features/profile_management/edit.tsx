@@ -6,7 +6,7 @@ import { Input } from "@dayhome/ui/input";
 import { Label } from "@dayhome/ui/label";
 import { PinnedMap } from "@/components/ui/pinned_map";
 import { dayhomeKeys } from "@/features/dayhomes/query_keys";
-import * as schema from "@/lib/db/schema";
+import * as schema from "@dayhome/db/schema";
 import { useGeocode } from "@/lib/geocoding/use_geocode";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";

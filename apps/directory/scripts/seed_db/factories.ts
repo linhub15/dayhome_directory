@@ -2,7 +2,7 @@ import {
   dayhome,
   type dayhomeOpenHours,
   type license,
-} from "@/lib/db/schema.ts";
+} from "@dayhome/db/schema";
 import { EDMONTON_BOUNDING_BOX } from "@/lib/geocoding/constant_data.ts";
 import { nanoid } from "@/lib/utils/nanoid.ts";
 import { faker as f } from "@faker-js/faker";

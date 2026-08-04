@@ -114,7 +114,7 @@ export const AvatarAndToggle: Story = {
 
 export const CardExample: Story = {
   render: () => (
-    <Card className="w-[360px]">
+    <Card className="w-90">
       <CardHeader>
         <CardTitle>Dayhome profile</CardTitle>
         <CardDescription>Review the details before publishing.</CardDescription>
@@ -137,7 +137,7 @@ export const CardExample: Story = {
 
 export const FormControls: Story = {
   render: () => (
-    <div className="grid w-[360px] gap-6">
+    <div className="grid w-90 gap-6">
       <div className="grid gap-2">
         <Label htmlFor="storybook-name">Program name</Label>
         <Input id="storybook-name" placeholder="Little Sprouts" />
@@ -189,7 +189,7 @@ export const FormControls: Story = {
 
 export const FieldStates: Story = {
   render: () => (
-    <FieldGroup className="w-[420px]">
+    <FieldGroup className="w-105">
       <Field>
         <FieldLabel htmlFor="storybook-email-address">Email address</FieldLabel>
         <FieldContent>

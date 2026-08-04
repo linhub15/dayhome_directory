@@ -1,7 +1,7 @@
 import "dotenv/config.js";
+import * as schema from "@dayhome/db/schema";
 import { type InferInsertModel, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
-import * as schema from "../src/lib/db/schema.ts";
 import { saveCache } from "./geocode_cache.ts";
 import { dayhomeFromGoogleSheets } from "./importer.ts";
 import { geocodeAddress, getGeocodeCount } from "./mapbox_geocode.ts";

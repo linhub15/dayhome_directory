@@ -1,0 +1,3 @@
+- directories and files should be always lowercase and separated by underscores unless conventions set by a dependency. Things that are convention: "pnpm-lock.yaml", "docker-compose.yml", "README.md"
+- when importing Lucide icons, always use the "Icon" suffix
+- co-locate code based on features they are part of, not by type. Shared libraries can be used that are cross cutting like Auth, Db, Logging, etc.

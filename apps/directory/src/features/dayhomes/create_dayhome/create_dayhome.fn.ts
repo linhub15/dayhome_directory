@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/db_middleware";
-import { dayhome } from "@/lib/db/schema";
+import { dayhome } from "@dayhome/db/schema";
 import { sql } from "drizzle-orm";
 import { createServerFn } from "@tanstack/react-start";
 import type z from "zod";

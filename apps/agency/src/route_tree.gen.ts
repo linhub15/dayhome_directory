@@ -10,33 +10,167 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConfirmEmailRouteImport } from './routes/confirm-email'
+import { Route as CreateAccountRouteImport } from './routes/create-account'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as LogoutRouteImport } from './routes/logout'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as AuthCompleteRouteImport } from './routes/auth.complete'
+import { Route as InquiryTenantSlugRouteImport } from './routes/inquiry/$tenantSlug'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiInquiriesTenantSlugRouteImport } from './routes/api/inquiries/$tenantSlug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfirmEmailRoute = ConfirmEmailRouteImport.update({
+  id: '/confirm-email',
+  path: '/confirm-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateAccountRoute = CreateAccountRouteImport.update({
+  id: '/create-account',
+  path: '/create-account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogoutRoute = LogoutRouteImport.update({
+  id: '/logout',
+  path: '/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCompleteRoute = AuthCompleteRouteImport.update({
+  id: '/auth/complete',
+  path: '/auth/complete',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InquiryTenantSlugRoute = InquiryTenantSlugRouteImport.update({
+  id: '/inquiry/$tenantSlug',
+  path: '/inquiry/$tenantSlug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInquiriesTenantSlugRoute = ApiInquiriesTenantSlugRouteImport.update({
+  id: '/api/inquiries/$tenantSlug',
+  path: '/api/inquiries/$tenantSlug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/confirm-email': typeof ConfirmEmailRoute
+  '/create-account': typeof CreateAccountRoute
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
+  '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
+  '/auth/complete': typeof AuthCompleteRoute
+  '/inquiry/$tenantSlug': typeof InquiryTenantSlugRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/inquiries/$tenantSlug': typeof ApiInquiriesTenantSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/confirm-email': typeof ConfirmEmailRoute
+  '/create-account': typeof CreateAccountRoute
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
+  '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
+  '/auth/complete': typeof AuthCompleteRoute
+  '/inquiry/$tenantSlug': typeof InquiryTenantSlugRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/inquiries/$tenantSlug': typeof ApiInquiriesTenantSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/confirm-email': typeof ConfirmEmailRoute
+  '/create-account': typeof CreateAccountRoute
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
+  '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
+  '/auth/complete': typeof AuthCompleteRoute
+  '/inquiry/$tenantSlug': typeof InquiryTenantSlugRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/inquiries/$tenantSlug': typeof ApiInquiriesTenantSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/confirm-email'
+    | '/create-account'
+    | '/login'
+    | '/logout'
+    | '/onboarding'
+    | '/settings'
+    | '/auth/complete'
+    | '/inquiry/$tenantSlug'
+    | '/api/auth/$'
+    | '/api/inquiries/$tenantSlug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/confirm-email'
+    | '/create-account'
+    | '/login'
+    | '/logout'
+    | '/onboarding'
+    | '/settings'
+    | '/auth/complete'
+    | '/inquiry/$tenantSlug'
+    | '/api/auth/$'
+    | '/api/inquiries/$tenantSlug'
+  id:
+    | '__root__'
+    | '/'
+    | '/confirm-email'
+    | '/create-account'
+    | '/login'
+    | '/logout'
+    | '/onboarding'
+    | '/settings'
+    | '/auth/complete'
+    | '/inquiry/$tenantSlug'
+    | '/api/auth/$'
+    | '/api/inquiries/$tenantSlug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConfirmEmailRoute: typeof ConfirmEmailRoute
+  CreateAccountRoute: typeof CreateAccountRoute
+  LoginRoute: typeof LoginRoute
+  LogoutRoute: typeof LogoutRoute
+  OnboardingRoute: typeof OnboardingRoute
+  SettingsRoute: typeof SettingsRoute
+  AuthCompleteRoute: typeof AuthCompleteRoute
+  InquiryTenantSlugRoute: typeof InquiryTenantSlugRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiInquiriesTenantSlugRoute: typeof ApiInquiriesTenantSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +182,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/confirm-email': {
+      id: '/confirm-email'
+      path: '/confirm-email'
+      fullPath: '/confirm-email'
+      preLoaderRoute: typeof ConfirmEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/create-account': {
+      id: '/create-account'
+      path: '/create-account'
+      fullPath: '/create-account'
+      preLoaderRoute: typeof CreateAccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/complete': {
+      id: '/auth/complete'
+      path: '/auth/complete'
+      fullPath: '/auth/complete'
+      preLoaderRoute: typeof AuthCompleteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inquiry/$tenantSlug': {
+      id: '/inquiry/$tenantSlug'
+      path: '/inquiry/$tenantSlug'
+      fullPath: '/inquiry/$tenantSlug'
+      preLoaderRoute: typeof InquiryTenantSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inquiries/$tenantSlug': {
+      id: '/api/inquiries/$tenantSlug'
+      path: '/api/inquiries/$tenantSlug'
+      fullPath: '/api/inquiries/$tenantSlug'
+      preLoaderRoute: typeof ApiInquiriesTenantSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConfirmEmailRoute: ConfirmEmailRoute,
+  CreateAccountRoute: CreateAccountRoute,
+  LoginRoute: LoginRoute,
+  LogoutRoute: LogoutRoute,
+  OnboardingRoute: OnboardingRoute,
+  SettingsRoute: SettingsRoute,
+  AuthCompleteRoute: AuthCompleteRoute,
+  InquiryTenantSlugRoute: InquiryTenantSlugRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiInquiriesTenantSlugRoute: ApiInquiriesTenantSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

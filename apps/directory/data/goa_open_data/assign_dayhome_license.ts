@@ -5,7 +5,7 @@ import { geocodeAddress } from "#/data/mapbox_geocode.ts";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { createInsertSchema } from "drizzle-zod";
-import * as schema from "@/lib/db/schema.ts";
+import * as schema from "@dayhome/db/schema";
 
 const db = drizzle({
   schema: { ...schema },

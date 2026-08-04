@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { db } from "@/lib/db/db_middleware";
-import { geocodeCache } from "@/lib/db/schema";
+import { geocodeCache } from "@dayhome/db/schema";
 import { sql } from "drizzle-orm";
 import { forwardGeocode } from "./mapbox";
 

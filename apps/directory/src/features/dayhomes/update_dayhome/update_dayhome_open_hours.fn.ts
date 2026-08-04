@@ -4,7 +4,7 @@ import z from "zod";
 import { admin } from "@/lib/auth/admin_middleware";
 import { db } from "@/lib/db/db_middleware";
 import { buildConflictUpdateColumns } from "@/lib/db/drizzle_extensions";
-import { dayhomeOpenHours } from "@/lib/db/schema";
+import { dayhomeOpenHours } from "@dayhome/db/schema";
 import { pattern } from "@/lib/utils/nanoid";
 
 const timeSchema = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d(:[0-5]\d)?$/);
