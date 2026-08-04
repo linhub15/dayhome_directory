@@ -1,0 +1,227 @@
+import { Badge } from "@dayhome/ui/badge";
+import { Button } from "@dayhome/ui/button";
+import { Checkbox } from "@dayhome/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@dayhome/ui/dialog";
+import { Label } from "@dayhome/ui/label";
+import { Route } from "@/routes/map/index.tsx";
+import { useForm } from "@tanstack/react-form";
+import z from "zod";
+import { Settings2Icon } from "lucide-react";
+import { useState } from "react";
+
+const ageGroup = [
+  "infant",
+  "toddler",
+  "preschool",
+  "kindergarten",
+  "grade_school",
+] as const;
+type AgeGroupKey = (typeof ageGroup)[number];
+const ageGroupsOptions: Record<AgeGroupKey, string> = {
+  infant: "Infant",
+  toddler: "Toddler",
+  preschool: "Preschool",
+  kindergarten: "Kindergarten",
+  grade_school: "Grade School",
+};
+
+const filterModalSearchSchema = z.object({
+  hasVacancy: z.boolean().optional(),
+  onlyLicensed: z.boolean().optional(),
+  ageGroups: z
+    .array(
+      z.literal([
+        "infant",
+        "toddler",
+        "preschool",
+        "kindergarten",
+        "grade_school",
+      ]),
+    )
+    .optional(),
+});
+
+type Filter = z.infer<typeof filterModalSearchSchema>;
+
+type Props = {
+  onOpenStart?: () => void;
+  onFilterChange?: (filters?: Filter) => void;
+};
+
+function FilterModal(props: Props) {
+  const filters = Route.useSearch({ select: ({ filters }) => filters });
+  const [open, setOpen] = useState(false);
+
+  const form = useForm({
+    defaultValues: {
+      hasVacancy: filters?.hasVacancy ?? false,
+      onlyLicensed: filters?.onlyLicensed ?? false,
+      ageGroups: filters?.ageGroups ?? [],
+    } satisfies Filter,
+    onSubmit: ({ value }) => {
+      if (
+        !value.hasVacancy &&
+        !value.onlyLicensed &&
+        value.ageGroups?.length === 0
+      ) {
+        props.onFilterChange?.();
+        setOpen(false);
+        return;
+      }
+
+      props.onFilterChange?.({
+        hasVacancy: !value.hasVacancy ? undefined : value.hasVacancy,
+        onlyLicensed: !value.onlyLicensed ? undefined : value.onlyLicensed,
+        ageGroups: !value.ageGroups?.length ? undefined : value.ageGroups,
+      });
+      setOpen(false);
+    },
+  });
+
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(opening) => {
+        props.onOpenStart?.();
+        setOpen(opening);
+        if (opening) {
+          form.reset();
+        }
+      }}
+    >
+      <DialogTrigger
+        render={
+          <Button className="relative text-sm" variant="outline" size="sm" />
+        }
+      >
+        {filters && (
+          <span className="absolute -top-0.5 -right-0.5 inline-flex size-3 rounded-full bg-sky-400 opacity-75 ring ring-white" />
+        )}
+        <Settings2Icon /> Filters
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <div className="flex gap-8 items-center">
+            <DialogTitle>
+              <div className="flex gap-2 items-center">
+                <Settings2Icon className="size-4 text-muted-foreground" />
+                Filter
+              </div>
+            </DialogTitle>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                props.onFilterChange?.();
+                form.reset();
+              }}
+            >
+              Clear
+            </Button>
+          </div>
+        </DialogHeader>
+        <form
+          className="space-y-8"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.Field name="hasVacancy">
+            {(field) => (
+              <div className="flex items-center gap-3">
+                <Label className="hover:bg-accent/50 flex items-center gap-3 rounded-lg border p-3 has-aria-checked:border-primary has-aria-checked:bg-blue-50">
+                  <Checkbox
+                    checked={field.state.value}
+                    onCheckedChange={(e) => field.setValue(!!e)}
+                    defaultChecked
+                  />
+                  <div className="grid gap-1.5 font-normal">
+                    <p className="text-sm leading-none font-medium">
+                      Has openings
+                    </p>
+                    <p className="text-muted-foreground text-sm">
+                      Currently looking to fill an opening
+                    </p>
+                  </div>
+                </Label>
+              </div>
+            )}
+          </form.Field>
+
+          <form.Field name="onlyLicensed">
+            {(field) => (
+              <div className="flex items-center gap-3">
+                <Label className="hover:bg-accent/50 flex items-center gap-3 rounded-lg border p-3 has-aria-checked:border-primary has-aria-checked:bg-blue-50">
+                  <Checkbox
+                    checked={field.state.value}
+                    onCheckedChange={(e) => field.setValue(!!e)}
+                    defaultChecked
+                  />
+                  <div className="grid gap-1.5 font-normal">
+                    <p className="text-sm leading-none font-medium">
+                      Only show licensed providers
+                    </p>
+                    <p className="text-muted-foreground text-sm">
+                      Daycares or dayhomes under a licensed agency
+                    </p>
+                  </div>
+                </Label>
+              </div>
+            )}
+          </form.Field>
+
+          <form.Field name="ageGroups">
+            {(field) => (
+              <div>
+                <div className="flex items-center gap-4 flex-wrap">
+                  {ageGroup.map((key) => (
+                    <Label key={key}>
+                      <Badge
+                        className="cursor-pointer select-none"
+                        size="lg"
+                        variant={
+                          field.state.value?.includes(key)
+                            ? "default"
+                            : "outline"
+                        }
+                      >
+                        <Checkbox
+                          checked={field.state.value?.includes(key)}
+                          onCheckedChange={(e) =>
+                            field.handleChange((prev) =>
+                              e
+                                ? [...(prev ?? []), key]
+                                : prev?.filter((age) => age !== key),
+                            )
+                          }
+                        />
+                        {ageGroupsOptions[key]}
+                      </Badge>
+                    </Label>
+                  ))}
+                </div>
+              </div>
+            )}
+          </form.Field>
+
+          <div className="pt-4">
+            <Button type="submit" className="w-full" variant="default">
+              Apply
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export { FilterModal, filterModalSearchSchema, type AgeGroupKey };

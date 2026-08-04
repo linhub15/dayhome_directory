@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@import "@dayhome/ui/styles.css";
+
+@source "../../../packages/ui/src";
+
+@theme inline {
+  --font-sans: Inter, sans-serif;
+}
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+/* Remove background, border, and arrow from all Leaflet tooltips */
+.leaflet-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #222 !important; /* optional: text color */
+  font-weight: 600; /* optional */
+  padding: 0 !important; /* optional: tighter layout */
+}
+
+/* Remove the small arrow (pointer) */
+.leaflet-tooltip::before {
+  display: none !important;
+}

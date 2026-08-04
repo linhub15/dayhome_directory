@@ -1,40 +1,49 @@
-# Discover Care
+# Dayhome products
 
-Production - https://discovercare.ca
+This pnpm monorepo contains products serving Alberta dayhome families and agencies.
 
-1. helping parents find childcare providers faster
-2. helping childcare providers promote their vacancies and provide them an online presence
+## Apps
 
-## Developer Onboarding
+- [`@dayhome/directory`](./apps/directory) — the public dayhome discovery product
+- [`@dayhome/agency`](./apps/agency) — the agency inquiry pipeline
 
-This is a React application built with the [Tanstack Start](https://tanstack.com/start/latest/docs/framework/react/overview).
-Uses Tailwind CSS for styling, and PostgreSQL as database.
+## Shared packages
 
-### Install dependencies
+- [`@dayhome/core`](./packages/core) — framework-independent business schemas, types, and logic
+- [`@dayhome/auth`](./packages/auth) — shared Better Auth server and client factories
+- [`@dayhome/ui`](./packages/ui) — reusable React components and styling utilities
 
-- Node.js v24.20.0+ (Tip: use `nvm` or `fnm` to manage your node version)
-- pnpm v11.0.8+ (Tip: use `brew` or `winget` instead of installing it with npm)
-- docker
+Apps should import public package exports (for example,
+`@dayhome/core/inquiry`) rather than reaching into another app. Database schemas,
+environment access, and route middleware remain owned by the app that runs them.
 
-### Setup developer environment
+## Development
 
-- `pnpm install`
-- `cp .env.example .env` fill your secrets in `.env`
-- `pnpm db:up` starts the docker postgresql on port `5432`. If you have postgres running on `:5432` you will get auth errors
-- `pnpm drizzle push` applies the database schema
-- `pnpm db:seed` deletes all data and seeds with new random data
-- `pnpm dev` start the local dev server
+Install all workspace dependencies:
 
-## Production Setup
+```sh
+pnpm install
+```
 
-- Setup the environment variables `.env.example`
-- Ensure the postgres server has postgis extension: `CREATE EXTENSION postgis;`
+Run the public directory on port 3000:
 
-### Services
+```sh
+pnpm dev:directory
+```
 
-- https://dash.cloudflare.com
-- https://console.neon.tech
-- https://console.mapbox.com
-- https://us.posthog.com
-- https://search.google.com/search-console
-- https://console.cloud.google.com
+The previous `pnpm dev`, `pnpm tsc`, and `pnpm check` commands remain available as
+compatibility aliases for the directory app and repository checks.
+
+Run the agency app on port 3001:
+
+```sh
+pnpm dev:agency
+```
+
+Build or check every workspace package with `pnpm build` and `pnpm check`.
+
+For the existing Cloudflare directory deployment, use `apps/directory` as the
+application root. Its production build can also be run from the repository root
+with `pnpm build:directory`.
+
+The existing directory database and data commands remain available from the repository root, including `pnpm db:up`, `pnpm drizzle push`, and `pnpm db:seed`.
