@@ -57,7 +57,7 @@ function OnboardingPage() {
           image={user.image}
         />
         <label
-          className="grid gap-2 text-sm font-semibold"
+          className="grid gap-2 text-sm font-medium"
           htmlFor="business-name"
         >
           Business name
@@ -72,7 +72,7 @@ function OnboardingPage() {
             required
           />
         </label>
-        <div className="rounded-xl border border-[#dce7e0] bg-[#f5f9f6] p-3 text-sm">
+        <div className="rounded-xl border bg-muted/40 p-3 text-sm">
           <strong>Business type</strong>
           <p className="mt-1 mb-0 text-xs text-muted-foreground">
             Agency — this selects the agency profile and connected business

@@ -20,10 +20,7 @@ function LoginPage() {
       footer={
         <>
           New to Dayhome Flow?{" "}
-          <Link
-            className="ml-1 font-semibold text-primary"
-            to="/create-account"
-          >
+          <Link className="ml-1 font-medium text-primary" to="/create-account">
             Create an account
           </Link>
         </>

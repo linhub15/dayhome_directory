@@ -13,13 +13,21 @@ export const Route = createFileRoute("/api/inquiries/$tenantSlug")({
           return redirectToConfirmation(request, params.tenantSlug);
         }
 
+        const careTypes = formData.getAll("careType");
+        const birthDates = formData.getAll("childBirthDate");
+        const expectedStarts = formData.getAll("expectedStart");
+        const expectedStartDates = formData.getAll("expectedStartDate");
+
         const parsed = inquirySubmissionSchema.safeParse({
           parentFirstName: formData.get("parentFirstName"),
           parentLastName: formData.get("parentLastName"),
           parentEmail: formData.get("parentEmail"),
-          careType: formData.get("careType"),
-          childBirthDate: formData.get("childBirthDate"),
-          preferredStartDate: formData.get("preferredStartDate"),
+          children: birthDates.map((birthDate, index) => ({
+            birthDate,
+            careType: careTypes[index],
+            expectedStart: expectedStarts[index],
+            expectedStartDate: expectedStartDates[index],
+          })),
         });
 
         if (!parsed.success) {

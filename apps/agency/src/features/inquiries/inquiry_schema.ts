@@ -1,4 +1,4 @@
-import { careTypeValues } from "@dayhome/db/schema";
+import { careTypeValues, expectedStartValues } from "@dayhome/db/schema";
 import { z } from "zod";
 
 const isoDate = z
@@ -20,21 +20,65 @@ export const inquirySubmissionSchema = z
     parentFirstName: z.string().trim().min(1).max(100),
     parentLastName: z.string().trim().min(1).max(100),
     parentEmail: z.email().trim().toLowerCase(),
-    careType: z.enum(careTypeValues),
-    childBirthDate: isoDate,
-    preferredStartDate: z.union([isoDate, z.literal("")]).optional(),
+    children: z
+      .array(
+        z
+          .object({
+            careType: z.enum(careTypeValues),
+            birthDate: isoDate,
+            expectedStart: z.enum(expectedStartValues),
+            expectedStartDate: z.union([isoDate, z.literal("")]).optional(),
+          })
+          .refine(
+            (child) =>
+              child.expectedStart !== "specific_date" ||
+              Boolean(child.expectedStartDate),
+            {
+              message: "Choose an expected start date",
+              path: ["expectedStartDate"],
+            },
+          )
+          .refine(
+            (child) =>
+              child.expectedStart !== "specific_date" ||
+              !child.expectedStartDate ||
+              child.expectedStartDate >= toIsoDate(new Date()),
+            {
+              message: "Expected start date cannot be in the past",
+              path: ["expectedStartDate"],
+            },
+          ),
+      )
+      .min(1)
+      .max(8),
   })
-  .refine((value) => value.childBirthDate <= toIsoDate(new Date()), {
-    message: "Child's birthday cannot be in the future",
-    path: ["childBirthDate"],
-  });
+  .refine(
+    (value) =>
+      value.children.every((child) => child.birthDate <= toIsoDate(new Date())),
+    {
+      message: "A child's birthday cannot be in the future",
+      path: ["children"],
+    },
+  );
 
 export type InquirySubmission = z.infer<typeof inquirySubmissionSchema>;
 
-export const careTypeLabels: Record<InquirySubmission["careType"], string> = {
+export const careTypeLabels: Record<
+  InquirySubmission["children"][number]["careType"],
+  string
+> = {
   full_time: "Full-time",
   part_time: "Part-time",
   drop_in: "Drop-in",
+};
+
+export const expectedStartLabels: Record<
+  InquirySubmission["children"][number]["expectedStart"],
+  string
+> = {
+  as_soon_as_possible: "As soon as possible",
+  within_a_month: "Within a month",
+  specific_date: "On a specific date",
 };
 
 export function toIsoDate(date: Date) {
@@ -68,4 +112,19 @@ export function formatChildAge(birthDate: string, asOf = new Date()) {
   return remainingMonths
     ? `${years}y ${remainingMonths}m`
     : `${years} ${years === 1 ? "year" : "years"}`;
+}
+
+export function formatExpectedStart(
+  expectedStart: keyof typeof expectedStartLabels,
+  expectedStartDate: string | null | undefined,
+) {
+  if (expectedStart !== "specific_date") {
+    return expectedStartLabels[expectedStart];
+  }
+
+  if (!expectedStartDate) return "Specific date";
+  return new Intl.DateTimeFormat("en-CA", {
+    dateStyle: "medium",
+    timeZone: "UTC",
+  }).format(new Date(`${expectedStartDate}T00:00:00Z`));
 }

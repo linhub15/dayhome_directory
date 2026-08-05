@@ -81,12 +81,12 @@ function SettingsPage() {
       user={user}
       activePage="settings"
     >
-      <main className="mx-auto grid w-full max-w-3xl gap-6 px-7.5 py-7.5 max-[760px]:px-4">
+      <main className="mx-auto grid w-full max-w-3xl gap-6 px-7.5 py-7.5 max-md:px-4">
         <div>
-          <p className="mt-0 mb-2 text-[10px] font-bold tracking-widest text-[#4d806f] uppercase">
+          <p className="mt-0 mb-2 text-xs font-medium tracking-widest text-primary uppercase">
             Workspace
           </p>
-          <h1 className="m-0 font-[Manrope,sans-serif] text-3xl font-bold tracking-[-0.04em]">
+          <h1 className="m-0 font-heading text-3xl font-medium tracking-tight">
             Settings
           </h1>
         </div>
@@ -124,7 +124,7 @@ function SettingsPage() {
               <profileForm.Field name="businessName">
                 {(field) => (
                   <label
-                    className="grid gap-2 text-sm font-semibold"
+                    className="grid gap-2 text-sm font-medium"
                     htmlFor={field.name}
                   >
                     Business name
@@ -142,7 +142,7 @@ function SettingsPage() {
                 )}
               </profileForm.Field>
               <label
-                className="grid gap-2 text-sm font-semibold"
+                className="grid gap-2 text-sm font-medium"
                 htmlFor="settings-business-type"
               >
                 Business type
@@ -162,7 +162,7 @@ function SettingsPage() {
                         {isSubmitting ? "Saving…" : "Save changes"}
                       </Button>
                       {isSubmitSuccessful ? (
-                        <span className="text-sm text-[#34705e]">Saved</span>
+                        <span className="text-sm text-primary">Saved</span>
                       ) : null}
                     </div>
                     {error ? (
@@ -176,7 +176,7 @@ function SettingsPage() {
             </form>
           </CardContent>
         </Card>
-        <Card className="border-red-200">
+        <Card className="border-destructive/30">
           <CardHeader>
             <CardTitle className="text-destructive">Delete account</CardTitle>
             <CardDescription>
@@ -196,7 +196,7 @@ function SettingsPage() {
               <deleteForm.Field name="confirmation">
                 {(field) => (
                   <label
-                    className="grid gap-2 text-sm font-semibold"
+                    className="grid gap-2 text-sm font-medium"
                     htmlFor={field.name}
                   >
                     Type <span className="font-mono">{workspace.name}</span> to

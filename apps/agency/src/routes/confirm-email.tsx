@@ -57,7 +57,7 @@ function ConfirmEmailPage() {
           {pending ? "Sending…" : "Send confirmation email"}
         </Button>
         {message ? (
-          <output className="m-0 text-sm text-[#34705e]">{message}</output>
+          <output className="m-0 text-sm text-primary">{message}</output>
         ) : null}
         {error ? (
           <p className="m-0 text-sm text-destructive" role="alert">

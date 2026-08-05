@@ -14,6 +14,11 @@ export const listProviderInquiriesFn = createServerFn({
     const { getDb } = await import("#/lib/db/database");
     const inquiries = await getDb().query.inquiry.findMany({
       where: (table, { eq }) => eq(table.tenantId, tenant.id),
+      with: {
+        children: {
+          orderBy: (table, { asc }) => asc(table.createdAt),
+        },
+      },
       orderBy: (table, { desc }) => desc(table.createdAt),
       limit: 100,
     });

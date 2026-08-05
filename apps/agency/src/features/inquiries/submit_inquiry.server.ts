@@ -1,5 +1,10 @@
 import { getDb } from "#/lib/db/database";
-import { inquiry, tenant, tenantProfile } from "@dayhome/db/schema";
+import {
+  inquiry,
+  inquiryChild,
+  tenant,
+  tenantProfile,
+} from "@dayhome/db/schema";
 import { and, eq } from "drizzle-orm";
 
 import {
@@ -35,20 +40,37 @@ export async function submitInquiry(
 
   if (!tenantContext) return { status: "tenant_not_found" };
 
-  const [createdInquiry] = await db
-    .insert(inquiry)
-    .values({
-      tenantId: tenantContext.id,
-      parentFirstName: submission.parentFirstName,
-      parentLastName: submission.parentLastName,
-      parentEmail: submission.parentEmail,
-      careType: submission.careType,
-      childBirthDate: submission.childBirthDate,
-      preferredStartDate: submission.preferredStartDate || null,
-    })
-    .returning();
+  const createdInquiry = await db.transaction(async (transaction) => {
+    const [record] = await transaction
+      .insert(inquiry)
+      .values({
+        tenantId: tenantContext.id,
+        parentFirstName: submission.parentFirstName,
+        parentLastName: submission.parentLastName,
+        parentEmail: submission.parentEmail,
+      })
+      .returning();
 
-  if (!createdInquiry) throw new Error("Inquiry insert returned no record");
+    if (!record) throw new Error("Inquiry insert returned no record");
+
+    const children = await transaction
+      .insert(inquiryChild)
+      .values(
+        submission.children.map((child) => ({
+          inquiryId: record.id,
+          careType: child.careType,
+          birthDate: child.birthDate,
+          expectedStart: child.expectedStart,
+          expectedStartDate:
+            child.expectedStart === "specific_date"
+              ? child.expectedStartDate || null
+              : null,
+        })),
+      )
+      .returning();
+
+    return { ...record, children };
+  });
 
   const deliveries = await Promise.allSettled([
     sendParentConfirmation({ inquiry: createdInquiry, tenant: tenantContext }),

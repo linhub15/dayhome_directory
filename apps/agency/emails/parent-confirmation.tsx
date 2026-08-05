@@ -10,9 +10,13 @@ export default function ParentConfirmationPreview(
 }
 
 ParentConfirmationPreview.PreviewProps = {
-  careType: "Full-time",
-  childAge: "2 years",
+  children: [
+    {
+      careType: "Full-time",
+      childAge: "2 years",
+      expectedStart: "September 1, 2026",
+    },
+  ],
   parentFirstName: "Taylor",
-  preferredStart: "September 1, 2026",
   tenantName: "Little Sprouts Dayhome",
 } satisfies ParentConfirmationEmailProps;

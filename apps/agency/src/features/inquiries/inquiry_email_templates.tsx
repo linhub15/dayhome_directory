@@ -6,22 +6,21 @@ import {
   InquiryDetails,
 } from "#/lib/email/email_components";
 
-type InquiryDetailsProps = {
+type ChildDetails = {
   careType: string;
   childAge: string;
-  preferredStart: string;
+  expectedStart: string;
 };
 
-export type ParentConfirmationEmailProps = InquiryDetailsProps & {
+export type ParentConfirmationEmailProps = {
+  children: ChildDetails[];
   parentFirstName: string;
   tenantName: string;
 };
 
 export function ParentConfirmationEmail({
-  careType,
-  childAge,
+  children,
   parentFirstName,
-  preferredStart,
   tenantName,
 }: ParentConfirmationEmailProps) {
   return (
@@ -35,11 +34,13 @@ export function ParentConfirmationEmail({
         review your request and contact you about next steps.
       </Text>
       <InquiryDetails
-        details={[
-          { label: "Care requested", value: careType },
-          { label: "Child's age", value: childAge },
-          { label: "Preferred start", value: preferredStart },
-        ]}
+        details={children.flatMap((child, index) => [
+          {
+            label: children.length > 1 ? `Child ${index + 1}` : "Child",
+            value: `${child.childAge} · ${child.careType}`,
+          },
+          { label: "Expected start", value: child.expectedStart },
+        ])}
       />
       <Text className="mb-0 mt-6 rounded-lg bg-[#eef6f1] px-4 py-3 text-sm leading-6 text-[#456158]">
         You can reply directly to the provider when they get in touch.
@@ -48,7 +49,8 @@ export function ParentConfirmationEmail({
   );
 }
 
-export type ProviderNotificationEmailProps = InquiryDetailsProps & {
+export type ProviderNotificationEmailProps = {
+  children: ChildDetails[];
   dashboardUrl: string;
   parentEmail: string;
   parentName: string;
@@ -56,12 +58,10 @@ export type ProviderNotificationEmailProps = InquiryDetailsProps & {
 };
 
 export function ProviderNotificationEmail({
-  careType,
-  childAge,
+  children,
   dashboardUrl,
   parentEmail,
   parentName,
-  preferredStart,
   tenantName,
 }: ProviderNotificationEmailProps) {
   return (
@@ -77,9 +77,13 @@ export function ProviderNotificationEmail({
         details={[
           { label: "Parent", value: parentName },
           { label: "Email", value: parentEmail },
-          { label: "Care requested", value: careType },
-          { label: "Child's age", value: childAge },
-          { label: "Preferred start", value: preferredStart },
+          ...children.flatMap((child, index) => [
+            {
+              label: children.length > 1 ? `Child ${index + 1}` : "Child",
+              value: `${child.childAge} · ${child.careType}`,
+            },
+            { label: "Expected start", value: child.expectedStart },
+          ]),
         ]}
       />
       <Button

@@ -1,14 +1,21 @@
 import {
-  CircleHelp,
-  ContactRound,
-  ChevronDown,
-  Menu,
-  Settings,
-  X,
+  ContactRound as ContactRoundIcon,
+  LogOut as LogOutIcon,
+  Menu as MenuIcon,
+  Settings as SettingsIcon,
+  X as XIcon,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
-import { cn } from "@dayhome/ui";
-import { Link } from "@tanstack/react-router";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Button,
+  LinkButton,
+  Separator,
+  cn,
+} from "@dayhome/ui";
 
 export function AppShell({
   children,
@@ -27,7 +34,7 @@ export function AppShell({
   const navItems = [
     {
       label: "Inquiries",
-      icon: ContactRound,
+      icon: ContactRoundIcon,
       active: activePage === "dashboard",
       count: inquiryCount,
       to: "/" as const,
@@ -41,12 +48,14 @@ export function AppShell({
     .toUpperCase();
 
   return (
-    <div className="grid min-h-screen grid-cols-[252px_minmax(0,1fr)] max-[760px]:block">
-      <button
+    <div className="min-h-svh bg-background md:flex">
+      <Button
         className={cn(
-          "fixed inset-0 z-20 hidden border-0 bg-[rgba(25,42,36,0.28)] opacity-0 transition-opacity duration-180 max-[760px]:block",
+          "fixed inset-0 z-40 bg-black/50 opacity-0 transition-opacity md:hidden",
           menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none",
         )}
+        variant="unstyled"
+        size="unstyled"
         type="button"
         aria-label="Close navigation"
         onClick={() => setMenuOpen(false)}
@@ -54,135 +63,119 @@ export function AppShell({
       <aside
         id="primary-navigation"
         className={cn(
-          "sticky top-0 z-30 flex h-screen flex-col border-r border-[#dce4df] bg-[#fbfcfa] px-4 pt-5.5 pb-4 dark:border-border dark:bg-card dark:text-card-foreground",
-          "max-[760px]:fixed max-[760px]:invisible max-[760px]:w-[min(290px,88vw)] max-[760px]:translate-x-[-102%] max-[760px]:shadow-[12px_0_35px_rgba(25,48,40,0.15)] max-[760px]:[transition:transform_180ms_ease,visibility_0s_linear_180ms]",
-          menuOpen &&
-            "max-[760px]:visible max-[760px]:translate-x-0 max-[760px]:delay-[0s]",
+          "fixed inset-y-0 left-0 z-50 flex w-64 -translate-x-full flex-col border-r border-sidebar-border bg-sidebar p-2 text-sidebar-foreground transition-transform md:sticky md:top-0 md:z-0 md:h-svh md:translate-x-0",
+          menuOpen && "translate-x-0",
         )}
       >
-        <div className="flex items-center gap-2.75 px-2 pb-6.25">
+        <div className="flex h-12 items-center gap-2 px-2">
           <div
-            className="flex size-8.75 items-end justify-center gap-0.5 overflow-hidden rounded-[11px] bg-[#275f50] px-1.75 py-2"
+            className="flex size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
             aria-hidden="true"
           >
-            <span className="block h-2.75 w-1.25 -rotate-12 rounded-[5px_5px_2px_2px] bg-[#e6f4c8]" />
-            <span className="block h-4.5 w-1.25 rounded-[5px_5px_2px_2px] bg-white" />
-            <span className="block h-3.5 w-1.25 rotate-12 rounded-[5px_5px_2px_2px] bg-[#e6f4c8]" />
+            <ContactRoundIcon className="size-4" />
           </div>
-          <div>
-            <p className="m-0 font-[Manrope,sans-serif] text-sm font-extrabold tracking-[-0.02em]">
-              Dayhome Flow
-            </p>
-            <p className="mt-0.5 mb-0 text-[10px] font-semibold text-[#7a8a84] dark:text-muted-foreground">
+          <div className="min-w-0 flex-1 leading-tight">
+            <p className="truncate text-sm font-medium">Dayhome Flow</p>
+            <p className="truncate text-xs text-muted-foreground">
               {tenantName}
             </p>
           </div>
-          <button
-            className="ml-auto hidden size-8 place-items-center rounded-lg border-0 bg-[#eef3f0] max-[760px]:grid dark:border dark:border-border dark:bg-accent dark:text-accent-foreground"
+          <Button
+            className="ml-auto md:hidden"
+            variant="ghost"
+            size="icon"
             type="button"
             aria-label="Close navigation"
             onClick={() => setMenuOpen(false)}
           >
-            <X size={18} />
-          </button>
+            <XIcon />
+          </Button>
         </div>
 
-        <nav className="grid gap-0.75" aria-label="Primary navigation">
-          <p className="mx-3 mt-1 mb-2 text-[10px] font-bold tracking-widest text-[#98a59f] uppercase">
+        <nav className="grid gap-1 pt-2" aria-label="Primary navigation">
+          <p className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
             Workspace
           </p>
           {navItems.map(({ label, icon: Icon, active, count, to }) => {
-            const content = (
-              <>
-                <Icon size={18} strokeWidth={1.8} />
+            return (
+              <LinkButton
+                key={to}
+                className={cn(
+                  "w-full cursor-default justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                  active && "bg-sidebar-accent text-sidebar-accent-foreground",
+                )}
+                variant="ghost"
+                size="sm"
+                to={to}
+              >
+                <Icon />
                 <span>{label}</span>
                 {count ? (
-                  <span
-                    className={cn(
-                      "ml-auto min-w-5.75 rounded-[99px] bg-[#eef2ef] px-1.5 py-0.5 text-center text-[10px] text-[#6d7b76] dark:bg-accent dark:text-accent-foreground",
-                      active && "bg-[#d2e5dc] text-[#275f50]",
-                    )}
+                  <Badge
+                    className="ml-auto h-5 min-w-5 px-1.5 tabular-nums"
+                    variant="secondary"
                   >
                     {count}
-                  </span>
+                  </Badge>
                 ) : null}
-              </>
-            );
-            const className = cn(
-              "flex w-full cursor-pointer items-center gap-2.75 rounded-[9px] border-0 bg-transparent px-2.75 py-2.5 text-left text-[13px] font-semibold text-[#697973] no-underline hover:bg-[#f0f4f1] hover:text-[#284c42] dark:text-muted-foreground dark:hover:bg-accent dark:hover:text-accent-foreground",
-              active &&
-                "bg-[#e6f0eb] text-[#275f50] shadow-[inset_3px_0_#3a806b] hover:bg-[#e6f0eb] dark:bg-[color-mix(in_oklab,var(--primary)_16%,var(--card))] dark:text-foreground",
-            );
-
-            return (
-              <Link
-                key={to}
-                className={className}
-                to={to}
-                onClick={() => setMenuOpen(false)}
-              >
-                {content}
-              </Link>
+              </LinkButton>
             );
           })}
         </nav>
 
-        <div className="mt-auto grid gap-0.75">
-          <button
-            className="flex w-full cursor-pointer items-center gap-2.75 rounded-[9px] border-0 bg-transparent px-2.75 py-2.5 text-left text-[13px] font-semibold text-[#697973] hover:bg-[#f0f4f1] hover:text-[#284c42] dark:text-muted-foreground dark:hover:bg-accent dark:hover:text-accent-foreground"
-            type="button"
-          >
-            <CircleHelp size={18} /> Help centre
-          </button>
-          <Link
+        <div className="mt-auto grid gap-1">
+          <LinkButton
             className={cn(
-              "flex w-full cursor-pointer items-center gap-2.75 rounded-[9px] border-0 bg-transparent px-2.75 py-2.5 text-left text-[13px] font-semibold text-[#697973] no-underline hover:bg-[#f0f4f1] hover:text-[#284c42] dark:text-muted-foreground dark:hover:bg-accent dark:hover:text-accent-foreground",
-              activePage === "settings" && "bg-[#e6f0eb] text-[#275f50]",
+              "w-full cursor-default justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+              activePage === "settings" &&
+                "bg-sidebar-accent text-sidebar-accent-foreground",
             )}
+            variant="ghost"
+            size="sm"
             to="/settings"
           >
-            <Settings size={18} /> Settings
-          </Link>
-          <Link
-            className="mt-2 flex cursor-pointer items-center gap-2.25 border-0 border-t border-[#e4e9e5] bg-transparent px-1.75 pt-3.75 pb-0.75 text-left text-inherit no-underline dark:border-border"
+            <SettingsIcon /> Settings
+          </LinkButton>
+          <LinkButton
+            className="w-full cursor-default justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            variant="ghost"
+            size="sm"
             to="/logout"
           >
-            {user.image ? (
-              <img
-                className="size-7.75 rounded-[10px] object-cover"
-                src={user.image}
-                alt=""
-              />
-            ) : (
-              <span className="grid size-7.75 place-items-center rounded-[10px] bg-[#eadbc8] text-[10px] font-extrabold text-[#7d593b]">
+            <LogOutIcon /> Log out
+          </LinkButton>
+          <Separator className="my-1" />
+          <div className="flex items-center gap-2 px-2 py-1.5">
+            <Avatar className="size-8 rounded-lg">
+              {user.image ? <AvatarImage src={user.image} alt="" /> : null}
+              <AvatarFallback className="rounded-lg text-xs">
                 {initials}
-              </span>
-            )}
-            <span className="grid min-w-0 flex-1">
-              <strong className="overflow-hidden text-[11px] text-ellipsis whitespace-nowrap">
-                {user.name}
-              </strong>
-              <small className="text-[9px] text-[#8b9792] dark:text-muted-foreground">
-                Log out
+              </AvatarFallback>
+            </Avatar>
+            <span className="grid min-w-0 flex-1 text-left text-sm leading-tight">
+              <strong className="truncate font-medium">{user.name}</strong>
+              <small className="truncate text-xs text-muted-foreground">
+                {user.email}
               </small>
             </span>
-            <ChevronDown size={16} />
-          </Link>
+          </div>
         </div>
       </aside>
 
-      <div className="min-w-0">
-        <header className="flex h-18 items-center gap-5 border-b border-[#dde4df] bg-[rgba(251,252,250,0.88)] px-7 backdrop-blur-2xl max-[760px]:h-16 max-[760px]:px-4 dark:border-border dark:bg-[color-mix(in_oklab,var(--card)_88%,transparent)] dark:text-card-foreground">
-          <button
-            className="hidden size-9 place-items-center rounded-[9px] border border-[#dce3df] bg-white max-[760px]:grid dark:border-border dark:bg-accent dark:text-accent-foreground"
+      <div className="min-w-0 flex-1">
+        <header className="flex h-12 items-center gap-2 border-b bg-background px-4">
+          <Button
+            className="md:hidden"
+            variant="ghost"
+            size="icon"
             type="button"
             aria-label="Open navigation"
             aria-controls="primary-navigation"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(true)}
           >
-            <Menu size={20} />
-          </button>
+            <MenuIcon />
+          </Button>
         </header>
         {children}
       </div>

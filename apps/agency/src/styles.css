@@ -4,10 +4,6 @@
 @source "../../../packages/ui/src";
 @source "../../../packages/auth/src";
 
-@theme {
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-}
-
 @layer base {
   :root {
     font-synthesis: none;
@@ -17,26 +13,13 @@
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
-    background: var(--background);
-    color: var(--foreground);
-    font-family: var(--font-sans);
   }
 
   button,
   input,
-  select {
+  select,
+  textarea {
     font: inherit;
-  }
-
-  button {
-    color: inherit;
-  }
-
-  button:focus-visible,
-  input:focus-visible,
-  select:focus-visible {
-    outline: 3px solid rgb(51 130 107 / 28%);
-    outline-offset: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {

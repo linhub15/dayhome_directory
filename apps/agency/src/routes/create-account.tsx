@@ -20,7 +20,7 @@ function CreateAccountPage() {
       footer={
         <>
           Already have an account?{" "}
-          <Link className="ml-1 font-semibold text-primary" to="/login">
+          <Link className="ml-1 font-medium text-primary" to="/login">
             Log in
           </Link>
         </>

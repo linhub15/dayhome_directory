@@ -186,7 +186,7 @@ function FilterModal(props: Props) {
                   {ageGroup.map((key) => (
                     <Label key={key}>
                       <Badge
-                        className="cursor-pointer select-none"
+                        className="select-none"
                         size="lg"
                         variant={
                           field.state.value?.includes(key)

@@ -27,21 +27,19 @@ export function AuthPage({
   footer?: ReactNode;
 }) {
   return (
-    <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top,#e8f3ed_0,transparent_42%)] px-4 py-12">
+    <main className="grid min-h-screen place-items-center bg-muted/40 px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 grid size-11 place-items-center rounded-2xl bg-[#275f50] text-lg font-black text-white">
+          <div className="mx-auto mb-3 grid size-11 place-items-center rounded-2xl bg-primary text-lg font-medium text-primary-foreground">
             D
           </div>
-          <p className="m-0 text-xs font-bold tracking-[0.14em] text-[#4d806f] uppercase">
+          <p className="m-0 text-xs font-medium tracking-[0.14em] text-primary uppercase">
             {eyebrow}
           </p>
         </div>
-        <Card className="border-[#d8e4dd] shadow-[0_22px_60px_rgba(32,73,59,0.10)]">
+        <Card className="shadow-xl">
           <CardHeader>
-            <CardTitle className="font-[Manrope,sans-serif] text-2xl tracking-[-0.03em]">
-              {title}
-            </CardTitle>
+            <CardTitle className="text-xl tracking-tight">{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
           </CardHeader>
           <CardContent>{children}</CardContent>
@@ -88,7 +86,8 @@ export function GoogleAuthButton({
   return (
     <div className="grid gap-3">
       <Button
-        className="h-11 w-full bg-white text-[#263a33] shadow-sm ring-1 ring-[#d8e1dc] hover:bg-[#f7faf8]"
+        className="h-11 w-full"
+        variant="outline"
         type="button"
         disabled={pending}
         onClick={continueWithGoogle}
@@ -119,12 +118,12 @@ export function AccountSummary({
       {image ? (
         <img className="size-10 rounded-xl object-cover" src={image} alt="" />
       ) : (
-        <span className="grid size-10 place-items-center rounded-xl bg-[#dcebe3] font-bold text-[#275f50]">
+        <span className="grid size-10 place-items-center rounded-xl bg-primary/10 font-medium text-primary">
           {name.slice(0, 1).toUpperCase()}
         </span>
       )}
       <span className="grid min-w-0">
-        <strong className="truncate text-sm">{name}</strong>
+        <span className="truncate text-sm font-medium">{name}</span>
         <span className="truncate text-xs text-muted-foreground">{email}</span>
       </span>
     </div>

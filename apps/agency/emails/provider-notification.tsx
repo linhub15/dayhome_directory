@@ -10,11 +10,15 @@ export default function ProviderNotificationPreview(
 }
 
 ProviderNotificationPreview.PreviewProps = {
-  careType: "Full-time",
-  childAge: "2 years",
+  children: [
+    {
+      careType: "Full-time",
+      childAge: "2 years",
+      expectedStart: "September 1, 2026",
+    },
+  ],
   dashboardUrl: "http://localhost:3001/",
   parentEmail: "taylor@example.com",
   parentName: "Taylor Morgan",
-  preferredStart: "September 1, 2026",
   tenantName: "Little Sprouts Dayhome",
 } satisfies ProviderNotificationEmailProps;
