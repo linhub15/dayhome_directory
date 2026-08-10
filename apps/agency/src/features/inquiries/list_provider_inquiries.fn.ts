@@ -18,6 +18,10 @@ export const listProviderInquiriesFn = createServerFn({
         children: {
           orderBy: (table, { asc }) => asc(table.createdAt),
         },
+        statusHistory: {
+          with: { changedBy: true },
+          orderBy: (table, { asc }) => asc(table.changedAt),
+        },
       },
       orderBy: (table, { desc }) => desc(table.createdAt),
       limit: 100,

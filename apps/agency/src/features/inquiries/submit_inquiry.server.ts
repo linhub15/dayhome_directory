@@ -2,6 +2,7 @@ import { getDb } from "#/lib/db/database";
 import {
   inquiry,
   inquiryChild,
+  inquiryStatusHistory,
   tenant,
   tenantProfile,
 } from "@dayhome/db/schema";
@@ -52,6 +53,12 @@ export async function submitInquiry(
       .returning();
 
     if (!record) throw new Error("Inquiry insert returned no record");
+
+    await transaction.insert(inquiryStatusHistory).values({
+      inquiryId: record.id,
+      toStatus: "new",
+      changedAt: record.statusChangedAt,
+    });
 
     const children = await transaction
       .insert(inquiryChild)
