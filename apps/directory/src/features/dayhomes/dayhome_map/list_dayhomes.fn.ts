@@ -1,54 +1,88 @@
+import { AgeGroupSchema } from "@dayhome/core/dayhome";
 import { createServerFn } from "@tanstack/react-start";
-import z from "zod";
-import { sql } from "drizzle-orm";
-import { db } from "@/lib/db/db_middleware";
-import { LatLngSchema } from "@/lib/geocoding/types";
+import { z } from "zod";
+import { db } from "@/lib/db/db_middleware.ts";
 import { log } from "@/lib/observability/log_middleware.ts";
+import { listDayhomes } from "./list_dayhomes.server.ts";
 
-const Request = z.object({
-  name: z.string().optional(),
-  boundingBox: z
-    .object({
-      min: LatLngSchema,
-      max: LatLngSchema,
-    })
-    .optional(),
+const cacheName = "dayhome_directory";
+const cacheKey = "https://discovercare.ca/api/dayhomes";
+const cacheControl = "public, max-age=3600";
+
+const ListDayhomeSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  isLicensed: z.boolean(),
+  licenseId: z.string().nullable(),
+  ageGroups: z.array(AgeGroupSchema).nullable(),
+  location: z.object({
+    x: z.number(),
+    y: z.number(),
+  }),
+  hasVacancy: z.boolean(),
 });
 
+const ListDayhomesSchema = z.array(ListDayhomeSchema);
+
+export type ListDayhomesData = z.infer<typeof ListDayhomesSchema>;
+
 export const listDayhomesFn = createServerFn({ method: "GET" })
-  .validator(Request)
   .middleware([log, db])
-  .handler(async ({ data, context }) => {
-    const { db } = context;
+  .handler(async ({ context }) => {
+    const cache = await getCloudflareCache();
+    const cachedDayhomes = await readCachedDayhomes(cache);
 
-    const result = await db.query.dayhome.findMany({
-      limit: 1000,
-      with: { vancancies: true },
-      columns: {
-        id: true,
-        name: true,
-        isLicensed: true,
-        licenseId: true,
-        ageGroups: true,
-        location: true,
-      },
-      where: (dayhome, { and, ilike }) => {
-        const searchName = data.name
-          ? ilike(dayhome.name, `%${data.name}%`)
-          : undefined;
+    if (cachedDayhomes) {
+      return cachedDayhomes;
+    }
 
-        const boundingBox = data.boundingBox
-          ? sql`ST_Within(ST_SetSRID(${dayhome.location}, 4326), ST_MakeEnvelope(
-              ${data.boundingBox.min.longitude},
-              ${data.boundingBox.min.latitude},
-              ${data.boundingBox.max.longitude},
-              ${data.boundingBox.max.latitude},
-              4326))`
-          : undefined;
+    const dayhomes = ListDayhomesSchema.parse(await listDayhomes(context.db));
+    await cacheDayhomes(cache, dayhomes);
 
-        return and(searchName, boundingBox);
-      },
-    });
-
-    return result;
+    return dayhomes;
   });
+
+async function getCloudflareCache() {
+  try {
+    return await globalThis.caches.open(cacheName);
+  } catch (error) {
+    console.warn("Cloudflare cache is unavailable", error);
+    return;
+  }
+}
+
+async function readCachedDayhomes(cache: Cache | undefined) {
+  if (!cache) return;
+
+  try {
+    const cachedResponse = await cache.match(cacheKey);
+    if (!cachedResponse) return;
+
+    const result = ListDayhomesSchema.safeParse(await cachedResponse.json());
+    if (result.success) return result.data;
+
+    await cache.delete(cacheKey);
+    return;
+  } catch (error) {
+    console.warn("Unable to read the cached dayhomes", error);
+    return;
+  }
+}
+
+async function cacheDayhomes(
+  cache: Cache | undefined,
+  dayhomes: ListDayhomesData,
+) {
+  if (!cache) return;
+
+  try {
+    await cache.put(
+      cacheKey,
+      Response.json(dayhomes, {
+        headers: { "Cache-Control": cacheControl },
+      }),
+    );
+  } catch (error) {
+    console.warn("Unable to cache the dayhomes", error);
+  }
+}

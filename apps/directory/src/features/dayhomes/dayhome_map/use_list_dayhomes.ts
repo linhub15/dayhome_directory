@@ -1,17 +1,12 @@
 import type { AgeGroupKey } from "@/features/dayhomes/dayhome_map/filter_modal.tsx";
+import { listDayhomesFn } from "@/features/dayhomes/dayhome_map/list_dayhomes.fn.ts";
 import { dayhomeKeys } from "@/features/dayhomes/query_keys.ts";
-import type { LatLng } from "@/lib/geocoding/types";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { listDayhomesFn } from "./list_dayhomes.fn.ts";
-
-export type ListDayhomesData = Awaited<ReturnType<typeof listDayhomesFn>>;
 
 export function useListDayhomes({
-  boundingBox,
   filters,
 }: {
-  boundingBox?: { min: LatLng; max: LatLng };
   /** Client-side filters */
   filters?: {
     hasVacancy?: boolean;
@@ -22,18 +17,9 @@ export function useListDayhomes({
   const listDayhomes = useServerFn(listDayhomesFn);
 
   const result = useQuery({
-    // enabled: !!boundingBox,
-    queryKey: dayhomeKeys.list({ boundingBox }),
-    queryFn: async () => {
-      return await listDayhomes({
-        data: {
-          boundingBox: {
-            min: { latitude: 53.335624, longitude: -113.715512 },
-            max: { latitude: 53.71737, longitude: -113.270719 },
-          },
-        },
-      });
-    },
+    queryKey: dayhomeKeys.list({}),
+    queryFn: () => listDayhomes(),
+    staleTime: 5 * 60 * 1000,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
@@ -41,7 +27,7 @@ export function useListDayhomes({
   result.data = result.data
     ?.filter((item) => {
       if (!filters) return true;
-      return filters.hasVacancy ? (item.vancancies?.length ?? 0) > 0 : true;
+      return filters.hasVacancy ? item.hasVacancy : true;
     })
     .filter((item) => {
       if (!filters) return true;

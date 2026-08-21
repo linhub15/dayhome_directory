@@ -2,3 +2,4 @@
 - when importing Lucide icons, always use the "Icon" suffix
 - co-locate code based on features they are part of, not by type. Shared libraries can be used that are cross cutting like Auth, Db, Logging, etc.
 - following Refactoring UI's advice for styling, especially spacing, don't use explicit values, use the proper scale.
+- Lean on ECMAScript defaults where they express the intent. Avoid `return undefined;` unless explicitly required; use `return;` for an early undefined return, since it already returns `undefined`.

@@ -115,10 +115,10 @@ export function InnerMap(props: InnerMapProps) {
         position: {
           lat: item.location.y,
           lng: item.location.x,
-        } as LatLngExpression,
+        } satisfies LatLngExpression,
         isLicensed: item.isLicensed,
         ageGroups: item.ageGroups || [],
-        hasVacancy: item.vancancies.length > 0,
+        hasVacancy: item.hasVacancy,
       })) ?? [],
     [items],
   );
