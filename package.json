@@ -2,9 +2,9 @@
   "name": "dayhome-products",
   "private": true,
   "scripts": {
-    "dev:directory": "pnpm --filter @dayhome/directory dev",
+    "directory": "pnpm --filter @dayhome/directory",
+    "agency": "pnpm --filter @dayhome/agency",
     "dev:agency": "pnpm --filter @dayhome/agency dev",
-    "build:directory": "pnpm --filter @dayhome/directory build",
     "check": "pnpm -r check",
     "lint": "pnpm -r lint",
     "fmt": "pnpm -r fmt",
