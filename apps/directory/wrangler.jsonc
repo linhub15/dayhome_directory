@@ -10,6 +10,7 @@
   "kv_namespaces": [
     {
       "binding": "DAYHOME_CACHE",
+      "id": "60bfc6b824f64fbd8a4d988bc4eb822f",
     },
   ],
   "keep_vars": true,
