@@ -37,6 +37,11 @@ Deploy from local using wrangler, secrets are managed on Cloudflare directly
 
 - `pnpm run build && pnpm run deploy`
 
+Wrangler automatically provisions the `DAYHOME_CACHE` KV namespace on the
+first deployment. The public map uses it as a shared 24-hour cache, with KV
+reads cached at the edge for 60 seconds. Listing and vacancy mutations
+invalidate the cache.
+
 ### Services
 
 - https://dash.cloudflare.com

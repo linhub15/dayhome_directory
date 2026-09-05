@@ -8,7 +8,6 @@ export async function listDayhomes(database: Database) {
       id: dayhome.id,
       name: dayhome.name,
       isLicensed: dayhome.isLicensed,
-      licenseId: dayhome.licenseId,
       ageGroups: dayhome.ageGroups,
       location: dayhome.location,
       hasVacancy: sql<boolean>`exists (
