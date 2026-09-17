@@ -10,7 +10,7 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "tsc": "tsc",
-    "test": "node --import tsx --test src/features/dayhomes/get_dayhome/get_dayhome.test.ts",
+    "test": "node --import tsx --test src/features/dayhomes/get_dayhome/get_dayhome.test.ts src/lib/security/is_scanner_path.test.ts",
     "check": "pnpm lint && pnpm test && pnpm tsc && pnpm fmt:check && pnpm build",
     "ci": "pnpm check",
     "db:up": "docker compose -f ../../docker-compose.yml up -d --wait postgres",
