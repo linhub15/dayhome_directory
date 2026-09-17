@@ -1,3 +1,4 @@
+import { getDayhome } from "./get_dayhome/get_dayhome.server";
 import { db } from "@/lib/db/db_middleware";
 import { pattern } from "@/lib/utils/nanoid";
 import { createServerFn } from "@tanstack/react-start";
@@ -17,30 +18,5 @@ export const getDayhomeFn = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     const { db } = context;
 
-    const dayhome = await db.query.dayhome.findFirst({
-      where: (dayhome, { eq }) => eq(dayhome.id, data.id),
-      with: {
-        openHours: {
-          columns: {
-            weekday: true,
-            openAt: true,
-            closeAt: true,
-          },
-        },
-        license: {
-          columns: {
-            name: true,
-            type: true,
-            city: true,
-            postalCode: true,
-            hasDayCare: true,
-            hasOutOfSchoolCare: true,
-            hasPreschool: true,
-            capacity: true,
-          },
-        },
-      },
-    });
-
-    return dayhome;
+    return await getDayhome(db, data.id);
   });
