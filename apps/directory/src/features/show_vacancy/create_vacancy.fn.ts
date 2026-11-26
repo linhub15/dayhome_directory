@@ -1,6 +1,5 @@
 import { auth } from "@/lib/auth/auth_middleware.ts";
 import { db } from "@/lib/db/db_middleware.ts";
-import { invalidateDayhomeMapCache } from "@/features/dayhomes/dayhome_map/dayhome_map_cache.ts";
 import { dayhomeVacancy } from "@dayhome/db/schema";
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
@@ -25,6 +24,4 @@ export const createVacancyFn = createServerFn({ method: "POST" })
       startOn: today,
       endOn: endOn,
     });
-
-    await invalidateDayhomeMapCache();
   });

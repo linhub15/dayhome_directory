@@ -24,23 +24,7 @@ Uses Tailwind CSS for styling, and PostgreSQL as database.
 - `pnpm db:up` starts the docker postgresql on port `5432`. If you have postgres running on `:5432` you will get auth errors
 - `pnpm db:migrate` applies committed database migrations
 - `pnpm db:seed` deletes all data and seeds with new random data
-- From the repository root, `pnpm dev:directory` starts the local dev server
-
-### Test the public directory snapshot locally
-
-From the repository root, run `pnpm directory data:snapshot` against a populated
-local Postgres database, then run `pnpm directory dev:snapshot` and open
-`http://localhost:3000/map`. The generator writes a map JSON file and one JSON
-file per listing to the gitignored `apps/directory/public_snapshot` directory.
-
-The exporter uses `DATABASE_URL` from the directory app's `.env` by default.
-Set `DIRECTORY_SOURCE_DATABASE_URL` to export from a separate database while
-Better Auth and claims continue to use `DATABASE_URL`.
-
-Snapshot mode serves the public map and listing details from JSON. The admin
-editor, claims, and auth still use their existing database. Regenerate the
-snapshot to see listing or vacancy changes on the public map and profiles.
-The normal dev and build commands use the existing public data source.
+- From the repository root, `pnpm directory dev` starts the local dev server
 
 ## Production Setup
 
@@ -53,10 +37,13 @@ Deploy from local using wrangler, secrets are managed on Cloudflare directly
 
 - `pnpm run build && pnpm run deploy`
 
-Wrangler automatically provisions the `DAYHOME_CACHE` KV namespace on the
-first deployment. The public map uses it as a shared 24-hour cache, with KV
-reads cached at the edge for 60 seconds. Listing and vacancy mutations
-invalidate the cache.
+The map loads the committed `public/map.json` asset. Cloudflare serves it directly
+and the normal build includes the file. To refresh the snapshot, run
+`pnpm directory data:export-map` from the repository root with `DATABASE_URL`
+set to the directory catalog to export, then commit the updated file. Map
+listings and vacancy badges reflect the last export. For local testing with
+different listing IDs, generate the map from the same database as the listing
+pages.
 
 ### Services
 

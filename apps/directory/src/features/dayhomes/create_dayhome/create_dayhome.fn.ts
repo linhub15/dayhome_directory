@@ -4,7 +4,6 @@ import { sql } from "drizzle-orm";
 import { createServerFn } from "@tanstack/react-start";
 import type z from "zod";
 import { createInsertSchema } from "drizzle-zod";
-import { invalidateDayhomeMapCache } from "@/features/dayhomes/dayhome_map/dayhome_map_cache.ts";
 
 const requestSchema = createInsertSchema(dayhome);
 
@@ -21,6 +20,4 @@ export const createDayhomeFn = createServerFn({ method: "POST" })
       address: data.address,
       location: sql`ST_SetSRID(ST_MakePoint(${data.location.x}, ${data.location.y}), 4326)`,
     });
-
-    await invalidateDayhomeMapCache();
   });

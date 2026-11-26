@@ -4,10 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev --port 3000",
-    "dev:snapshot": "vite dev --mode directory_snapshot --port 3000",
     "build": "vite build",
     "data:load": "tsx ./data/load.ts",
-    "data:snapshot": "tsx ./data/generate_directory_snapshot.ts",
+    "data:export-map": "tsx ./data/export_map.ts",
     "lint": "oxlint",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",

@@ -1,18 +1,14 @@
-import { getDb, withDb } from "@/lib/db/database.ts";
+import { getDb } from "@/lib/db/database.ts";
 import {
   createDayhomeAuth,
   dayhomeAuthOptionsFromEnv,
 } from "@dayhome/auth/server";
 
-export function getAuth(database = getDb()) {
+export function getAuth() {
+  const db = getDb();
+
   return createDayhomeAuth({
-    database,
+    database: db,
     ...dayhomeAuthOptionsFromEnv(process.env),
   });
-}
-
-export function withAuth<T>(
-  run: (auth: ReturnType<typeof getAuth>) => Promise<T>,
-) {
-  return withDb((database) => run(getAuth(database)));
 }
