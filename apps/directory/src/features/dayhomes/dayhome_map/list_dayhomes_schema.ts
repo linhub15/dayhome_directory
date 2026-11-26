@@ -10,7 +10,6 @@ export const ListDayhomeSchema = z.object({
     x: z.number(),
     y: z.number(),
   }),
-  hasVacancy: z.boolean(),
 });
 
 export const ListDayhomesSchema = z.array(ListDayhomeSchema);

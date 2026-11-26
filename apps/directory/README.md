@@ -40,10 +40,14 @@ Deploy from local using wrangler, secrets are managed on Cloudflare directly
 The map loads the committed `public/map.json` asset. Cloudflare serves it directly
 and the normal build includes the file. To refresh the snapshot, run
 `pnpm directory data:export-map` from the repository root with `DATABASE_URL`
-set to the directory catalog to export, then commit the updated file. Map
-listings and vacancy badges reflect the last export. For local testing with
-different listing IDs, generate the map from the same database as the listing
-pages.
+set to the directory catalog to export, then commit the updated file. For local
+testing with different listing IDs, generate the map from the same database as
+the listing pages.
+
+To publish a vacancy, add the listing ID and the last available date to
+`src/features/show_vacancy/vacancies.ts` and deploy. Vacancy badges and the map
+filter use those dates directly. Provider accounts support sign-in and viewing
+the account profile.
 
 ### Services
 

@@ -1,6 +1,6 @@
 import "dotenv/config.js";
 import { createDatabase } from "@dayhome/db/client";
-import { dayhome, dayhomeVacancy } from "@dayhome/db/schema";
+import { dayhome } from "@dayhome/db/schema";
 import { asc, sql } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { rename, rm, writeFile } from "node:fs/promises";
@@ -15,13 +15,6 @@ const rows = await database
     isLicensed: dayhome.isLicensed,
     ageGroups: dayhome.ageGroups,
     location: dayhome.location,
-    hasVacancy: sql<boolean>`exists (
-      select 1 from ${dayhomeVacancy}
-      where ${dayhomeVacancy.dayhomeId} = ${dayhome.id}
-        and ${dayhomeVacancy.startOn} <= current_date
-        and ${dayhomeVacancy.endOn} >= current_date
-        and ${dayhomeVacancy.deletedAt} is null
-    )`,
   })
   .from(dayhome)
   .where(

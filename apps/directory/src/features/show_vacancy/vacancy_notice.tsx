@@ -1,15 +1,7 @@
-import { useListVacancies } from "@/features/show_vacancy/use_list_vacancies.ts";
+import { hasActiveVacancy } from "./vacancies.ts";
 
 export function VacancyNotice(props: { dayhomeId: string }) {
-  const { data } = useListVacancies(props.dayhomeId);
-
-  if (!data) {
-    return;
-  }
-
-  if (!data || !data.length) {
-    return;
-  }
+  if (!hasActiveVacancy(props.dayhomeId)) return;
 
   return (
     <div className="flex items-center gap-x-1.5">
