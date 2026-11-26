@@ -3,6 +3,8 @@ import { listDayhomesFn } from "@/features/dayhomes/dayhome_map/list_dayhomes.fn
 import { dayhomeKeys } from "@/features/dayhomes/query_keys.ts";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { directoryMapPath } from "../directory_snapshot.ts";
+import { ListDayhomesSchema } from "./list_dayhomes_schema.ts";
 
 export function useListDayhomes({
   filters,
@@ -18,7 +20,16 @@ export function useListDayhomes({
 
   const result = useQuery({
     queryKey: dayhomeKeys.list({}),
-    queryFn: () => listDayhomes(),
+    queryFn: async () => {
+      if (import.meta.env.MODE !== "directory_snapshot") {
+        return listDayhomes();
+      }
+
+      const response = await fetch(directoryMapPath);
+      if (!response.ok)
+        throw new Error("Unable to load the directory map snapshot");
+      return ListDayhomesSchema.parse(await response.json());
+    },
     staleTime: 5 * 60 * 1000,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

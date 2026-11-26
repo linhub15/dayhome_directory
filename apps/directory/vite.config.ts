@@ -4,7 +4,8 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-const config = defineConfig({
+const config = defineConfig(({ mode }) => ({
+  publicDir: mode === "directory_snapshot" ? "public_snapshot" : "public",
   resolve: {
     tsconfigPaths: true,
   },
@@ -24,6 +25,6 @@ const config = defineConfig({
     }),
     viteReact(),
   ],
-});
+}));
 
 export default config;

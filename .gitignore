@@ -12,5 +12,7 @@ dist-ssr
 .vinxi
 .wrangler
 .postgresql/
+/apps/directory/public_snapshot/
+/apps/directory/.public_snapshot_*/
 
 debug-storybook.log

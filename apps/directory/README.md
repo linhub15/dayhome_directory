@@ -26,6 +26,22 @@ Uses Tailwind CSS for styling, and PostgreSQL as database.
 - `pnpm db:seed` deletes all data and seeds with new random data
 - From the repository root, `pnpm dev:directory` starts the local dev server
 
+### Test the public directory snapshot locally
+
+From the repository root, run `pnpm directory data:snapshot` against a populated
+local Postgres database, then run `pnpm directory dev:snapshot` and open
+`http://localhost:3000/map`. The generator writes a map JSON file and one JSON
+file per listing to the gitignored `apps/directory/public_snapshot` directory.
+
+The exporter uses `DATABASE_URL` from the directory app's `.env` by default.
+Set `DIRECTORY_SOURCE_DATABASE_URL` to export from a separate database while
+Better Auth and claims continue to use `DATABASE_URL`.
+
+Snapshot mode serves the public map and listing details from JSON. The admin
+editor, claims, and auth still use their existing database. Regenerate the
+snapshot to see listing or vacancy changes on the public map and profiles.
+The normal dev and build commands use the existing public data source.
+
 ## Production Setup
 
 - Setup the environment variables `.env.example`

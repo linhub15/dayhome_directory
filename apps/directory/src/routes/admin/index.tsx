@@ -5,7 +5,7 @@ import { FieldSet } from "@dayhome/ui/field";
 import { Input } from "@dayhome/ui/input";
 import { Label } from "@dayhome/ui/label";
 import { PinnedMap } from "@/components/ui/pinned_map";
-import { getDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
+import { getAdminDayhomeFn } from "@/features/dayhomes/get_dayhome.fn";
 import { listDayhomesAdminFn } from "@/features/dayhomes/list_dayhomes_admin.fn";
 import {
   useUpdateDayhomeBasic,
@@ -56,7 +56,7 @@ export const Route = createFileRoute("/admin/")({
 
 function RouteComponent() {
   const listDayhomes = useServerFn(listDayhomesAdminFn);
-  const getDayhome = useServerFn(getDayhomeFn);
+  const getDayhome = useServerFn(getAdminDayhomeFn);
   const autocompleteGeocode = useServerFn(autocompleteGeocodeFn);
   const updateBasic = useUpdateDayhomeBasic();
   const updateOpenHours = useUpdateDayhomeOpenHours();

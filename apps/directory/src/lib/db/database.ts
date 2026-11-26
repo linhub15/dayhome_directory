@@ -1,9 +1,15 @@
 import { serverEnv } from "@/config/server_env";
-import { createDatabase } from "@dayhome/db/client";
-
-let database: ReturnType<typeof createDatabase> | undefined;
+import { createDatabase, type Database } from "@dayhome/db/client";
 
 export function getDb() {
-  database ??= createDatabase(serverEnv.DATABASE_URL);
-  return database;
+  return createDatabase(serverEnv.DATABASE_URL);
+}
+
+export async function withDb<T>(run: (database: Database) => Promise<T>) {
+  const database = getDb();
+  try {
+    return await run(database);
+  } finally {
+    await database.$client.end();
+  }
 }
