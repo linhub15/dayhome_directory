@@ -6,6 +6,7 @@ import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { createInsertSchema } from "drizzle-zod";
 import * as schema from "@dayhome/db/schema";
+import { blacklistedProgramIds } from "./blacklist.ts";
 
 const db = drizzle({
   schema: { ...schema },
@@ -25,6 +26,8 @@ const insertSchema = createInsertSchema(schema.dayhome);
 const toInsert: z.infer<typeof insertSchema>[] = [];
 
 for (const license of result) {
+  if (blacklistedProgramIds.has(license.id)) continue;
+
   const address = `${license.address}, ${license.city}, ${license.postalCode}`;
   const { longitude, latitude } = await geocodeAddress(address);
 
@@ -40,6 +43,8 @@ for (const license of result) {
 
 await saveCache();
 
-await db.insert(schema.dayhome).values(toInsert);
+if (toInsert.length > 0) {
+  await db.insert(schema.dayhome).values(toInsert);
+}
 
 db.$client.end();

@@ -2,6 +2,7 @@ import { parse } from "@std/csv";
 import { readTextFile } from "@std/fs/unstable-read-text-file";
 import { writeTextFile } from "@std/fs/unstable-write-text-file";
 import z from "zod";
+import { blacklistedProgramIds } from "./blacklist.ts";
 
 const file = await readTextFile(`${import.meta.dirname}/raw.csv`);
 
@@ -56,6 +57,7 @@ const json = z.array(childcareInfoSchema).parse(csv);
 // get all of edmonton records
 
 const edmontonRecords = json
+  .filter(({ id }) => !blacklistedProgramIds.has(id))
   .filter(
     ({ city }) =>
       city.toLowerCase() === "edmonton" || city.toLowerCase() === "st. albert",
