@@ -1,7 +1,6 @@
 import { buttonVariants, LinkButton } from "@dayhome/ui/button";
 import { Card, CardContent, CardHeader } from "@dayhome/ui/card";
 import { PinnedMap } from "@/components/ui/pinned_map";
-import { ClaimedCard } from "@/features/claim_listing/claimed_card.tsx";
 import { AgeGroupBadge } from "@/features/dayhomes/dayhome_map/components/age_group_badge.tsx";
 import { DayhomeTitle } from "@/features/dayhomes/dayhome_map/components/dayhome_title.tsx";
 import { LicensedBadge } from "@/features/dayhomes/dayhome_map/components/licensed_badge.tsx";
@@ -91,8 +90,6 @@ function RouteComponent() {
         <ArrowLeftIcon />
         View in Map
       </LinkButton>
-
-      <ClaimedCard dayhomeId={id} />
 
       <Card className="overflow-clip">
         <CardHeader>

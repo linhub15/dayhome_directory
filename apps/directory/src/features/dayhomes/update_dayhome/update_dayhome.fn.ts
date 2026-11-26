@@ -5,7 +5,6 @@ import { db } from "@/lib/db/db_middleware";
 import { admin } from "@/lib/auth/admin_middleware";
 import { dayhome } from "@dayhome/db/schema";
 import { pattern } from "@/lib/utils/nanoid";
-import { invalidateDayhomeMapCache } from "@/features/dayhomes/dayhome_map/dayhome_map_cache.ts";
 
 const ageGroupSchema = z.enum([
   "infant",
@@ -74,8 +73,6 @@ export const updateDayhomeFn = createServerFn({ method: "POST" })
     if (!updated.length) {
       throw new Error("Dayhome not found");
     }
-
-    await invalidateDayhomeMapCache();
 
     return { id: updated[0].id };
   });

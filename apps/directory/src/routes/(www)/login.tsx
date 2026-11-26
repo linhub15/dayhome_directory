@@ -41,7 +41,7 @@ function RouteComponent() {
           <CardHeader>
             <CardTitle>Childcare Provider Login</CardTitle>
             <CardDescription>
-              <p>Login to manage your listings, post vacancies and more.</p>
+              <p>Sign in to your childcare provider account.</p>
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
