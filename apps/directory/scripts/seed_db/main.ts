@@ -1,12 +1,7 @@
 import "dotenv/config.js";
 
 import { getDb } from "@/lib/db/database.ts";
-import {
-  dayhome,
-  dayhomeOpenHours,
-  dayhomeVacancy,
-  license,
-} from "@dayhome/db/schema";
+import { dayhome, dayhomeOpenHours, license } from "@dayhome/db/schema";
 import { sql } from "drizzle-orm";
 import { reset } from "drizzle-seed";
 import { createInterface } from "readline";
@@ -19,7 +14,7 @@ import {
 async function seedDb() {
   const db = getDb();
 
-  await reset(db, { dayhome, dayhomeOpenHours, dayhomeVacancy, license });
+  await reset(db, { dayhome, dayhomeOpenHours, license });
 
   const numberOfLicenses = 100;
   const licenses = Array.from({ length: numberOfLicenses }).map(createLicense);
