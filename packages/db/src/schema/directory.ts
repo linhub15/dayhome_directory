@@ -2,7 +2,6 @@ import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   check,
-  date,
   geometry,
   pgEnum,
   pgTable,
@@ -15,7 +14,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { customAlphabet } from "nanoid";
 
-import { user } from "./auth.ts";
 import { softDeleteColumns } from "./columns.ts";
 import { tenant } from "./tenancy.ts";
 
@@ -76,19 +74,6 @@ export const dayhomeOpenHours = pgTable(
   ],
 );
 
-export const dayhomeVacancy = pgTable(
-  "dayhome_vacancy",
-  {
-    dayhomeId: text("dayhome_id")
-      .references(() => dayhome.id, { onDelete: "cascade" })
-      .notNull(),
-    startOn: date("start_on", { mode: "date" }).defaultNow().notNull(),
-    endOn: date("end_on", { mode: "date" }).notNull(),
-    ...softDeleteColumns,
-  },
-  (table) => [primaryKey({ columns: [table.dayhomeId, table.startOn] })],
-);
-
 export const license = pgTable("license", {
   id: text("id").primaryKey().notNull(),
   name: text("name").notNull(),
@@ -113,16 +98,6 @@ export const license = pgTable("license", {
   ...softDeleteColumns,
 });
 
-export const listingClaim = pgTable("listing_claim", {
-  dayhomeId: text("dayhome_id")
-    .notNull()
-    .references(() => dayhome.id),
-  userId: text("user_id")
-    .notNull()
-    .references(() => user.id),
-  ...softDeleteColumns,
-});
-
 export const geocodeCache = pgTable("geocode_cache", {
   query: text("query").notNull().primaryKey(),
   geometry: geometry("geometry", {
@@ -142,8 +117,6 @@ export const dayhomeRelations = relations(dayhome, ({ one, many }) => ({
     references: [license.id],
   }),
   openHours: many(dayhomeOpenHours),
-  vancancies: many(dayhomeVacancy),
-  claims: many(listingClaim),
 }));
 
 export const dayhomeOpenHoursRelations = relations(
@@ -156,24 +129,6 @@ export const dayhomeOpenHoursRelations = relations(
   }),
 );
 
-export const dayhomeVacancyRelations = relations(dayhomeVacancy, ({ one }) => ({
-  dayhome: one(dayhome, {
-    fields: [dayhomeVacancy.dayhomeId],
-    references: [dayhome.id],
-  }),
-}));
-
 export const licenseRelations = relations(license, ({ many }) => ({
   dayhomes: many(dayhome),
-}));
-
-export const listingClaimRelations = relations(listingClaim, ({ one }) => ({
-  dayhome: one(dayhome, {
-    fields: [listingClaim.dayhomeId],
-    references: [dayhome.id],
-  }),
-  user: one(user, {
-    fields: [listingClaim.userId],
-    references: [user.id],
-  }),
 }));

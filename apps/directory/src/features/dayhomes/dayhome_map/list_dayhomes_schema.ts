@@ -1,7 +1,7 @@
 import { AgeGroupSchema } from "@dayhome/core/dayhome";
 import { z } from "zod";
 
-export const ListDayhomeSchema = z.object({
+const ListDayhomeSchema = z.object({
   id: z.string(),
   name: z.string(),
   isLicensed: z.boolean(),
@@ -13,5 +13,3 @@ export const ListDayhomeSchema = z.object({
 });
 
 export const ListDayhomesSchema = z.array(ListDayhomeSchema);
-
-export type ListDayhomesData = z.infer<typeof ListDayhomesSchema>;
